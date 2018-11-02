@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {HeaderService} from './header.service';
+import {LocalStorage} from './commons/provider/local-storage';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import {HeaderService} from './header.service';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [HeaderService],
+  providers: [HeaderService, LocalStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

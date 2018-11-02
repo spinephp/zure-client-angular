@@ -1,7 +1,7 @@
 import {Provider} from '@angular/core';
 export class LocalStorage {
 
-  public localStorage:any;
+  public localStorage: any;
 
   constructor() {
     if (!localStorage) {
@@ -10,23 +10,23 @@ export class LocalStorage {
     this.localStorage = localStorage;
   }
 
-  public set(key:string, value:string):void {
+  public set(key: string, value: string | number): void {
     this.localStorage[key] = value;
   }
 
-  public get(key:string):string {
-    return this.localStorage[key] || false;
+  public get(key: string): string | number {
+    return this.localStorage[key];
   }
 
-  public setObject(key:string, value:any):void {
+  public setObject(key: string, value: any): void {
     this.localStorage[key] = JSON.stringify(value);
   }
 
-  public getObject(key:string):any {
+  public getObject(key: string): any {
     return JSON.parse(this.localStorage[key] || '{}');
   }
 
-  public remove(key:string):any {
+  public remove(key: string): any {
     this.localStorage.removeItem(key);
   }
 }

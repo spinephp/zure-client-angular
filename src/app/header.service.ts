@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from './commons/service/request.service';
+import {SettingsService} from './commons/service/settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeaderService {
 
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService, private cv: SettingsService) { }
   isFirst() {
-    return this.requestService.get('?cmd=IsLogin', undefined)
+    return this.requestService.get(this.cv.baseUrl + '?cmd=IsLogin', undefined)
     .then(res => {
       return res;
     }, res => {

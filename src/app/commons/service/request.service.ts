@@ -52,14 +52,8 @@ export class RequestService {
    * @param res
    * @returns {{data: (string|null|((node:any)=>any)
    */
-  private handleSuccess(value: Response){
-      return {
-        data: value['data'] || {},
-        page: value['page'] || {},
-        statusText: value.statusText,
-        status: value.status,
-        success: true
-      };
+  private handleSuccess(value: Response) {
+      return value;
   }
 
   /**
