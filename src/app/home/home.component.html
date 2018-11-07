@@ -1,0 +1,122 @@
+<div class="row clearfix">
+	<div class="col-md-3 column">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					{{"Sign in" | translate:languageid}}
+				</h3>
+			</div>
+			<div class="panel-body">
+	   <!--<form action="" method="post" class="login-form">
+		   <div class="username">
+			   <input type="text" name="username" placeholder="emma.watson@gmail.com" autocomplete="on" />
+			   <span class="user-icon icon">u</span>
+		   </div>
+		   <div class="password">
+			   <input type="password" name="password" placeholder="*******" />
+			   <span class="password-icon icon">p</span>
+		   </div>
+		   <div class="account-control">
+			   <input type="checkbox" name="Remember me" id="Remember me" value="Remember me" checked="checked" />
+			   <label for="Remember me" data-on="c" class="check"></label>
+			   <label for="Remember me" class="info">Remember me</label>
+			   <button type="submit">Login</button>
+		   </div>
+		   <p class="not-registered">Not a registered user yet?<a>Sign up now!</a></p>
+	   </form>-->
+				<form class="form-horizontal login-form" role="form">
+					<div class="form-group">
+						<div class="col-sm-10 username">
+							<input type="text" class="form-control"  name='username' required placeholder="emma.watson@gmail.com"/>
+							<span class="user-icon icon">u</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 password">
+							<input type="password" class="form-control" name='pwd' required placeholder="*******"/>
+							<span class="password-icon icon">p</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 verification">
+							<input type="text" class="form-control" name="code" required placeholder="1234"/>
+							<img src="admin/checkNum_session.php" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='<%= @default.translate("Click get another pin") %>' width="50" height="20" />	
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 buttons">
+							<input type="hidden" name="action" value="custom_login" />
+							<input type="hidden" name="token" value={{token}} />
+							<button type="submit" class="btn btn-default">{{"Sign in" | translate:languageid}}</button>
+							<button type="submit" class="btn btn-default">{{"Sign up" | translate:languageid}}</button>
+							<a href='fogot_form.php'>{{"Forget Password" | translate:languageid}}</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					{{'News' | translate:languageid}}
+				</h3>
+			</div>
+			<div class="panel-body">
+			<p class='news-item' *ngFor="let anew of news" ng-click="news.choose($index)">
+				{{anew.titles | translate}}
+			</p>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					{{'Contact' | translate:languageid}}
+				</h3>
+			</div>
+			<div class="panel-body contact-items">
+				<p><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={{qiye.qq}}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{{qiye.qq}}:41" title="{{'Click here to send a message to me' | translate:languageid}}"></a></p>
+				<p><label>{{"Tel" | translate:languageid}}: </label>{{_parent.qiye.tel}}</p>
+				<p><label>{{"Fax" | translate:languageid}} </label>{{qiye.fax}}</p>
+				<p><label>{{"Email" | translate:languageid}}: </label><a href="mailto:{{qiye.email}}">{{qiye.email}}</a></p>
+				<p><label>{{"Url" | translate:languageid}}: </label>{{qiye.domain}}</p>
+				<p>{{qiye.names[languageid]}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9 column">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					{{'Company profile' | translate:languageid}}
+				</h3>
+			</div>
+			<div class="panel-body">
+				<p ng-repeat="doc in qiye.introduction(languageid)">
+					 {{doc}}
+				</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title goodshead">
+					{{'Product recommendations' | translate:languageid}}<span>{{"More" | translate:languageid}}...</span>
+				</h3>
+			</div>
+			<div class="products">
+				<div class="goods" *ngFor="let good of goods" ng-click="selectedGood(good.id)">
+					<img src="images/good/{{good.picture}}" alt="{{goodsClass.longNames(good.classid)[languageid]+'-'+good.size}}" />
+					<p>{{goodsClass.kindNames(good.classid) | translate }}</p>
+					<p>{{goodsClass.shortNames(good.classid) | translate }}</p>
+					<p>{{good.size}}</p>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>

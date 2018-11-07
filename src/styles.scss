@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'loginform-icon';
+    src: url("assets/font/loginform-icon.eot");
+    src: url("assets/font/loginform-icon.eot?#iefix") format('embedded-opentype'),
+         url("assets/font/loginform-icon.woff") format('woff'),
+         url("assets/font/loginform-icon.ttf") format('truetype')/*,
+         url("assets/font/loginform-icon.svg#loginform-icon") format('svg')*/;
+    font-weight: normal;
+    font-style: normal;
+  }
+  

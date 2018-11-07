@@ -1,23 +1,68 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div id='top'>
+  <div id="topheader">
+    <div id="title"><p>{{qiye.names | translate}}</p></div>
+        <!--向右对齐-->
+        <ul>
+          <li>
+            <select class="selectpicker" [(ngModel)]="curLanguage">
+               <option *ngFor="let item of languages" [value]="item.name_en">{{item.name_en}}</option>
+            </select>
+          </li>
+          <li><span class="user-icon icon">u</span></li>
+        </ul>
+  </div>
+  <nav class="navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" routerLink="/home">{{'Home' | translate}}</a>
+      </div>
+      <div>
+        <!--向左对齐-->
+        <ul class="nav navbar-nav navbar-left">
+          <li *ngFor="let menu of navigations"><a routerLink='/{{menu.command}}'>{{menu.names | translate:languageid}}</a></li>
+        </ul>
+        <div>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="{{'Search' | translate:languageid}}">
+            </div>
+    <button type="button" class="btn btn-default btn-md">
+      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+    </button>
+    </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <img src="../assets/images/aaaa.jpg" height="136" />
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-<!-- Indicates a successful or positive action -->
-<button type="button" class="btn btn-success">（成功）Success</button>
-
 <router-outlet></router-outlet>
+<!--<div class="row clearfix">
+  <div class="col-md-4 column">
+    <div class="list-group">
+       <a href="#" class="list-group-item active">{{'News' | translate:languageid}}</a>
+      <div class="list-group-item" ng-repeat="new in news" ng-class="{cur:$index==selRow}" ng-click="choose($index)">
+        <h4 class="list-group-item-text">
+          {{new.titles[languageid]}}
+        </h4>
+      </div>
+      <a class="list-group-item active"> <span class="badge">{{selRow+1}} / {{news.length}}</span> Help</a>
+    </div>
+  </div>
+  <div class="col-md-8 column">
+    <h4 style='text-align:center;'>{{news[selRow].titles[languageid]}}</h4>
+    <h5 style='text-align:center;'>{{news[selRow].time}}</h5>
+    <p>{{news[selRow].contents[languageid]}}</p>
+  </div>
+</div>-->
+<div id="bottom">
+  <p>  {{"Copyright" | translate:languageid}} &copy; 2010 {{qiye.names | translate:languageid}} {{"All right reserved" | translate:languageid}}!</p>
+  <p>
+    <span>
+      {{"Address" | translate:languageid}}: {{qiye.addresses | translate:languageid}}
+    </span>
+    <span>
+      {{"Tel" | translate:languageid}}: {{qiye.tel}}
+    </span>{{"ICP" | translate:languageid}}: {{ qiye.icp}}
+  </p>
+</div>

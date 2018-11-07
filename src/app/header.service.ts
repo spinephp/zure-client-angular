@@ -7,8 +7,10 @@ import {SettingsService} from './commons/service/settings.service';
 })
 export class HeaderService {
 
-  constructor(private requestService: RequestService, private cv: SettingsService) { }
-  isFirst() {
+  constructor(private requestService: RequestService, private cv: SettingsService) {
+    cv.setLanguage({});
+  }
+  heart() {
     return this.requestService.get(this.cv.baseUrl + '?cmd=IsLogin', undefined)
     .then(res => {
       return res;
@@ -16,13 +18,13 @@ export class HeaderService {
       return res;
     });
   }
-  get(languageid, token) {
+  get() {
     const success = [
       function (data) {
         data[0].introduction = function (languaeid) {
-          const doc = data[0].introductions[languageid];
+          const doc = data[0].introductions[this.cv.languageid];
           return doc.split('^');
-        }
+        };
         return data[0];
       },
       function (data) {
@@ -35,11 +37,12 @@ export class HeaderService {
     function error(err) {
       alert('error occured!\n' + err);
     }
+    const token = this.cv.sessionid;
 
     const ps = [
       {'?cmd=Qiye':
           {
-            'filter': JSON.stringify(['id', 'names', 'addresses', 'tel', 'fax', 'email', 'domain', 'introudctions', 'icp']),
+            'filter': JSON.stringify(['id', 'names', 'addresses', 'tel', 'fax', 'email', 'domain', 'introductions', 'icp']),
             'token': token
           }
       },
@@ -56,10 +59,11 @@ export class HeaderService {
           }
       }
     ];
+
     const promises = [];
-    for(var i in ps) {
+    for(let i in ps) {
       for(var k in ps[i]) {
-        promises.push(this.requestService.get(k, ps[i][k]).then(success[i], error));
+        promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
       }
     }
     return promises;

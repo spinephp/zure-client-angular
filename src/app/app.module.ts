@@ -7,10 +7,16 @@ import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {HeaderService} from './header.service';
 import {LocalStorage} from './commons/provider/local-storage';
+import { TranslatePipe } from './translate.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { HomeService } from './home/home.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TranslatePipe,
+    HomeComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -18,9 +24,12 @@ import {LocalStorage} from './commons/provider/local-storage';
     HttpModule,
     JsonpModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
-  providers: [HeaderService, LocalStorage],
+  providers: [HeaderService, HomeService, LocalStorage],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+     public curLanguage = 'chinese';
+}
