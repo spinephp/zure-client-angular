@@ -5,18 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
 import { HttpModule, JsonpModule } from '@angular/http';
+import {ValuesService} from './commons/service/values.service';
 import {HeaderService} from './header.service';
 import {LocalStorage} from './commons/provider/local-storage';
 import { TranslatePipe } from './translate.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HomeService } from './home/home.service';
+import { NewsComponent } from './news/news.component';
+import { NewsService } from './news/news.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TranslatePipe,
-    HomeComponent
+    HomeComponent,
+    NewsComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -27,9 +31,8 @@ import { HomeService } from './home/home.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [HeaderService, HomeService, LocalStorage],
+  providers: [HeaderService, HomeService, NewsService, LocalStorage, ValuesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-     public curLanguage = 'chinese';
 }

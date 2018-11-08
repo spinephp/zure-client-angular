@@ -1,11 +1,11 @@
 <div id='top'>
   <div id="topheader">
-    <div id="title"><p>{{qiye.names | translate}}</p></div>
+    <div id="title"><p>{{qiye.names | translate:languageid}}</p></div>
         <!--向右对齐-->
         <ul>
           <li>
-            <select class="selectpicker" [(ngModel)]="curLanguage">
-               <option *ngFor="let item of languages" [value]="item.name_en">{{item.name_en}}</option>
+            <select class="selectpicker" [(ngModel)]="languageid" (change)="selectChangeLanguage($event.target.value)">
+               <option *ngFor="let item of languages; let i = index" [value]="i">{{item.name_en}}</option>
             </select>
           </li>
           <li><span class="user-icon icon">u</span></li>
@@ -14,7 +14,7 @@
   <nav class="navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" routerLink="/home">{{'Home' | translate}}</a>
+        <a class="navbar-brand" routerLink="/home">{{'Home' | translate:languageid}}</a>
       </div>
       <div>
         <!--向左对齐-->

@@ -40,7 +40,7 @@
 					<div class="form-group">
 						<div class="col-sm-10 verification">
 							<input type="text" class="form-control" name="code" required placeholder="1234"/>
-							<img src="admin/checkNum_session.php" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='<%= @default.translate("Click get another pin") %>' width="50" height="20" />	
+							<img src="admin/checkNum_session.php" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" />	
 						</div>
 					</div>
 					<div class="form-group">
@@ -63,7 +63,7 @@
 			</div>
 			<div class="panel-body">
 			<p class='news-item' *ngFor="let anew of news" ng-click="news.choose($index)">
-				{{anew.titles | translate}}
+				{{anew.titles | translate:languageid}}
 			</p>
 			</div>
 		</div>
@@ -75,11 +75,11 @@
 			</div>
 			<div class="panel-body contact-items">
 				<p><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={{qiye.qq}}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{{qiye.qq}}:41" title="{{'Click here to send a message to me' | translate:languageid}}"></a></p>
-				<p><label>{{"Tel" | translate:languageid}}: </label>{{_parent.qiye.tel}}</p>
-				<p><label>{{"Fax" | translate:languageid}} </label>{{qiye.fax}}</p>
-				<p><label>{{"Email" | translate:languageid}}: </label><a href="mailto:{{qiye.email}}">{{qiye.email}}</a></p>
-				<p><label>{{"Url" | translate:languageid}}: </label>{{qiye.domain}}</p>
-				<p>{{qiye.names[languageid]}}</p>
+				<p><label>{{"Tel" | translate:languageid}}: </label>{{qiye.tel}}</p>
+				<p><label>{{"Fax" | translate:languageid}} </label>{{_parent.qiye.fax}}</p>
+				<p><label>{{"Email" | translate:languageid}}: </label><a href="mailto:{{qiye.email}}">{{_parent.qiye.email}}</a></p>
+				<p><label>{{"Url" | translate:languageid}}: </label>{{_parent.qiye.domain}}</p>
+				<p>{{_parent.qiye.names |translate:languageid}}</p>
 			</div>
 		</div>
 	</div>
@@ -93,7 +93,7 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-				<p ng-repeat="doc in qiye.introduction(languageid)">
+				<p *ngFor="let doc of qiye.introductions[languageid].split('^')">
 					 {{doc}}
 				</p>
 			</div>
@@ -111,8 +111,8 @@
 			<div class="products">
 				<div class="goods" *ngFor="let good of goods" ng-click="selectedGood(good.id)">
 					<img src="images/good/{{good.picture}}" alt="{{goodsClass.longNames(good.classid)[languageid]+'-'+good.size}}" />
-					<p>{{goodsClass.kindNames(good.classid) | translate }}</p>
-					<p>{{goodsClass.shortNames(good.classid) | translate }}</p>
+					<p>{{goodsClass.kindNames(good.classid) | translate:languageid }}</p>
+					<p>{{goodsClass.shortNames(good.classid) | translate:languageid }}</p>
 					<p>{{good.size}}</p>
 				</div>
 			</div>

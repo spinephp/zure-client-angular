@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
-//import { TranslatePipe } from '../translate.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +10,10 @@ export class HomeService {
   constructor(
     private requestService: RequestService,
     private cv: SettingsService,
-    //private tp: TranslatePipe
   ) {
   }
   setLanguage(language) {
     this.cv.setLanguage(language);
-    //this.tp.data = this.cv.getLanguage();
   }
   get() {
     const success = [

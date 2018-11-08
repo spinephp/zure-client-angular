@@ -1,0 +1,84 @@
+body {
+    color: #222;
+  }
+  h2 {
+    text-align: center;
+    font-size: 22px;
+  }
+  p {
+    text-align: center;
+    font-size: 16px;
+  }
+  .stack {
+    position: relative;
+  }
+  .stack > *:not(.active) {
+    display: none;
+  }
+  .lefts {
+    width: 20%;
+    margin: 0;
+    margin: 5px 0 10px 0;
+    float: left;
+    clear: both;
+  }
+  .lefts h4 {
+    border: #0aa solid 1px;
+    -moz-border-radius: 5;
+    -webkit-border-radius: 5;
+    border-radius: 5;
+    margin: 0;
+    padding: 5px;
+  }
+  .lefts ul {
+    list-style: none;
+    border: #0aa solid 1px;
+    margin: 0;
+    padding: 5px;
+  }
+  .lefts ul li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lefts ul li a {
+    white-space: nowrap;
+  }
+  .rights {
+    width: 80%;
+    margin: 5px 0 10px 0;
+    padding: 0;
+    float: left;
+  }
+  .all p {
+    text-align: left;
+    margin: 0;
+    padding: 5px;
+  }
+  .all p span {
+    display: inline-block;
+    float: right;
+  }
+  .all p:nth-child(odd) {
+    background: #eee;
+  }
+  .one {
+    padding: 10px;
+  }
+  .one h4 {
+    text-align: center;
+    color: #f00;
+    font-weight: bold;
+    font-size: large;
+    margin: 12px;
+  }
+  .one h5 {
+    text-align: center;
+    color: #a9a9a9;
+  }
+  .one p {
+    text-align: left;
+  }
+  
+  /* Vertical Background Gradient */
+  /* Horizontal Background Gradient */
+  
