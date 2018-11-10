@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import {LocalStorage} from '../provider/local-storage';
 import { isFunction } from 'util';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
+  private _languages: Subject<{}> = new Subject<{}>();
   public languages;
   private dataCallBack;
   constructor(private ls: LocalStorage) { }
@@ -13,7 +16,7 @@ export class SettingsService {
   // baseUrl = 'http://127.0.0.1/woo/index.php';
   languageid = this.ls.get('languageid') || 1;
   sessionid = this.ls.get('sessionid') || '';
-  language0 = {// 页眉
+  language0: {} = {// 页眉
     'YunRui': ['云瑞'],
     'My YunRui': ['我的云瑞'],
     'Hello, please': ['您好，请'],
@@ -42,7 +45,15 @@ export class SettingsService {
     'Copyright': ['版权'],
     'All right reserved': ['保留所有权利']
   };
-  setLanguage = function(language) {
+  public addLanguages(langs: {}): void {
+    this.languages = Object.assign(langs, this.language0);
+    this._languages.next(this.languages);
+  }
+
+  public getLanguages(): Observable<{}> {
+      return this._languages.asObservable();
+  }
+  setLanguage = function(language: {}) {
     this.languages = Object.assign(language, this.language0);
     if (isFunction( this.dataCallBack)) {
       this.dataCallBack(this.languages);

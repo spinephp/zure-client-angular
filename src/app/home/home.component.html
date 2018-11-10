@@ -62,7 +62,7 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-			<p class='news-item' *ngFor="let anew of news" ng-click="news.choose($index)">
+			<p class='news-item' *ngFor="let anew of news; let i = index" (click)="newschoose(i)">
 				{{anew.titles | translate:languageid}}
 			</p>
 			</div>

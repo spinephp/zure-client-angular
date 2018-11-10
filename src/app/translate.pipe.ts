@@ -8,11 +8,11 @@ import { isArray } from 'util';
 export class TranslatePipe implements PipeTransform {
   public static data;
   constructor(private cv: SettingsService) {
-    this.cv.setCallBack(TranslatePipe.setData);
+    const that = this;
+    this.cv.getLanguages().subscribe((value: {}) => {
+      TranslatePipe.data = value;
+    });
    }
-  static setData(data) {
-    TranslatePipe.data = data;
-  }
   transform(value: any, args?: any): any {
     const langid = parseInt(args || this.cv.languageid, 10);
     let result: string;

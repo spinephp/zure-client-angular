@@ -11,9 +11,10 @@ import {LocalStorage} from './commons/provider/local-storage';
 import { TranslatePipe } from './translate.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
-import { HomeService } from './home/home.service';
+import {SettingsService} from './commons/service/settings.service';
 import { NewsComponent } from './news/news.component';
 import { NewsService } from './news/news.service';
+import { HomeResolveService } from './home/home-resolve.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,12 @@ import { NewsService } from './news/news.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [HeaderService, HomeService, NewsService, LocalStorage, ValuesService],
+  providers: [
+    NewsService,
+    LocalStorage,
+    SettingsService,
+    HomeResolveService,
+    ValuesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
