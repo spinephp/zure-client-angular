@@ -6,17 +6,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ValuesService {
-  private _languageId: Subject<any> = new Subject<any>();
+  private _languageId: Subject<number> = new Subject<number>();
   private _qiye: Subject<any> = new Subject<any>();
 
   constructor() { }
 
-    public setLanguageId(selectedPointsIfo: any): void {
+    public setLanguageId(selectedPointsIfo: number): void {
     this._languageId.next(selectedPointsIfo);
 
   }
 
-  public currentLanguageId(): Observable<any> {
+  public currentLanguageId(): Observable<number> {
       return this._languageId.asObservable();
   }
     public setQiye(selectedPointsIfo: any): void {

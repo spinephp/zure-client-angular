@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { SettingsService } from '../commons/service/settings.service';
-import { HomeService } from '../home//home.service';
+import {SettingsService} from '../commons/service/settings.service';
+import { NewsService } from '../news//news.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeResolveService implements Resolve<{}> {
+export class NewsResolveService implements Resolve<{}> {
 
   constructor(
     private router: Router,
     private cv: SettingsService,
-    private hs: HomeService,
+    private ns: NewsService,
     ) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): {} {
     const word: {} = {
       'News': ['新闻', 'zz']
     };
     this.cv.addLanguages(word);
-    return Promise.all(this.hs.get()).then(rs => {
+    return this.ns.get().then(rs => {
       return rs;
     });
   }

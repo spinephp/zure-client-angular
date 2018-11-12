@@ -13,15 +13,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import {SettingsService} from './commons/service/settings.service';
 import { NewsComponent } from './news/news.component';
-import { NewsService } from './news/news.service';
 import { HomeResolveService } from './home/home-resolve.service';
+import { NewsResolveService } from './news//news-resolve.service';
+import { GoodsResolveService } from './goods//goods-resolve.service';
+import { GoodsComponent } from './goods/goods.component';
+import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TranslatePipe,
     HomeComponent,
-    NewsComponent
+    NewsComponent,
+    GoodsComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -30,13 +34,15 @@ import { HomeResolveService } from './home/home-resolve.service';
     JsonpModule,
     BrowserModule,
     FormsModule,
+    TreeModule.forRoot(),
     AppRoutingModule
   ],
   providers: [
-    NewsService,
     LocalStorage,
     SettingsService,
     HomeResolveService,
+    NewsResolveService,
+    GoodsResolveService,
     ValuesService],
   bootstrap: [AppComponent]
 })

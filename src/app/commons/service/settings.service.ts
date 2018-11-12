@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 export class SettingsService {
   private _languages: Subject<{}> = new Subject<{}>();
   public languages;
-  private dataCallBack;
   constructor(private ls: LocalStorage) { }
-  baseUrl = 'http://192.168.1.16/woo/index.php';
-  // baseUrl = 'http://127.0.0.1/woo/index.php';
-  languageid = this.ls.get('languageid') || 1;
+  // rootUrl = 'http://127.0.0.1/woo/';
+  rootUrl = 'http://192.168.1.16/woo/';
+  baseUrl = this.rootUrl + 'index.php';
+  imgUrl = this.rootUrl + 'images/';
   sessionid = this.ls.get('sessionid') || '';
   language0: {} = {// 页眉
     'YunRui': ['云瑞'],
@@ -55,16 +55,7 @@ export class SettingsService {
   }
   setLanguage = function(language: {}) {
     this.languages = Object.assign(language, this.language0);
-    if (isFunction( this.dataCallBack)) {
-      this.dataCallBack(this.languages);
-    }
   };
-  setCallBack(fun) {
-    if (isFunction(fun)) {
-      this.dataCallBack = fun;
-      fun(this.languages);
-    }
-  }
   getLanguage = function(): {} {
     return this.languages;
   };

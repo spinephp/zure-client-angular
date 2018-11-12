@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SettingsService } from '../commons/service/settings.service';
-import { HomeService } from '../home//home.service';
+import { GoodsService } from '../goods//goods.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeResolveService implements Resolve<{}> {
+export class GoodsResolveService {
 
   constructor(
     private router: Router,
     private cv: SettingsService,
-    private hs: HomeService,
+    private hs: GoodsService,
     ) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): {} {
     const word: {} = {

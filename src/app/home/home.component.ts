@@ -29,19 +29,26 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.get('languageid') as number;
-    this.vs.currentLanguageId().subscribe((value: any) => {that.languageid = value; });
-    this.vs.currentQiye().subscribe((value: any) => {that.qiye = value; });
+    // this.languageid = this.ls.get('languageid') as number;
+    this.vs.currentLanguageId().subscribe((value: any) => {
+      that.languageid = value;
+    });
+    this.vs.currentQiye().subscribe((value: any) => {
+      that.qiye = value;
+    });
     this.router.data.subscribe((data: {}) => {
-      this.goodsClass = data['data'][0];
-      this.goods = data['data'][1];
-      this.news = data['data'][2];
+      that.goodsClass = data['data'][0];
+      that.goods = data['data'][1];
+      that.news = data['data'][2];
     });
     }
   introduct() {
     return this.qiye.introducts[this.languageid].split('^');
   }
+
+  // 点击了新闻条目
   newschoose = function(i) {
+    // 路由到 news 页面，显示第 i 条新闻
     this.route.navigate(['news'], { queryParams: { id: i } });
   };
 }
