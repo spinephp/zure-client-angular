@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
+import { findNode } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,43 @@ export class GoodsService {
     private requestService: RequestService,
     private cv: SettingsService,
   ) {
+  }
+  findParent(parentid, nodes) {
+    for (const node of nodes) {
+      if (parseInt(node.id, 10) === parseInt(parentid, 10)) {
+        return node;
+      } else if (node.children) {
+        const findnode = this.findParent(parentid, node.children);
+        if (findnode) {return findnode; }
+      }
+    }
+    return null;
+  }
+  makeTreeNodes(nodes, goodsClass, goods, languageid): [] {
+    for (const item of goodsClass) {
+      const ci = {id: item.id, name: item.names[languageid], children: []};
+      const findnode = this.findParent(item.parentid, nodes);
+      if (findnode) {
+        findnode.children.push(ci);
+      } else {
+        nodes.push(ci);
+      }
+    }
+    return this.makeTreeProduct(nodes, goods);
+  }
+  makeTreeProduct(nodes, products): [] {
+    for (const item of products) {
+      const ci = {id: 'p' + item.id, name: item.size};
+      const findnode = this.findParent(item.classid, nodes);
+      if (findnode) {
+        if (findnode.children) {
+          findnode.children.push(ci);
+        } else {
+          findnode.children = [ci];
+        }
+      }
+    }
+    return nodes;
   }
   setLanguage(language) {
     this.cv.setLanguage(language);

@@ -11,7 +11,7 @@ import {ValuesService} from './commons/service/values.service';
 })
 export class AppComponent implements OnInit {
   public languageid: number;
-  public qiye: Object = {introduction: function() {}};
+  public qiye: Object = {introduction: function() {}, names: ['xx', 'yy']};
   private languages = [];
   private navigations = [];
   constructor(

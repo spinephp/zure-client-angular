@@ -17,30 +17,7 @@ export class GoodsComponent implements OnInit {
   private goods = [];
   private currency = [];
   private selRow: number;
-  nodes = [
-    {
-      id: 1,
-      name: 'root1',
-      children: [
-        { id: 2, name: 'child1' },
-        { id: 3, name: 'child2' }
-      ]
-    },
-    {
-      id: 4,
-      name: 'root2',
-      children: [
-        { id: 5, name: 'child2.1' },
-        {
-          id: 6,
-          name: 'child2.2',
-          children: [
-            { id: 7, name: 'subsub' }
-          ]
-        }
-      ]
-    }
-  ];
+  private nodes = [];
   options = {};
 
   constructor(
@@ -56,11 +33,13 @@ export class GoodsComponent implements OnInit {
     const that = this;
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
+      that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, value || 1);
     });
     this.router.data.subscribe((data: {}) => {
       that.goodsClass = data['data'][0];
       that.goods = data['data'][1];
       that.currency = data['data'][2];
+      that.nodes = that.hs.makeTreeNodes(that.nodes, that.goodsClass, that.goods, that.languageid || 1);
     });
     this.router.queryParams.subscribe(params => {
       that.selRow = params.id || 0;
