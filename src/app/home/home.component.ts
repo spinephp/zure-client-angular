@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   private goods = [];
   public news = [];
   private languageid;
+  private introduct;
   constructor(
     private _parent: AppComponent,
     private hs: HomeService,
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    // this.languageid = this.ls.get('languageid') as number;
+    this.languageid = this.ls.get('languageid') as number;
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
@@ -42,9 +43,6 @@ export class HomeComponent implements OnInit {
       that.news = data['data'][2];
     });
     }
-  introduct() {
-    return this.qiye.introducts[this.languageid].split('^');
-  }
 
   // 点击了新闻条目
   newschoose = function(i) {

@@ -8,24 +8,21 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import {ValuesService} from './commons/service/values.service';
 import {HeaderService} from './header.service';
 import {LocalStorage} from './commons/provider/local-storage';
-import { TranslatePipe } from './translate.pipe';
+// import { TranslatePipe } from './translate.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import {SettingsService} from './commons/service/settings.service';
 import { NewsComponent } from './news/news.component';
 import { HomeResolveService } from './home/home-resolve.service';
 import { NewsResolveService } from './news//news-resolve.service';
-import { GoodsResolveService } from './goods//goods-resolve.service';
-import { GoodsComponent } from './goods/goods.component';
-import { TreeModule } from 'angular-tree-component';
+import { GoodsModule } from './goods/goods.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TranslatePipe,
+    // TranslatePipe,
     HomeComponent,
     NewsComponent,
-    GoodsComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -34,7 +31,7 @@ import { TreeModule } from 'angular-tree-component';
     JsonpModule,
     BrowserModule,
     FormsModule,
-    TreeModule.forRoot(),
+    GoodsModule,
     AppRoutingModule
   ],
   providers: [
@@ -42,9 +39,9 @@ import { TreeModule } from 'angular-tree-component';
     SettingsService,
     HomeResolveService,
     NewsResolveService,
-    GoodsResolveService,
     ValuesService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: []
 })
 export class AppModule {
 }

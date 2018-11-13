@@ -19,7 +19,7 @@
       <div>
         <!--向左对齐-->
         <ul class="nav navbar-nav navbar-left">
-          <li *ngFor="let menu of navigations"><a routerLink='/{{menu.command}}'>{{menu.names | translate:languageid}}</a></li>
+          <li *ngFor="let menu of navigations"><a routerLink='/{{menu.command}}'  routerLinkActive="active">{{menu.names | translate:languageid}}</a></li>
         </ul>
         <div>
           <form class="navbar-form navbar-right" role="search">
