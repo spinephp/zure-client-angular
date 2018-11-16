@@ -23,7 +23,7 @@ export class TranslatePipe implements PipeTransform {
       if (TranslatePipe.data && TranslatePipe.data[value] && langid > 0) {
         result = TranslatePipe.data[value][langid - 1];
       } else {
-        result = value || 'null';
+        result = value || '';
       }
     }
     return result;

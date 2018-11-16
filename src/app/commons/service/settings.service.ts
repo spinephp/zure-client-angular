@@ -11,6 +11,7 @@ export class SettingsService {
   private _languages: Subject<{}> = new Subject<{}>();
   public languages;
   constructor(private ls: LocalStorage) { }
+  // rootUrl = 'http://www.yrr8.com/woo/';
   // rootUrl = 'http://127.0.0.1/woo/';
   rootUrl = 'http://192.168.1.16/woo/';
   baseUrl = this.rootUrl + 'index.php';

@@ -3,6 +3,7 @@ import { GoodsService } from '../goods//goods.service';
 import { LocalStorage } from '../commons/provider/local-storage';
 import { ValuesService } from '../commons/service/values.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-goods',
@@ -11,9 +12,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   providers: [GoodsService]
 })
 export class GoodsComponent implements OnInit {
-  private languageid: number;
-  private goodsClass = [];
-  private goods = [];
+  public languageid: number;
+  public goodsClass = [];
+  public goods = [];
   private currency = [];
   private selRow: number;
   private nodes = [{id: 1, name: 'ss'}];
@@ -41,12 +42,28 @@ export class GoodsComponent implements OnInit {
       that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, that.languageid || 1);
     });
     this.router.queryParams.subscribe(params => {
-      that.selRow = params.id || 0;
+      if (that.selRow === undefined || params.id === undefined) {
+        that.selRow = params.id || that.goodsClass[0].id;
+        that.nodechoose(that.selRow);
+      }
     });
   }
 
-  introduction(): string[] {
-    const s = this.goodsClass[this.selRow].introductions[this.languageid];
-    return s.split('^');
+  // 点击了新闻条目
+  nodechoose = function(id) {
+    // 路由到 news 页面，显示第 i 条新闻
+    let name: String;
+    let cid: String;
+    if (id[0] === 'p') {
+      name = 'product';
+      cid = id.slice(1);
+    } else {
+      name = 'kinds';
+      cid = id;
+    }
+    this.route.navigate(['/products/' + name], { queryParams: { id: cid} });
+  };
+  nodeActivate(event) {
+    this.nodechoose(event.node.id);
   }
 }

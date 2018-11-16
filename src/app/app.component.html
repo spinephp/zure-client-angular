@@ -8,30 +8,22 @@
                <option *ngFor="let item of languages; let i = index" [value]="i">{{item.name_en}}</option>
             </select>
           </li>
-          <li><span class="user-icon icon">u</span></li>
+          <li><span class="user-icon icon">👤</span></li>
         </ul>
   </div>
-  <nav class="navbar-default" role="navigation">
+  <nav class="navbar navbar-expand-sm bg-light" role="navigation">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" routerLink="/home">{{'Home' | translate:languageid}}</a>
-      </div>
-      <div>
-        <!--向左对齐-->
-        <ul class="nav navbar-nav navbar-left">
-          <li *ngFor="let menu of navigations"><a routerLink='/{{menu.command}}'  routerLinkActive="active">{{menu.names | translate:languageid}}</a></li>
-        </ul>
-        <div>
-          <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="{{'Search' | translate:languageid}}">
-            </div>
-    <button type="button" class="btn btn-default btn-md">
-      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-    </button>
-    </form>
-        </div>
-      </div>
+      <!--向左对齐-->
+      <ul class="nav navbar-nav navbar-left">
+        <li class="nav-item"><a class="nav-link" routerLink="/home">🏠{{'Home' | translate:languageid}}</a></li>
+        <li  class="nav-item" *ngFor="let menu of navigations"><a class="nav-link" routerLink='/{{menu.command}}'  routerLinkActive="active">{{menu.names | translate:languageid}}</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" style="display: inherit;" role="search">
+          <input type="text" class="form-control" placeholder="{{'Search' | translate:languageid}}">
+          <button type="button" class="btn btn-default btn-md">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">🔍</span>
+          </button>
+      </form>
     </div>
   </nav>
   <img src="../assets/images/aaaa.jpg" height="136" />

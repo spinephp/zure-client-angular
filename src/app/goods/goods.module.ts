@@ -13,11 +13,15 @@ import { GoodsComponent } from './goods.component';
 import { TreeModule } from 'angular-tree-component';
 import { GoodsService } from './goods.service';
 import { GoodsRoutingModule} from './goods-routing.module';
+import { KindsComponent } from './kinds/kinds.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
     TranslatePipe,
-    GoodsComponent
+    GoodsComponent,
+    KindsComponent,
+    ProductComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

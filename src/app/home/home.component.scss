@@ -1,4 +1,10 @@
 @import "../commons/scss/login.scss";
+.col-sm-10{
+	max-width: 100%;
+}
+.row{
+	margin: 0 0px;
+}
 .news-item{
 	cursor:pointer;
 }
@@ -26,6 +32,7 @@
 	border-radius:5px;
 	margin:10px;
 	padding-bottom:20px;
+	font-size:smaller;
 	color:#666666;
 	cursor:pointer;
 }

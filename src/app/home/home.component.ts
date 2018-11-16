@@ -3,6 +3,7 @@ import { HomeService } from '../home//home.service';
 import { LocalStorage } from '../commons/provider/local-storage';
 import { AppComponent } from '../app.component';
 import { ValuesService } from '../commons/service/values.service';
+import { SettingsService } from '../commons/service/settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -18,14 +19,17 @@ export class HomeComponent implements OnInit {
   public news = [];
   private languageid;
   private introduct;
+  private rooturl: String;
   constructor(
     private _parent: AppComponent,
     private hs: HomeService,
     private vs: ValuesService,
+    private ss: SettingsService,
     private router: ActivatedRoute,
     private route: Router,
     private ls: LocalStorage) {
       this.qiye = _parent.qiye;
+      this.rooturl = ss.rootUrl;
   }
 
   ngOnInit() {
@@ -48,5 +52,8 @@ export class HomeComponent implements OnInit {
   newschoose = function(i) {
     // 路由到 news 页面，显示第 i 条新闻
     this.route.navigate(['news'], { queryParams: { id: i } });
+  };
+  goodschoose = function(id) {
+    this.route.navigate(['products'], { queryParams: { id: 'p' + id } });
   };
 }

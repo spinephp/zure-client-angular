@@ -58,9 +58,10 @@ export class GoodsService {
     const success = [
       function (data) {
         data.find = function(id) {
-          if (id > 0) {
+          const cid = parseInt(id , 10);
+          if (cid > 0) {
             for (const pn in data) {
-              if (parseInt(data[ pn ].id, 10) === id) {
+              if (parseInt(data[ pn ].id, 10) === cid) {
                 return data[pn];
               }
             }
@@ -91,13 +92,13 @@ export class GoodsService {
             rec = data.find(pid);
             pid = rec.parentid;
           }
-          return [rec.names[0].replace('Products', ''), rec.names[1].replace('制品', '')];
+          return rec ? [rec.names[0].replace('Products', ''), rec.names[1].replace('制品', '')] : null;
         };
         data.longNames = function(id) {
           const rec = data.find(id);
           if (rec != null) {
             const kind = data.kindNames(rec.parentid);
-            return [kind[0] + rec.names[0], kind[1] + rec.names[1]];
+            return kind ? [kind[0] + rec.names[0], kind[1] + rec.names[1]] : null;
           }
           return null;
         };
@@ -112,6 +113,17 @@ export class GoodsService {
       },
 
       function (data) {
+        data.find = function(id) {
+          const cid = parseInt(id , 10);
+          if (cid > 0) {
+            for (const pn in data) {
+              if (parseInt(data[ pn ].id, 10) === cid) {
+                return data[pn];
+              }
+            }
+          }
+          return null;
+        };
         return data;
       },
 

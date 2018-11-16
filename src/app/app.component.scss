@@ -11,7 +11,8 @@ body{
 	width:100%;
 }
 #top{
-    @include flex2(column);
+	@include flex2(column);
+	margin-bottom: 10px;
 }
 #title{
 	width: 100%;

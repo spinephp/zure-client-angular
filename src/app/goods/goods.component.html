@@ -3,11 +3,14 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
-          产品分类列表
+          📋 产品分类列表
         </h3>
       </div>
       <div class="panel-body">
-        <tree-root [nodes]="nodes" [options]="options"></tree-root>
+        <tree-root [nodes]="nodes" [options]="options"
+          (activate)='nodeActivate($event)'>
+
+        </tree-root>
       </div>
       <div class="panel-footer">
         Panel footer
@@ -15,115 +18,6 @@
     </div>
   </div>
   <div class="col-md-9 column">
-    <div class="goods-class" ng-If="selRow < 10">
-      <h4 style='text-align:center;'>{{goodsClass[selRow].names | translate:languageid}}</h4>
-      <div class="row clearfix">
-        <div class="media">
-          <div class="media-left">
-          <img src="http://192.168.1.16/woo/images/good/{{goodsClass[selRow].picture}}" class="media-object" style="float:left;margin-right:20px;width:453px">
-          <h4 class="media-heading">{{'Profile' | translate:languageid}}</h4>
-          <p *ngFor="let doc of introduction()">{{doc}}</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="goods" ng-If="selRow > 100">
-    <h3>
-      h3. 这是一套可视化布局系统.
-    </h3>
-    <div class="row clearfix">
-      <div class="media">
-        <div class="media-left">
-        <img src="images/good/{{goodsClass[0].picture}}" class="media-object" style="width:453px">
-        </div>
-        <div class="media-body">
-        <h4 class="media-heading">RUNOOB</h4>
-        <p>这是一些示例文本...</p>
-        </div>
-      </div>
-    </div>
-    <div class="tabbable" id="tabs-989629">
-      <ul class="nav nav-tabs">
-        <li class="active">
-           <a href="#panel-393075" data-toggle="tab">Section 1</a>
-        </li>
-        <li>
-           <a href="#panel-292347" data-toggle="tab">Section 2</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="panel-393075">
-          <p>
-            I'm in Section 1.
-          </p>
-        </div>
-        <div class="tab-pane" id="panel-292347">
-          <p>
-            Howdy, I'm in Section 2.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row clearfix">
-      <div class="col-md-12 column">
-        <h4>
-          产品评价
-        </h4>
-        <div class="row clearfix">
-          <div class="col-md-2 column">
-          </div>
-          <div class="col-md-6 column">
-          </div>
-          <div class="col-md-4 column">
-          </div>
-        </div>
-        <div class="tabbable" id="tabs-95396">
-          <ul class="nav nav-tabs">
-            <li class="active">
-               <a href="#panel-164505" data-toggle="tab">Section 1</a>
-            </li>
-            <li>
-               <a href="#panel-425776" data-toggle="tab">Section 2</a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="panel-164505">
-              <p>
-                I'm in Section 1.
-              </p>
-            </div>
-            <div class="tab-pane" id="panel-425776">
-              <p>
-                Howdy, I'm in Section 2.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tabbable" id="tabs-406740">
-      <ul class="nav nav-tabs">
-        <li class="active">
-           <a href="#panel-812811" data-toggle="tab">Section 1</a>
-        </li>
-        <li>
-           <a href="#panel-17540" data-toggle="tab">Section 2</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="panel-812811">
-          <p>
-            I'm in Section 1.
-          </p>
-        </div>
-        <div class="tab-pane" id="panel-17540">
-          <p>
-            Howdy, I'm in Section 2.
-          </p>
-        </div>
-      </div>
-    </div>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
