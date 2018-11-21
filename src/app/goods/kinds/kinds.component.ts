@@ -19,8 +19,9 @@ export class KindsComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.router.queryParams.subscribe(params => {
-      const id = params.id || that._parent.goodsClass[0].id;
+    //this.router.queryParams.subscribe(params => {
+      this.router.params.subscribe(params => {
+        const id = params.id || that._parent.goodsClass[0].id;
       that.aGoodsClass = that._parent.goodsClass.find(id);
       that.preNames = that._parent.goodsClass.longNames(id);
     });

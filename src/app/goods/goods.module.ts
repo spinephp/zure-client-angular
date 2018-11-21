@@ -13,15 +13,22 @@ import { GoodsComponent } from './goods.component';
 import { TreeModule } from 'angular-tree-component';
 import { GoodsService } from './goods.service';
 import { GoodsRoutingModule} from './goods-routing.module';
+import { ProductRoutingModule} from './product/product-routing.module';
 import { KindsComponent } from './kinds/kinds.component';
 import { ProductComponent } from './product/product.component';
+import { IntroductionComponent } from './product/introduction/introduction.component';
+import { ParamComponent } from './product/param/param.component';
+import { IndexComponent } from './product/index/index.component';
 
 @NgModule({
   declarations: [
     TranslatePipe,
     GoodsComponent,
     KindsComponent,
-    ProductComponent
+    ProductComponent,
+    IntroductionComponent,
+    ParamComponent,
+    IndexComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -30,6 +37,7 @@ import { ProductComponent } from './product/product.component';
     JsonpModule,
     FormsModule,
     GoodsRoutingModule,
+    ProductRoutingModule,
     TreeModule.forRoot(),
     CommonModule
   ],

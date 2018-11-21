@@ -54,6 +54,8 @@ export class HomeComponent implements OnInit {
     this.route.navigate(['news'], { queryParams: { id: i } });
   };
   goodschoose = function(id) {
-    this.route.navigate(['products'], { queryParams: { id: 'p' + id } });
+    this.route.navigate(['products/product', id ]);
+    // this.route.navigate(['products/product'], { queryParams: { id: id } });
+    // this.route.navigate(['products'], { queryParams: { id: 'p' + id } });
   };
 }

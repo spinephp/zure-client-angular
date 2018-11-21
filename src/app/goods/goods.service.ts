@@ -3,6 +3,61 @@ import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
 import { findNode } from '@angular/compiler';
 import { isNumber } from 'util';
+class Kind {
+  constructor(private data: []) {}
+  find(id: string): {} {
+    const cid = parseInt(id , 10);
+    if (cid > 0) {
+      for (const pn in this.data) {
+        if (parseInt(this.data[ pn ]['id'], 10) === cid) {
+          return this.data[pn];
+        }
+      }
+    }
+    return null;
+  }
+  findByParentId = function(parentid) {
+    for (const pn in this.data) {
+      if (this.data[ pn ].parentid === parentid) {
+        return this.data[pn];
+      }
+    }
+    return null;
+  };
+  parentNames = function(parentid) {
+    let name = '根结点';
+    const pid = parseInt(parentid, 10);
+    const rec = this.data.findByParentId(pid);
+    if (rec != null) {
+      name = rec.names;
+    }
+    return name;
+  };
+  kindNames = function(parentid) {
+    let pid = parseInt(parentid, 10);
+    let rec = null;
+    while (pid > 0) {
+      rec = this.data.find(pid);
+      pid = rec.parentid;
+    }
+    return rec ? [rec.names[0].replace('Products', ''), rec.names[1].replace('制品', '')] : null;
+  };
+  longNames = function(id) {
+    const rec = this.data.find(id);
+    if (rec != null) {
+      const kind = this.data.kindNames(rec.parentid);
+      return kind ? [kind[0] + rec.names[0], kind[1] + rec.names[1]] : null;
+    }
+    return null;
+  };
+  shortNames = function(id) {
+    const rec = this.data.find(id);
+    if (rec != null) {
+      return rec.names;
+    }
+    return null;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +133,7 @@ export class GoodsService {
         };
         data.parentNames = function(parentid) {
           let name = '根结点';
-          const pid = parseInt(parentid, 10);
+          const pid = +parentid;
           const rec = data.findByParentId(pid);
           if (rec != null) {
             name = rec.names;
@@ -86,7 +141,7 @@ export class GoodsService {
           return name;
         };
         data.kindNames = function(parentid) {
-          let pid = parseInt(parentid, 10);
+          let pid = +parentid;
           let rec = null;
           while (pid > 0) {
             rec = data.find(pid);
@@ -114,10 +169,10 @@ export class GoodsService {
 
       function (data) {
         data.find = function(id) {
-          const cid = parseInt(id , 10);
+          const cid = +id;
           if (cid > 0) {
             for (const pn in data) {
-              if (parseInt(data[ pn ].id, 10) === cid) {
+              if (+data[ pn ].id === cid) {
                 return data[pn];
               }
             }

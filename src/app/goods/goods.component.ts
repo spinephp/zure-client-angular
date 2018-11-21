@@ -41,10 +41,12 @@ export class GoodsComponent implements OnInit {
       that.currency = data['data'][2];
       that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, that.languageid || 1);
     });
-    this.router.queryParams.subscribe(params => {
-      if (that.selRow === undefined || params.id === undefined) {
+    // this.router.queryParams.subscribe(params => {
+    this.router.params.subscribe(params => {
+        that.selRow = that.router.snapshot.params['id'];
+        if (that.selRow === undefined || params.id === undefined) {
         that.selRow = params.id || that.goodsClass[0].id;
-        that.nodechoose(that.selRow);
+        // that.nodechoose(that.selRow);
       }
     });
   }
@@ -61,7 +63,7 @@ export class GoodsComponent implements OnInit {
       name = 'kinds';
       cid = id;
     }
-    this.route.navigate(['/products/' + name], { queryParams: { id: cid} });
+    this.route.navigate(['/products/' + name, cid]);
   };
   nodeActivate(event) {
     this.nodechoose(event.node.id);

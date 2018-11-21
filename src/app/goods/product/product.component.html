@@ -3,39 +3,31 @@
     <h4 style='text-align:center;'>{{preNames | translate:_parent.languageid}}{{' - ' + aGoods.size}}</h4>
   </h3>
   <div class="row clearfix">
-    <div class="media">
-      <div class="media-left">
-      <img src="http://192.168.1.16/woo/images/good/{{aGoods.picture}}" class="media-object" style="width:453px">
-      </div>
-      <div class="media-body">
+    <div class="media product-top">
+      <img class="align-self-start" src="http://192.168.1.16/woo/images/good/{{aGoods.picture}}" class="media-object img-rounded" >
+      <div class="media-body ml-3">
         <p><label>{{'Code' | translate:languageid}}: </label>{{aGoods.id}}</p>
         <p><label>{{'Price' | translate:languageid}}: </label><b>$</b>{{aGoods.price}}</p>
-        <p><label>{{'Evaluation' | translate:languageid}}: </label>(4 people to participate in the evaluation)</p>
-        <p><label>{{'Purchase quantity' | translate:languageid}}: </label><span><input type='number' /></span></p>
-        <p><label><button>{{'Add to cart' | translate:languageid}}</button></label><button>{{'With focus on' | translate:languageid}}</button></p>
+        <p><label>{{'Evaluation' | translate:languageid}}: </label><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span>(4 people to participate in the evaluation)</p>
+        <p><label>{{'Purchase quantity' | translate:languageid}}: </label><span><input type='number' class="" ngModel="{{buynum|number}}" /></span></p>
+        <p><label><button class="btn btn-outline-primary btn-sm mr-3"><span class="fa fa-shopping-cart"></span> {{'Add to cart' | translate:languageid}}</button></label><button class="btn btn-outline-primary btn-sm"><span class="fa fa-plus"></span> {{'With focus on' | translate:languageid}}</button></p>
       </div>
     </div>
   </div>
-  <div class="tabbable" id="tabs-989629">
+  <div class="col goods-info">
     <ul class="nav nav-tabs">
-      <li class="active">
-         <a href="#panel-393075" data-toggle="tab">Section 1</a>
+      <li class="nav-item">
+         <a class="nav-link" routerLinkActive="active" routerLink='./introduction'>{{'Introduction' | translate:languageid}}</a>
       </li>
-      <li>
-         <a href="#panel-292347" data-toggle="tab">Section 2</a>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="./param">{{'Parameters' | translate:languageid}}</a>
+     </li>
+     <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="./index">{{'Physicochemical index' | translate:languageid}}</a>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="panel-393075">
-        <p>
-          I'm in Section 1.
-        </p>
-      </div>
-      <div class="tab-pane" id="panel-292347">
-        <p>
-          Howdy, I'm in Section 2.
-        </p>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
   <div class="row clearfix">
