@@ -16,6 +16,7 @@ import { NewsComponent } from './news/news.component';
 import { HomeResolveService } from './home/home-resolve.service';
 import { NewsResolveService } from './news//news-resolve.service';
 import { GoodsModule } from './goods/goods.module';
+// import { UnitPipe } from './unit.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { GoodsModule } from './goods/goods.module';
     // TranslatePipe,
     HomeComponent,
     NewsComponent,
+    // UnitPipe,
   ],
   imports: [
     BsDropdownModule.forRoot(),

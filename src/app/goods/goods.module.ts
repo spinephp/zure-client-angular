@@ -6,6 +6,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import {ValuesService} from '../commons/service/values.service';
 import {LocalStorage} from '../commons/provider/local-storage';
 import { TranslatePipe } from '../translate.pipe';
+import { UnitPipe } from '../unit.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SettingsService} from '../commons/service/settings.service';
 import { GoodsResolveService } from './goods-resolve.service';
@@ -23,6 +24,7 @@ import { IndexComponent } from './product/index/index.component';
 @NgModule({
   declarations: [
     TranslatePipe,
+    UnitPipe,
     GoodsComponent,
     KindsComponent,
     ProductComponent,
@@ -50,7 +52,8 @@ import { IndexComponent } from './product/index/index.component';
   ],
   exports: [
     CommonModule,
-    TranslatePipe
+    TranslatePipe,
+    UnitPipe
   ]
 })
 export class GoodsModule { }

@@ -8,15 +8,18 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  private aGoods;
+  public aGoods;
+  public kind;
   private preNames;
   private buynum;
+  public languageid;
   constructor(
     private _parent: GoodsComponent,
     private router: ActivatedRoute,
     private route: Router
   ) {
     this.buynum = 1;
+    this.languageid = this._parent.languageid;
    }
 
   ngOnInit() {
@@ -25,6 +28,7 @@ export class ProductComponent implements OnInit {
     this.router.params.subscribe(params => {
       const id = params.id || that._parent.goods[0].id;
       that.aGoods = that._parent.goods.find(id);
+      that.kind = that._parent.goodsClass;
       that.preNames = that._parent.goodsClass.longNames(that.aGoods.classid);
     });
     // this.route.navigate(['introduction']);
