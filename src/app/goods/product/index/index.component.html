@@ -1,3 +1,36 @@
-<p>
-  index works!
-</p>
+<h4>Physico index</h4>
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th>ITEM</th>
+          <th>UNIT</th>
+          <th>SPEC</th>
+          <th>ENVIRONMENT</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let item of physicos">
+          <td>{{item.names | translate:languageid}}</td>
+          <td>{{item.unit}}</td>
+          <td>{{item.operator}}{{item.value}}</td>
+          <td>{{item.environment}}</td>
+      </tr>
+  </tbody>
+</table>
+<h4>Chemical index</h4>
+<table class="table table-striped">
+  <thead>
+      <tr>
+          <th>ITEM</th>
+          <th>UNIT</th>
+          <th>SPEC</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let item of chemicalshows">
+          <td>{{item}}</td>
+          <td>%</td>
+          <td>{{chemicals[item | lowercase]}}</td>
+      </tr>
+  </tbody>
+</table>

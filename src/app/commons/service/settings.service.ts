@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SettingsService {
+  private _datas = {};
   private _languages: Subject<{}> = new Subject<{}>();
   public languages;
   constructor(private ls: LocalStorage) { }
@@ -59,5 +60,14 @@ export class SettingsService {
   };
   getLanguage = function(): {} {
     return this.languages;
+  };
+  set = function(name: string, value: any) {
+    this._datas[name] = value;
+  };
+  get = function(name: string) {
+    return this._datas[name];
+  };
+  delete = function(name: string) {
+    delete this._datas[name];
   };
 }

@@ -20,6 +20,8 @@ import { ProductComponent } from './product/product.component';
 import { IntroductionComponent } from './product/introduction/introduction.component';
 import { ParamComponent } from './product/param/param.component';
 import { IndexComponent } from './product/index/index.component';
+import { IndexService } from './product/index//index.service';
+import { IndexResolveService } from './product/index//index-resolve.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { IndexComponent } from './product/index/index.component';
     SettingsService,
     GoodsResolveService,
     GoodsService,
+    IndexService,
+    IndexResolveService,
     ValuesService
   ],
   exports: [

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GoodsComponent } from '../goods.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import {SettingsService} from '../../commons/service/settings.service';
+import {IndexService} from './index/index.service';
 
 @Component({
   selector: 'app-product',
@@ -16,7 +18,9 @@ export class ProductComponent implements OnInit {
   constructor(
     private _parent: GoodsComponent,
     private router: ActivatedRoute,
-    private route: Router
+    private route: Router,
+    private cv: SettingsService,
+    private is: IndexService,
   ) {
     this.buynum = 1;
     this.languageid = this._parent.languageid;
@@ -30,6 +34,9 @@ export class ProductComponent implements OnInit {
       that.aGoods = that._parent.goods.find(id);
       that.kind = that._parent.goodsClass;
       that.preNames = that._parent.goodsClass.longNames(that.aGoods.classid);
+      that.is.setChemicalId(that.aGoods.chemicalindex);
+      that.cv.set('chemicalid', that.aGoods.chemicalindex),
+      that.cv.set('physicoid', that.aGoods.physicoindex);
     });
     // this.route.navigate(['introduction']);
   }

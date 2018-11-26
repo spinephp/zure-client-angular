@@ -5,14 +5,29 @@ import {ProductComponent} from './product.component';
 import {IntroductionComponent} from './introduction/introduction.component';
 import {ParamComponent} from './param/param.component';
 import {IndexComponent} from './index/index.component';
+import { IndexResolveService } from './index/index-resolve.service';
 
-const routes: Routes = [
+export const productRoutes: Routes = [
+  {
+    path: 'product/:id',
+    component: ProductComponent,
+    children: [
+      {path: '', redirectTo: 'introduction', pathMatch: 'full'},
+      {path: 'introduction', component: IntroductionComponent},
+      {path: 'param', component: ParamComponent},
+      {
+        path: 'index',
+        component: IndexComponent,
+        resolve: {data: IndexResolveService}
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(productRoutes)
   ],
   exports: [RouterModule],
   declarations: [],

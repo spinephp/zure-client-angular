@@ -1,3 +1,4 @@
+<h4>Product parameters</h4>
 <table class="table table-striped">
   <thead>
       <tr>
@@ -16,7 +17,7 @@
       </tr>
       <tr>
         <td>{{'Type' | translate:languageid}}</td>
-        <td>{{kind.kindNames(goods.classid) | translate:languageid}}</td>
+        <td>{{kind.shortNames(goods.classid) | translate:languageid}}</td>
         <td>{{'Width' | translate:languageid}}</td>
         <td>{{goods.width}} {{goods.unitwid | unit:languageid}}</td>
     </tr>

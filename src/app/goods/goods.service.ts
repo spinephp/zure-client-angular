@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
 import { findNode } from '@angular/compiler';
-import { isNumber } from 'util';
 class Kind {
   constructor(private data: []) {}
   find(id: string): {} {
