@@ -5,7 +5,6 @@ import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {ValuesService} from '../commons/service/values.service';
 import {LocalStorage} from '../commons/provider/local-storage';
-import { TranslatePipe } from '../translate.pipe';
 import { UnitPipe } from '../unit.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SettingsService} from '../commons/service/settings.service';
@@ -22,17 +21,18 @@ import { ParamComponent } from './product/param/param.component';
 import { IndexComponent } from './product/index/index.component';
 import { IndexService } from './product/index//index.service';
 import { IndexResolveService } from './product/index//index-resolve.service';
+import { EvaluationModule } from './product/evaluation/evaluation.module';
+import { TranslatePipe } from '../translate.pipe';
 
 @NgModule({
   declarations: [
-    TranslatePipe,
     UnitPipe,
     GoodsComponent,
     KindsComponent,
     ProductComponent,
     IntroductionComponent,
     ParamComponent,
-    IndexComponent
+    IndexComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -43,6 +43,7 @@ import { IndexResolveService } from './product/index//index-resolve.service';
     GoodsRoutingModule,
     ProductRoutingModule,
     TreeModule.forRoot(),
+    EvaluationModule,
     CommonModule
   ],
   providers: [

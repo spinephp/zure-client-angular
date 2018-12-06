@@ -14,8 +14,11 @@
         }
     }
 }
-.fa-star{
+.fa-star,.fa-star-half-o{
     color: orange;
+}
+.fa-star-o{
+    color: #ddd;
 }
 .goods-info{
     justify-content: flex-start;
@@ -28,62 +31,5 @@
         border-left: 1px solid #dddddd;
         border-right: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
-    }
-}
-.evaluation{
-    border: 1px solid #eee;
-    border-radius: 5px;
-}
-.evaltop{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    .evalrate{
-        display:flex;
-        flex-direction: row;
-        .goodrate{
-            width:87px;
-            p{
-                text-align: center;
-                font-size: x-large;
-                padding-top: 15px;
-                color: red;
-            }
-            h6{
-                text-align: center;
-                font-size: smaller;
-            }
-        }
-        .allrate{
-            width:230px;
-            font-size: smaller;
-            dt{
-                width:60px;
-                float:left;
-                clear:both;
-                text-align: right;
-            }
-            dd{
-                float:left;
-                margin:0 0 10px 5px;
-            }
-        }
-    }
-    dl{
-        width:100%;
-        padding: 10px 0 0 10px;
-        border-right: 1px solid #ddd;
-        border-left: 1px solid #ddd;
-        margin:0;
-    }
-    .integral{
-        width:175px;
-        margin: 0 10px;
-        padding-top: 10px;
-        p{
-            margin:0;
-        }
     }
 }

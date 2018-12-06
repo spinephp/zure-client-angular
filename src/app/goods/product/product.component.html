@@ -8,7 +8,7 @@
       <div class="media-body ml-3">
         <p><label>{{'Code' | translate:languageid}}: </label>{{aGoods.id}}</p>
         <p><label>{{'Price' | translate:languageid}}: </label><b>$</b>{{aGoods.price}}</p>
-        <p><label>{{'Evaluation' | translate:languageid}}: </label><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span>(4 people to participate in the evaluation)</p>
+        <p><label>{{'Evaluation' | translate:languageid}}: </label><span *ngFor="let item of evaluation.stars[0]" class="fa fa-star"></span><span *ngFor="let item of evaluation.stars[1]" class="fa fa-star-half-o"></span><span *ngFor="let item of evaluation.stars[2]" class="fa fa-star-o"></span>({{evaluation.records}} people to participate in the evaluation)</p>
         <p><label>{{'Purchase quantity' | translate:languageid}}: </label><span><input type='number' class="" ngModel="{{buynum|number}}" /></span></p>
         <p><label><button class="btn btn-outline-primary btn-sm mr-3"><span class="fa fa-shopping-cart"></span> {{'Add to cart' | translate:languageid}}</button></label><button class="btn btn-outline-primary btn-sm"><span class="fa fa-plus"></span> {{'With focus on' | translate:languageid}}</button></p>
       </div>
@@ -31,80 +31,7 @@
     </div>
   </div>
   <div class="row clearfix">
-    <div class="col-md-12 column evaluation">
-      <h4>
-        {{'Evaluation' | translate:languageid}}
-      </h4>
-      <div class='evaltop'>
-        <div class='evalrate'>
-          <div class='goodrate'>
-            <p>{{'75%'}}</p>
-            <h6>{{'Good rate' | translate:languageid}}</h6>
-          </div>
-          <div class='allrate'>
-            <dl>
-              <dt>{{'Good' | translate:languageid}}:</dt>
-              <dd>
-                <svg width="100" height="10">
-                  <rect x="0" y="0" width="112.5" height="10" fill="red" stroke="red" stroke-width="1px"></rect>
-                  <rect x="112.5" y="0" width="37.5" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px"></rect>              
-                </svg>
-              </dd>
-              <dd>{{'100%'}}</dd>
-              <dt>{{'Medium' | translate:languageid}}</dt>
-              <dd>
-                <svg width="100" height="10">
-                  <rect x="0" y="0" width="112.5" height="10" fill="red" stroke="red" stroke-width="1px"></rect>
-                  <rect x="112.5" y="0" width="37.5" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px"></rect>              
-                </svg>
-              </dd>
-              <dd>{{''}}</dd>
-              <dt>{{'Poor' | translate:languageid}}</dt>
-              <dd>
-                <svg width="100" height="10">
-                  <rect x="0" y="0" width="112.5" height="10" fill="red" stroke="red" stroke-width="1px"></rect>
-                  <rect x="112.5" y="0" width="37.5" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px"></rect>              
-                </svg>
-              </dd>
-              <dd>{{''}}</dd>
-            </dl>
-          </div>
-        </div>
-        <dl>
-          <dt>{{'Buyers impression' | translate:languageid}}</dt>
-          <dd>
-            <span></span>
-          </dd>
-        </dl>
-        <div class="integral">
-          <p>{{'For purchased goods' |translate:languageid}}</p>
-          <button class="btn btn-outline-primary btn-sm">{{'Evaluation and integral' | translate:languageid}}</button>
-          <p><a href='###'>{{'Integral rules' | translate:languageid}}</a></p>
-        </div>
-      </div>
-      <div class="tabbable" id="tabs-95396">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-             <a href="#panel-164505" data-toggle="tab" class="nav-link active">Section 1</a>
-          </li>
-          <li class="nav-item">
-             <a href="#panel-425776" data-toggle="tab" class="nav-link">Section 2</a>
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="panel-164505">
-            <p>
-              I'm in Section 1.
-            </p>
-          </div>
-          <div class="tab-pane" id="panel-425776">
-            <p>
-              Howdy, I'm in Section 2.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-evaluation></app-evaluation>
   </div>
   <div class="tabbable" id="tabs-406740">
     <ul class="nav nav-tabs">

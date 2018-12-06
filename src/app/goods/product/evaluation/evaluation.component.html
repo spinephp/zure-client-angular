@@ -1,0 +1,90 @@
+<div class="col-md-12 column evaluation">
+  <h4>
+    {{'Evaluation' | translate:languageid}}
+  </h4>
+  <div class='evaltop'>
+    <div class='evalrate'>
+      <div class='goodrate'>
+        <p>{{rate(1)}}%</p>
+        <h6>{{'Good rate' | translate:languageid}}</h6>
+      </div>
+      <div class='allrate'>
+        <div *ngFor="let itype of [1,2,3]">
+          <label>{{types[itype].names | translate:languageid}}:</label>
+          <svg width="100" height="10">
+              <rect [ngStyle]="{width:rate(itype)}" x="0" y="0"  height="10" fill="red" stroke="red" stroke-width="1px"></rect>
+              <rect [ngStyle]="{x:rate(itype),width:100-rate(itype)}" y="0" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px"></rect>              
+            </svg>
+          <span>{{rate(itype)}}%</span>
+        </div>
+      </div>
+    </div>
+    <dl>
+      <dt>{{'Buyers impression' | translate:languageid}}</dt>
+      <dd *ngFor='let item of labels'>
+        <span>{{item.names | translate:languageid}}({{labelkinds[item.id]}})</span>
+      </dd>
+    </dl>
+    <div class="integral">
+      <p>{{'For purchased goods' |translate:languageid}}</p>
+      <button class="btn btn-outline-primary btn-sm">{{'Evaluation and integral' | translate:languageid}}</button>
+      <p><a href='###'>{{'Integral rules' | translate:languageid}}</a></p>
+    </div>
+  </div>
+  <div class="tabbable" id="tabs-95396">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li *ngFor="let item of types; let i = index" class="nav-item" (click)="type = i">
+         <a href="#panel-164505" data-toggle="tab" class="nav-link {{ type !== i? '': 'active'}}">{{item.names | translate:languageid}}({{item.amount}})</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="panel-164505">
+        <div *ngFor="let eval of getRecords(type)" class='a-eval'>
+          <ul class="evalperson">
+            <li>{{medals[+grades.getByUser(eval.userid).id-1]}}</li>
+            <li>{{users.find(eval.userid).getName() | pinyin}}</li>
+            <li>{{grades.getByUser(eval.userid).names | translate:languageid}}{{'Number' | translate:languageid}}</li>
+            <li>{{countrys.getAttribute(eval.userid, 'emoji')}}{{countrys.getAttribute(eval.userid, 'names') | translate:languageid}}</li>
+          </ul>
+          <article data-id='{{eval.id}}' id="evalcontent">
+            <p><span *ngFor="let item of starArray(eval.star)" class="fa fa-star"></span><span *ngFor="let item of starArray(5-eval.star)" class="fa fa-star-o"></span> <span>{{eval.date}}</span></p>
+            <p><label>{{'Label' | translate:languageid}}:</label>
+              <b *ngFor="let id of evaluations.getLabelIds(+eval.id)" class="badge badge-secondary">{{labels.find(id).names | translate:languageid}}</b>
+            </p>
+            <p><label>{{'Notes' | translate:languageid}}:</label>{{eval.useideas}}</p>
+            <div *ngIf="eval.feelid !== 0">
+              <p data-id='{{eval.feelid}}'><label>{{'Single' | translate:languageid}}:</label>
+              <a href='#'><img *ngFor="let image of notes.find(eval.feelid).images; let ii = index" src='images/good/feel/g{{eval.feelid}}/{{image}}' ngIf="ii < 3" /></a>
+                {{'A total of' | translate:languageid}} {{notes.find(eval.feelid).images.length}} {{'pictures' | translate:languageid}}
+                <a href='#'>{{'View the single' | translate:languageid}}</a></p>
+            </div>
+            <p><label>{{'Buy date' | translate:languageid}}:</label>{{eval.date}}</p>
+            <p class='btnuseful'><span><button name='useful'>{{'Useful' | translate:languageid}}({{eval.useful}})</button> <button name='reply' data-toggle="collapse" attr.data-target="#replyto{{eval.id}}">{{'Reply' | translate:languageid}}({{eval.replyslength}})</button></span></p>
+            <div id="replyto{{eval.id}}" class="collapse">
+              <label>{{'Reply' | translate:languageid}} {{users.find(eval.userid).getName() | pinyin}}: </label><input type='text' name='reply' /><input type='submit' value="{{'Reply'}}" />
+            </div>
+            <ul>
+              <li *ngFor="let reply of replys(eval); let j = index" data-id="{{reply.id}}"><strong>{{eval.replyslen - j}}</strong>
+                <div><p><a href='#'>{{evalreplys.getUserName(+reply.id) | pinyin}}</a>
+                <span *ngIf="reply.parentid !== 0"> {{'Reply' | translate:languageid}}<a href='#'> {{evalreplys.getUserName(+reply.parentid) | pinyin}}</a></span>
+                : {{reply.content}}</p><p>{{reply.time}}</p></div>
+              </li>
+              <li *ngIf="eval.replyslength > 5"><span class='text-info'>{{'See the reply all' | translate:languageid}} >></span></li>
+            </ul>
+          </article>
+        </div>
+        <ul *ngIf="evaluations.length > 5" class="pagination justify-content-end">
+          <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>      </div>
+      <div class="tab-pane" id="panel-425776">
+        <p>
+          Howdy, I'm in Section 2.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,7 +23,7 @@ export class KindsComponent implements OnInit {
       this.router.params.subscribe(params => {
         const id = params.id || that._parent.goodsClass[0].id;
       that.aGoodsClass = that._parent.goodsClass.find(id);
-      that.preNames = that._parent.goodsClass.longNames(id);
+      that.preNames = that._parent.goodsClass['longNames'](id);
     });
   }
 

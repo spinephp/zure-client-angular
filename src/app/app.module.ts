@@ -8,7 +8,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import {ValuesService} from './commons/service/values.service';
 import {HeaderService} from './header.service';
 import {LocalStorage} from './commons/provider/local-storage';
-// import { TranslatePipe } from './translate.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import {SettingsService} from './commons/service/settings.service';
@@ -16,6 +15,7 @@ import { NewsComponent } from './news/news.component';
 import { HomeResolveService } from './home/home-resolve.service';
 import { NewsResolveService } from './news//news-resolve.service';
 import { GoodsModule } from './goods/goods.module';
+//import { PinyinPipe } from './pinyin.pipe';
 // import { UnitPipe } from './unit.pipe';
 
 @NgModule({
@@ -24,6 +24,7 @@ import { GoodsModule } from './goods/goods.module';
     // TranslatePipe,
     HomeComponent,
     NewsComponent,
+    //PinyinPipe,
     // UnitPipe,
   ],
   imports: [
