@@ -4,6 +4,7 @@ import { EvaluationComponent } from './evaluation.component';
 import { EvaluationService } from './evaluation.service';
 import { TranslatePipe } from '../../../translate.pipe';
 import { PinyinPipe } from '../../../pinyin.pipe';
+import { PopbuttonDirective } from './popbutton.directive';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { PinyinPipe } from '../../../pinyin.pipe';
   declarations: [
     TranslatePipe,
     PinyinPipe,
-    EvaluationComponent
+    EvaluationComponent,
+    PopbuttonDirective
   ]
 })
 export class EvaluationModule { }

@@ -64,7 +64,7 @@
               <label>{{'Reply' | translate:languageid}} {{users.find(eval.userid).getName() | pinyin}}: </label><input type='text' name='reply' /><input type='submit' value="{{'Reply'}}" />
             </div>
             <ul>
-              <li *ngFor="let reply of replys(eval); let j = index" data-id="{{reply.id}}"><strong>{{eval.replyslen - j}}</strong>
+              <li *ngFor="let reply of replys(eval); let j = index" data-id="{{reply.id}}" appPopbutton><strong>{{eval.replyslen - j}}</strong>
                 <div><p><a href='#'>{{evalreplys.getUserName(+reply.id) | pinyin}}</a>
                 <span *ngIf="reply.parentid !== 0"> {{'Reply' | translate:languageid}}<a href='#'> {{evalreplys.getUserName(+reply.parentid) | pinyin}}</a></span>
                 : {{reply.content}}</p><p>{{reply.time}}</p></div>
