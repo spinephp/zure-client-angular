@@ -51,6 +51,7 @@ class Page {
 })
 export class EvaluationService {
   private _evaluation: Subject<any> = new Subject<any>();
+  private _data: Subject<any[]> = new Subject<any[]>();
   private _page;
   constructor(
     private requestService: RequestService,
@@ -64,6 +65,82 @@ export class EvaluationService {
 
   public currentEvaluation(): Observable<any> {
       return this._evaluation.asObservable();
+  }
+  public updateData(proid: any): void {
+    const that = this;
+    const data = [];
+    Promise.all(this.get(proid)).then(rs => {
+      // that.labels = rs[0]; // 产品标签
+      // that.grades = rs[1]; // 会员级别
+      // that.evaluations = rs[2]; // 产品评价
+      // that.notes = rs[3]; // 使用心得
+      data.push(rs[0], rs[1], rs[2], rs[3]);
+      if (rs[2].length > 0) {
+        // 取评价(id 指定的)标签 id 数组
+        rs[2]['getLabelIds'] = (id) => {
+          const item = rs[2].find(id);
+          return item['getLabelIds']();
+        };
+        Promise.all(that.getSecond(rs[2])).then(rs1 => {
+          Promise.all(that.getThird(rs[2], rs1[0])).then(rs2 => {
+            Promise.all(that.getForth(rs2[0])).then(rs3 => {
+              // 根据评价设置评价类型数据
+              // that.evalreplys = rs1[0]; // 评价回复
+              // that.usergrades = rs1[1]; // 用户级别
+              // that.users = rs2[0];
+              // that.countrys = rs3[0];
+
+              rs[1].getByUser = (userid: number) => {
+                const item = rs1[1]['findByUserId'](userid);
+                return rs[1].find(+item.gradeid);
+              };
+
+              rs1[0]['getUserName'] = (replyid: number) => {
+                let result = '';
+                const reply = rs1[0]['_find'](replyid);
+                if (reply) {
+                  const user = rs2[0].find(reply.userid);
+                  if (user) {
+                    result = user.nick || user.username;
+                  }
+                }
+                return result;
+              };
+
+              // 取由 userid 指定的用户属性 name 的值
+              rs3[0].getAttribute = (userid: number, name: string) => {
+                const item = rs2[0].find(userid);
+                const country = rs3[0].find((+item.country));
+                return country[name];
+              };
+
+              // 取由 userid 指定的用户所在国的国旗
+              rs3[0].getEmoji = (userid: number) => {
+                const item = rs2[0].find(userid);
+                const country = rs3[0].find((+item.country));
+                return country.emoji;
+              };
+
+              data.push(rs1[0]);
+              data.push(rs1[1]);
+              data.push(rs2[0]);
+              data.push(rs3[0]);
+              that._data.next(data);
+            });
+          });
+        });
+      } else {
+        data.push([]); // 评价回复
+        data.push([]); // 用户级别
+        data.push([]); // user
+        data.push([]); // country
+        that._data.next(data);
+      }
+    });
+  }
+
+  public currentData(): Observable<any> {
+      return this._data.asObservable();
   }
 
   getRecords(records, type) {
@@ -227,7 +304,7 @@ export class EvaluationService {
   getSecond(evals: any[]) {
     const success = [
       function (data) {
-        data.find = (id: number) => {
+        data._find = (id: number) => {
           for (const rec of data) {
             if (+rec.id === id) {
               return rec;

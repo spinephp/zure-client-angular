@@ -70,7 +70,7 @@ export class GoodsService {
   }
   findParent(parentid, nodes) {
     for (const node of nodes) {
-      if (parseInt(node.id, 10) === parseInt(parentid, 10)) {
+      if (+node.id === parentid) {
         return node;
       } else if (node.children) {
         const findnode = this.findParent(parentid, node.children);

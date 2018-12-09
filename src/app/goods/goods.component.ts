@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoodsService } from '../goods//goods.service';
 import { LocalStorage } from '../commons/provider/local-storage';
 import { ValuesService } from '../commons/service/values.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { isNumber } from 'util';
+import { ITreeState } from 'angular-tree-component';
 
 @Component({
   selector: 'app-goods',
@@ -17,7 +18,10 @@ export class GoodsComponent implements OnInit {
   public goods = [];
   private currency = [];
   private selRow: number;
-  private nodes = [{id: 1, name: 'ss'}];
+  public nodes = [{id: 1, name: 'ss'}];
+  @ViewChild('tree') tree;
+  state: ITreeState;
+
   options = {};
 
   constructor(
@@ -43,8 +47,8 @@ export class GoodsComponent implements OnInit {
     });
     // this.router.queryParams.subscribe(params => {
     this.router.params.subscribe(params => {
-        that.selRow = that.router.snapshot.params['id'];
-        if (that.selRow === undefined || params.id === undefined) {
+      that.selRow = that.router.snapshot.params['id'];
+      if (that.selRow === undefined || params.id === undefined) {
         that.selRow = params.id || that.goodsClass[0].id;
         // that.nodechoose(that.selRow);
       }

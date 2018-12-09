@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { GoodsComponent } from '../goods.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import {SettingsService} from '../../commons/service/settings.service';
@@ -10,7 +10,7 @@ import { EvaluationService } from './evaluation/evaluation.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, AfterViewInit {
   public aGoods;
   public kind;
   private preNames;
@@ -33,10 +33,10 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     const that = this;
     // this.router.queryParams.subscribe(params => {
-      this.es.currentEvaluation().subscribe((value: any) => {
-        that.evaluation = value;
-      });
-      this.router.params.subscribe(params => {
+    this.es.currentEvaluation().subscribe((value: any) => {
+      that.evaluation = value;
+    });
+    this.router.params.subscribe(params => {
       const id = params.id || that._parent.goods[0].id;
       that.aGoods = that._parent.goods.find(id);
       that.kind = that._parent.goodsClass;
@@ -44,8 +44,14 @@ export class ProductComponent implements OnInit {
       that.is.setChemicalId(that.aGoods.chemicalindex);
       that.cv.set('chemicalid', that.aGoods.chemicalindex),
       that.cv.set('physicoid', that.aGoods.physicoindex);
+      that.es.updateData(id);
+      const node = that._parent.tree.treeModel.getNodeById('p' + id);
+      node.expand();
+      node.setActiveAndVisible();
     });
-    // this.route.navigate(['introduction']);
+      // this.route.navigate(['introduction']);
+  }
+  ngAfterViewInit() {
   }
 
 }

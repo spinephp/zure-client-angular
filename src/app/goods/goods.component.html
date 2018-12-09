@@ -7,7 +7,7 @@
         </h3>
       </div>
       <div class="panel-body">
-        <tree-root [nodes]="nodes" [options]="options"
+        <tree-root #tree [(state)]="state" [nodes]="nodes" [options]="options"
           (activate)='nodeActivate($event)'>
         </tree-root>
       </div>
