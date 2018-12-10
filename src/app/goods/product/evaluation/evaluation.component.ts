@@ -12,9 +12,11 @@ export class EvaluationComponent implements OnInit {
   private labels;
   private grades;
   private evaluations = [];
+  private consults = [];
+  private consultTypes;
   private notes;
   private type;
-  private types;
+  private consulttype;
   private users;
   private usergrades = [];
   private countrys;
@@ -30,40 +32,28 @@ export class EvaluationComponent implements OnInit {
   ) {
     this.languageid = this._parent.languageid;
     this.type = 0;
+    this.consulttype = 0;
    }
 
   ngOnInit() {
     const that = this;
-    this.types = [
-      {names: ['All evaluation', '所有评价'], amount: 100},
-      {names: ['Good', '好评'], amount: 0},
-      {names: ['Medium', '中评'], amount: 0},
-      {names: ['Poor', '差评'], amount: 0}
-    ];
     this.is.currentData().subscribe((rs: any) => {
       that.labels = rs[0]; // 产品标签
       that.grades = rs[1]; // 会员级别
       that.evaluations = rs[2]; // 产品评价
       that.notes = rs[3]; // 使用心得
-
+      that.consults = rs[4];
       // 根据评价设置评价类型数据
-      that.is.setEvaluationTypes(that.types, rs[2]);
-      that.evalreplys = rs[4]; // 评价回复
-      that.usergrades = rs[5]; // 用户级别
+      // that.evaluations['setTypes']();
+      that.evalreplys = rs[5]; // 评价回复
+      that.usergrades = rs[6]; // 用户级别
       that.labelkinds = that.is.getLabelKinds(rs[2], rs[0]);
-      that.users = rs[6];
-      that.countrys = rs[7];
+      that.users = rs[7];
+      that.countrys = rs[8];
     });
   }
   rate(index): number {
-    if (this.types[0].amount === 0) {
-      return null;
-    } else {
-      if (index > 0) {
-        const result = this.types[index].amount / this.types[0].amount;
-        return result * 100;
-      }
-    }
+    return this.evaluations['rate'](index);
   }
   starArray(stars) {
     return new Array(stars);

@@ -10,7 +10,7 @@
       </div>
       <div class='allrate'>
         <div *ngFor="let itype of [1,2,3]">
-          <label>{{types[itype].names | translate:languageid}}:</label>
+          <label>{{evaluations.getTypes()[itype].names | translate:languageid}}:</label>
           <svg width="100" height="10">
               <rect [ngStyle]="{width:rate(itype)}" x="0" y="0"  height="10" fill="red" stroke="red" stroke-width="1px"></rect>
               <rect [ngStyle]="{x:rate(itype),width:100-rate(itype)}" y="0" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px"></rect>              
@@ -33,7 +33,7 @@
   </div>
   <div class="tabbable" id="tabs-95396">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li *ngFor="let item of types; let i = index" class="nav-item" (click)="type = i">
+      <li *ngFor="let item of evaluations.getTypes(); let i = index" class="nav-item" (click)="type = i">
          <a href="#panel-164505" data-toggle="tab" class="nav-link {{ type !== i? '': 'active'}}">{{item.names | translate:languageid}}({{item.amount}})</a>
       </li>
     </ul>
@@ -92,11 +92,18 @@
           <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
       </div>
-      <div class="tab-pane" id="panel-425776">
-        <p>
-          Howdy, I'm in Section 2.
-        </p>
-      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="consults.length > 0" class="tabbable" id="tabs-95396">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li *ngFor="let item of consults.getTypes(); let i = index" class="nav-item" (click)="type = i">
+        <a href="#panel-165505" data-toggle="tab" class="nav-link {{ consulttype !== i? '': 'active'}}">{{item.names | translate:languageid}}({{item.amount}})</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="panel-165505">
     </div>
   </div>
 </div>

@@ -53,7 +53,13 @@ export class EvaluationService {
   private _evaluation: Subject<any> = new Subject<any>();
   private _data: Subject<any[]> = new Subject<any[]>();
   private _page;
-  constructor(
+  private types = [
+    {names: ['All evaluation', '所有评价'], amount: 100},
+    {names: ['Good', '好评'], amount: 0},
+    {names: ['Medium', '中评'], amount: 0},
+    {names: ['Poor', '差评'], amount: 0}
+  ];
+constructor(
     private requestService: RequestService,
     private cv: SettingsService,
   ) {
@@ -74,14 +80,89 @@ export class EvaluationService {
       // that.grades = rs[1]; // 会员级别
       // that.evaluations = rs[2]; // 产品评价
       // that.notes = rs[3]; // 使用心得
-      data.push(rs[0], rs[1], rs[2], rs[3]);
-      if (rs[2].length > 0) {
+      data.push(rs[0], rs[1], rs[2], rs[3], rs[4]);
+      if (rs[2].length > 0 || rs[4].length > 0) {
         // 取评价(id 指定的)标签 id 数组
-        rs[2]['getLabelIds'] = (id) => {
-          const item = rs[2].find(id);
-          return item['getLabelIds']();
-        };
-        Promise.all(that.getSecond(rs[2])).then(rs1 => {
+        if (rs[2].length > 0) {
+          rs[2]['getLabelIds'] = (id) => {
+            const item = rs[2].find(id);
+            return item['getLabelIds']();
+          };
+          rs[2].getTypes = () => {
+            return that.types;
+          };
+          rs[2].setTypes = () => {
+              // 评价类型统计
+              let sum = 0;
+              for (const item of rs[2]) {
+                sum += item.star;
+                switch (item.star) {
+                  case 5: // 好评
+                  case 4:
+                    that.types[1].amount++ ;
+                    break;
+                  case 3:  // 中评
+                  case 2:
+                  that.types[2].amount++ ;
+                    break;
+                  case 1:  // 差评
+                  case 0:
+                  that.types[3].amount++ ;
+                    break;
+                }
+              }
+              that.types[0].amount = rs[2].length;
+              const s = sum / rs[2].length;
+              const s0 = Math.floor(s);
+              const s1 = sum % rs[2].length;
+              const s2 = 5 - s0 - s1;
+              this.setEvaluation({stars: [new Array(s0), new Array(s1), new Array(s2)], records: rs[2].length});
+          };
+          rs[2].setTypes();
+          rs[2].rate = (index: number) => {
+            if (that.types[0].amount === 0) {
+              return null;
+            } else {
+              if (index > 0) {
+                const result = that.types[index].amount / that.types[0].amount;
+                return result * 100;
+              }
+            }
+          };
+        }
+        if (rs[4].length > 0) {
+          rs[4].getRecords = (type): any => {
+            let rec0 = [];
+            const rec1 = [];
+            if (type === 0) {
+              rec0 = rs[4];
+            } else {
+              for (const item of rs[4]) {
+                if (item.type === type) {
+                  rec0.push(item);
+                }
+              }
+            }
+          };
+
+          rs[4].getTypes = () => {
+            const types = [
+              {names: ['All consulting', '全部咨询'], amount: 100},
+              {names: ['Commodity', '商品咨询'], amount: 0},
+              {names: ['Inventory distribution', '库存配送'], amount: 0},
+              {names: ['Pay', '支付'], amount: 0},
+              {names: ['Invoice warranty', '发票保修'], amount: 0},
+              {names: ['Payment to help', '支付帮助'], amount: 0}
+            ];
+            for (const item of rs[4]) {
+              types[item.type].amount++ ;
+            }
+            types[0].amount = rs[4].length;
+            return types;
+          };
+
+        }
+        Promise.all(that.getSecond(rs[2], rs[4])).then(rs1 => {
           Promise.all(that.getThird(rs[2], rs1[0])).then(rs2 => {
             Promise.all(that.getForth(rs2[0])).then(rs3 => {
               // 根据评价设置评价类型数据
@@ -105,6 +186,26 @@ export class EvaluationService {
                   }
                 }
                 return result;
+              };
+
+              rs1[0]['findByEvalId'] = (evalid: number) => {
+                const replys = [];
+                for (const rp of rs1[0]) {
+                  if (+rp.evalid === evalid) {
+                    replys.push(rp);
+                  }
+                }
+                return replys;
+              };
+
+              rs1[1]['findByUserId'] = (userid: number) => {
+                let replys = null;
+                for (const rp of rs1[1]) {
+                  if (+rp.userid === userid) {
+                    replys = rp;
+                  }
+                }
+                return replys;
               };
 
               // 取由 userid 指定的用户属性 name 的值
@@ -162,35 +263,6 @@ export class EvaluationService {
       }
     }
     return labelkind;
-  }
-  setEvaluationTypes(types, records) {
-    if (records.length > 0) {
-      // 评价类型统计
-      let sum = 0;
-      for (const item of records) {
-        sum += item.star;
-        switch (item.star) {
-          case 5: // 好评
-          case 4:
-            types[1].amount++ ;
-            break;
-          case 3:  // 中评
-          case 2:
-            types[2].amount++ ;
-            break;
-          case 1:  // 差评
-          case 0:
-            types[3].amount++ ;
-            break;
-        }
-      }
-      types[0].amount = records.length;
-      const s = sum / records.length;
-      const s0 = Math.floor(s);
-      const s1 = sum % records.length;
-      const s2 = 5 - s0 - s1;
-      this.setEvaluation({stars: [new Array(s0), new Array(s1), new Array(s2)], records: records.length});
-    }
   }
   _get(param, success) {
     function error(err) {
@@ -267,7 +339,18 @@ export class EvaluationService {
           return null;
         };
         return data;
-      }
+      },
+      function (data) {
+        data.find = (id: number) => {
+          for (const rec of data) {
+            if (+rec.id === id) {
+              return rec;
+            }
+          }
+          return null;
+        };
+        return data;
+      },
     ];
     const ps = [
       {'? cmd=ProductLabel':
@@ -297,11 +380,19 @@ export class EvaluationService {
             'cond': JSON.stringify([{'field': 'proid', value: [proid], 'operator': 'in'}]),
             'token': token
           }
-      }
+      },
+      {'?cmd=ProductConsult':
+          {
+            'filter': JSON.stringify([
+              'id', 'proid', 'userid', 'type', 'content', 'time', 'reply', 'replytime']),
+            'cond': JSON.stringify([{'field': 'proid', value: [proid], 'operator': 'in'}]),
+            'token': token
+          }
+      },
     ];
     return this._get(ps, success);
   }
-  getSecond(evals: any[]) {
+  getSecond(evals: any[], consults: any[]) {
     const success = [
       function (data) {
         data._find = (id: number) => {
@@ -364,6 +455,17 @@ export class EvaluationService {
         ids1.push(ev.id);
       }
     }
+    for (const consult of consults) {
+      if (!ids.includes(consult.userid)) {
+        ids.push(consult.userid);
+      }
+    }
+    if (ids1.length === 0) {
+      ids1.push(-1);
+    }
+    if (ids.length === 0) {
+      ids.push(-1);
+    }
     const token = this.cv.sessionid;
     const cond1 = JSON.stringify([{'field': 'evalid', 'value': ids1, 'operator': 'in'}]);
     const cond2 = JSON.stringify([{'field': 'userid', 'value': ids, 'operator': 'in'}]);
@@ -413,6 +515,9 @@ export class EvaluationService {
         ids.push(ev.userid);
       }
     }
+    if (ids.length === 0) {
+      ids.push(-1);
+    }
     const token = this.cv.sessionid;
     const cond0 = JSON.stringify([{'field': 'id', 'value': ids, 'operator': 'in'}]);
     const ps = [
@@ -445,6 +550,9 @@ export class EvaluationService {
       if (!ids.includes(ev.country)) {
         ids.push(ev.country);
       }
+    }
+    if (ids.length === 0) {
+      ids.push(-1);
     }
     const token = this.cv.sessionid;
     const cond0 = JSON.stringify([{'field': 'id', 'value': ids, 'operator': 'in'}]);
