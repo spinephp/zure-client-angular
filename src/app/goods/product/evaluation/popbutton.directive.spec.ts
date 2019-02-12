@@ -16,7 +16,7 @@ export class ContainerComponent {
 describe('PopbuttonDirective', () => {
   let component: ContainerComponent;
   let fixture: ComponentFixture<ContainerComponent>;
-  let directive;
+  // let directive;
   let des;
   let bareH2;
   beforeEach(() => {TestBed.configureTestingModule({
