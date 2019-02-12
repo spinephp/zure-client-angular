@@ -135,13 +135,13 @@ describe('EvaluationService', () => {
 
       expect(rs.length).toEqual(5);
 
-      expect(rs[0].length).toBe(labeldata.length);
+      expect((rs[0] as Object[]).length).toEqual(labeldata.length);
       for (const i of Object.keys(rs[0])) {
         expect(rs[0][i]['id']).toBe(labeldata[i].id);
         expect(rs[0][i]['names']).toBe(labeldata[i].names);
       }
 
-      expect(rs[1].length).toBe(gradedata.length);
+      expect((rs[1] as Object[]).length).toEqual(gradedata.length);
 
       expect(rs.length).toEqual(datas.length);
       for (const k of Object.keys(rs)) {

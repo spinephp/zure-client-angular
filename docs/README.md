@@ -2,7 +2,7 @@
 home: true
 actionText: 开始使用 →
 actionLink: /readme
-footer: MIT Licensed | Copyright © 2018-present linkFly
+footer: MIT Licensed | Copyright © 2018-present YunRui
 features:
 - title: 快速
   details: 快速创建库
