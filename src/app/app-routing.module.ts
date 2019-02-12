@@ -5,7 +5,7 @@ import { NewsComponent } from './news/news.component';
 import { HomeResolveService } from './home/home-resolve.service';
 import { NewsResolveService } from './news/news-resolve.service';
 
-const routes: Routes = [
+export const rootroutes: Routes = [
   { path: 'home', component: HomeComponent, resolve: {data: HomeResolveService}},
   { path: 'news', component: NewsComponent, resolve: {data: NewsResolveService} },
   { path: 'products', loadChildren: './goods/goods.module#GoodsModule'},
@@ -13,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(rootroutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -12,8 +12,8 @@ export class IndexService {
   private _chemicalId: Subject<number> = new Subject<number>();
 
   constructor(
-    private requestService: RequestService,
-    private cv: SettingsService,
+    public requestService: RequestService,
+    public cv: SettingsService,
   ) {
   }
 
@@ -58,15 +58,15 @@ export class IndexService {
       {'?cmd=Physicoindex':
           {
             'filter': JSON.stringify(['id', 'names', 'unit', 'operator', 'value', 'environment']),
-            //'cond': JSON.stringify([{'field': 'id', 'operator': 'eq', 'value': pid}]),
+            // 'cond': JSON.stringify([{'field': 'id', 'operator': 'eq', 'value': pid}]),
             'token': token
           }
       }
     ];
 
     const promises = [];
-    for(let i in ps) {
-      for(var k in ps[i]) {
+    for (const i of Object.keys(ps)) {
+      for (const k of Object.keys(ps[i])) {
         promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
       }
     }

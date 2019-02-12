@@ -6,7 +6,7 @@ import { GoodsResolveService } from './goods-resolve.service';
 import {NgModule} from '@angular/core';
 import { productRoutes } from './product/product-routing.module';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'products',
     component: GoodsComponent,

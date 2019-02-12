@@ -5,13 +5,15 @@ import { EvaluationService } from './evaluation.service';
 import { TranslatePipe } from '../../../translate.pipe';
 import { PinyinPipe } from '../../../pinyin.pipe';
 import { PopbuttonDirective } from './popbutton.directive';
+// import { Evaluation } from './classes/evaluation';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
   providers: [
-    EvaluationService
+    EvaluationService,
+    // Evaluation
   ],
   exports: [
     TranslatePipe,
@@ -22,7 +24,7 @@ import { PopbuttonDirective } from './popbutton.directive';
     TranslatePipe,
     PinyinPipe,
     EvaluationComponent,
-    PopbuttonDirective
+    PopbuttonDirective,
   ]
 })
 export class EvaluationModule { }

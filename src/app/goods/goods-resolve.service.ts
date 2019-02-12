@@ -9,16 +9,16 @@ import { GoodsService } from '../goods//goods.service';
 export class GoodsResolveService {
 
   constructor(
-    private router: Router,
-    private cv: SettingsService,
-    private hs: GoodsService,
+    // private router: Router,
+    public cv: SettingsService,
+    public hs: GoodsService,
     ) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): {} {
+  resolve(): {} {
     const word: {} = {
       'News': ['新闻', 'zz']
     };
     this.cv.addLanguages(word);
-    return Promise.all(this.hs.get()).then(rs => {
+    return this.hs.updateData().then(rs => {
       return rs;
     });
   }

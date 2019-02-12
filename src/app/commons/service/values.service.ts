@@ -19,7 +19,7 @@ export class ValuesService {
   public currentLanguageId(): Observable<number> {
       return this._languageId.asObservable();
   }
-    public setQiye(selectedPointsIfo: any): void {
+  public setQiye(selectedPointsIfo: any): void {
     this._qiye.next(selectedPointsIfo);
 
   }

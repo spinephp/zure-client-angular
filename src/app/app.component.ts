@@ -12,8 +12,8 @@ import {ValuesService} from './commons/service/values.service';
 export class AppComponent implements OnInit {
   public languageid: number;
   public qiye: Object = {introductions: ['xx', 'yy'], names: ['xx', 'yy']};
-  private languages = [];
-  private navigations = [];
+  public languages = [];
+  public navigations = [];
   constructor(
     private headerService: HeaderService,
     private ls: LocalStorage,
@@ -35,8 +35,9 @@ export class AppComponent implements OnInit {
           that.vs.setQiye(rs[0]);
           that.languages = rs[1];
           that.navigations = rs[2];
+          that.ls.set('qq', rs[0].qq);
           const lid = that.ls.get('languageid') || 1;
-          this.selectChangeLanguage(lid);
+          that.selectChangeLanguage(lid);
         });
       } else {
         console.log(res.error);

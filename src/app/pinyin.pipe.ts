@@ -7,6 +7,7 @@ export class PinyinPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     if (!value) {return ''; }
+    if (+args === 1) { return value; }
     let py = '';
     for ( const c of value) {
       if (/[a-zA-Z0-9\- ]/.test(c)) {
@@ -53,7 +54,7 @@ export class PinyinPipe implements PipeTransform {
       \u8fa9\u8fab\u904d\u533e\u5f01\u82c4\u5fed\u6c74\u7f0f\u7178\u782d
       \u78a5\u7a39\u7a86\u8759\u7b3e\u9cca`,
       'biao': '\u6807\u5f6a\u8198\u8868\u5a4a\u9aa0\u98d1\u98d9\u98da\u706c\u9556\u9573\u762d\u88f1\u9cd4',
-      'bie': '\u9cd6\u618b\u522b\u762a\u8e69\u9cd8',
+      'bie': '\u9cd6\u618b\u522b\u5225\u762a\u8e69\u9cd8',
       'bin': '\u5f6c\u658c\u6fd2\u6ee8\u5bbe\u6448\u50a7\u6d5c\u7f24\u73a2\u6ba1\u8191\u9554\u9acc\u9b13',
       'bing': '\u5175\u51b0\u67c4\u4e19\u79c9\u997c\u70b3\u75c5\u5e76\u7980\u90b4\u6452\u7ee0\u678b\u69df\u71f9',
       'bu': '\u6355\u535c\u54fa\u8865\u57e0\u4e0d\u5e03\u6b65\u7c3f\u90e8\u6016\u62ca\u535f\u900b\u74ff\u6661\u949a\u91ad',
@@ -749,7 +750,7 @@ export class PinyinPipe implements PipeTransform {
       'zun': '\u5c0a\u9075\u6499\u6a3d\u9cdf',
       'zuo': '\u6628\u5de6\u4f50\u67de\u505a\u4f5c\u5750\u5ea7\u961d\u963c\u80d9\u795a\u9162'
     };
-    for (const key in PinYin) {
+    for (const key of Object.keys(PinYin)) {
       const index = PinYin[key].indexOf(uchar);
       if (index > -1) {
         return key;

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
+import { News } from './classes/news';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,16 @@ export class NewsService {
   setLanguage(language) {
     this.cv.setLanguage(language);
   }
+
+  public updateData() {
+    const that = this;
+    const data = [];
+    return this.get().then(rs => {
+      const news = new News(rs);
+      return of([news]).toPromise();
+    });
+  }
+
   get() {
     function success(data) {
       data.choose = function(i) {

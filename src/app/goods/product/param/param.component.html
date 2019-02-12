@@ -1,31 +1,31 @@
-<h4>Product parameters</h4>
+<h4>{{'Product parameters' | translate:languageid}}</h4>
 <table class="table table-striped">
   <thead>
       <tr>
-          <th>Item ID</th>
-          <th>Item Name</th>
-          <th>Item ID</th>
-          <th>Item Name</th>
+          <th>{{'Item ID' | translate:languageid}}</th>
+          <th>{{'Item Name' | translate:languageid}}</th>
+          <th>{{'Item ID' | translate:languageid}}</th>
+          <th>{{'Item Name' | translate:languageid}}</th>
       </tr>
   </thead>
   <tbody>
       <tr>
           <td>{{'Material' | translate:languageid}}</td>
-          <td>{{kind.kindNames(goods.classid) | translate:languageid}}</td>
+          <td>{{kind.names(goods.item.classid) | translate:languageid}}</td>
           <td>{{'Length' | translate:languageid}}</td>
-          <td>{{goods.length}} {{goods.unitlen | unit:languageid}}</td>
+          <td>{{goods.item.length}} {{goods.item.unitlen | unit:languageid}}</td>
       </tr>
       <tr>
         <td>{{'Type' | translate:languageid}}</td>
-        <td>{{kind.shortNames(goods.classid) | translate:languageid}}</td>
+        <td>{{kind.shortNames(goods.item.classid) | translate:languageid}}</td>
         <td>{{'Width' | translate:languageid}}</td>
-        <td>{{goods.width}} {{goods.unitwid | unit:languageid}}</td>
+        <td>{{goods.item.width}} {{goods.item.unitwid | unit:languageid}}</td>
     </tr>
     <tr>
       <td>{{'Weight' | translate:languageid}}</td>
-      <td>{{goods.weight}}kg</td>
+      <td>{{goods.item.weight}}kg</td>
       <td>{{'Think' | translate:languageid}}</td>
-      <td>{{goods.think}} {{goods.unitthi | unit:languageid}}</td>
+      <td>{{goods.item.think}} {{goods.item.unitthi | unit:languageid}}</td>
   </tr>
 </tbody>
 </table>

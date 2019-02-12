@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {SettingsService} from '../../commons/service/settings.service';
 import {IndexService} from './index/index.service';
 import { EvaluationService } from './evaluation/evaluation.service';
+import { AProduct } from '../classes/product';
 
 @Component({
   selector: 'app-product',
@@ -11,7 +12,7 @@ import { EvaluationService } from './evaluation/evaluation.service';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, AfterViewInit {
-  public aGoods;
+  public aGoods: AProduct;
   public kind;
   private preNames;
   private buynum;
@@ -37,17 +38,17 @@ export class ProductComponent implements OnInit, AfterViewInit {
       that.evaluation = value;
     });
     this.router.params.subscribe(params => {
-      const id = params.id || that._parent.goods[0].id;
+      if (that._parent && that._parent.goodsClass && that._parent.goods) {
+      const id = (params.id || that._parent.goods[0]['id']);
       that.aGoods = that._parent.goods.find(id);
       that.kind = that._parent.goodsClass;
-      that.preNames = that._parent.goodsClass['longNames'](that.aGoods.classid);
-      that.is.setChemicalId(that.aGoods.chemicalindex);
-      that.cv.set('chemicalid', that.aGoods.chemicalindex),
-      that.cv.set('physicoid', that.aGoods.physicoindex);
+      that.preNames = that._parent.goodsClass.longNames(that.aGoods.item.classid);
+      that.is.setChemicalId(that.aGoods.item.chemicalindex);
+      that.cv.set('chemicalid', that.aGoods.item.chemicalindex);
+      that.cv.set('physicoid', that.aGoods.item.physicoindex);
       that.es.updateData(id);
-      const node = that._parent.tree.treeModel.getNodeById('p' + id);
-      node.expand();
-      node.setActiveAndVisible();
+      that._parent.activeNode('p' + id);
+      }
     });
       // this.route.navigate(['introduction']);
   }

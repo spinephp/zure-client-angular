@@ -5,6 +5,8 @@ import { AppComponent } from '../app.component';
 import { ValuesService } from '../commons/service/values.service';
 import { SettingsService } from '../commons/service/settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Kind } from '../goods/classes/kind';
+import { Product } from '../goods/classes/product';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +16,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   private qiye;
-  private goodsClass = [];
-  private goods = [];
-  public news = [];
-  private languageid;
+  private _languageid: number;
+  get languageid(): number { return this._languageid; }
+  set languageid(langid: number) { this._languageid = langid; }
+  private _goodsClass: Kind;
+  get goodsClass(): Kind { return this._goodsClass; }
+  set goodsClass(gclass: Kind) { this._goodsClass = gclass; }
+  private _goods: Product;
+  get goods(): Product { return this._goods; }
+  set goods(goods: Product) { this._goods = goods; }
+  private _news: Product;
+  get news(): Product { return this._news; }
+  set news(news: Product) { this._news = news; }
   private introduct;
   private rooturl: String;
   constructor(
@@ -34,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.get('languageid') as number;
+    this.languageid = +this.ls.get('languageid');
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });

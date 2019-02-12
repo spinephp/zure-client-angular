@@ -2,66 +2,17 @@ import { Injectable } from '@angular/core';
 import {RequestService} from '../commons/service/request.service';
 import {SettingsService} from '../commons/service/settings.service';
 import { findNode } from '@angular/compiler';
-class Kind {
-  constructor(private data: []) {}
-  find(id: string): {} {
-    const cid = parseInt(id , 10);
-    if (cid > 0) {
-      for (const pn in this.data) {
-        if (parseInt(this.data[ pn ]['id'], 10) === cid) {
-          return this.data[pn];
-        }
-      }
-    }
-    return null;
-  }
-  findByParentId = function(parentid) {
-    for (const pn in this.data) {
-      if (this.data[ pn ].parentid === parentid) {
-        return this.data[pn];
-      }
-    }
-    return null;
-  };
-  parentNames = function(parentid) {
-    let name = '根结点';
-    const pid = parseInt(parentid, 10);
-    const rec = this.data.findByParentId(pid);
-    if (rec != null) {
-      name = rec.names;
-    }
-    return name;
-  };
-  kindNames = function(parentid) {
-    let pid = parseInt(parentid, 10);
-    let rec = null;
-    while (pid > 0) {
-      rec = this.data.find(pid);
-      pid = rec.parentid;
-    }
-    return rec ? [rec.names[0].replace('Products', ''), rec.names[1].replace('制品', '')] : null;
-  };
-  longNames = function(id) {
-    const rec = this.data.find(id);
-    if (rec != null) {
-      const kind = this.data.kindNames(rec.parentid);
-      return kind ? [kind[0] + rec.names[0], kind[1] + rec.names[1]] : null;
-    }
-    return null;
-  };
-  shortNames = function(id) {
-    const rec = this.data.find(id);
-    if (rec != null) {
-      return rec.names;
-    }
-    return null;
-  };
-}
+import { isNumber } from 'util';
+import { Kind } from './classes/kind';
+import { Product } from './classes/product';
+import { Currency } from './classes/currency';
+import { Subject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoodsService {
+  private _data: Subject<any> = new Subject<any>();
 
   constructor(
     private requestService: RequestService,
@@ -80,9 +31,9 @@ export class GoodsService {
     return null;
   }
   makeTreeNodes(nodes, goodsClass, goods, languageid): [] {
-    for (const item of goodsClass) {
-      const ci = {id: item.id, name: item.names[languageid], children: []};
-      const findnode = this.findParent(item.parentid, nodes);
+    for (const akind of goodsClass.data) {
+      const ci = {id: akind.item.id, name: akind.item.names[languageid], children: []};
+      const findnode = this.findParent(akind.item.parentid, nodes);
       if (findnode) {
         findnode.children.push(ci);
       } else {
@@ -92,9 +43,9 @@ export class GoodsService {
     return this.makeTreeProduct(nodes, goods);
   }
   makeTreeProduct(nodes, products): [] {
-    for (const item of products) {
-      const ci = {id: 'p' + item.id, name: item.size};
-      const findnode = this.findParent(item.classid, nodes);
+    for (const aproduct of products.data) {
+      const ci = {id: 'p' + aproduct.item.id, name: aproduct.item.size};
+      const findnode = this.findParent(aproduct.item.classid, nodes);
       if (findnode) {
         if (findnode.children) {
           findnode.children.push(ci);
@@ -108,61 +59,25 @@ export class GoodsService {
   setLanguage(language) {
     this.cv.setLanguage(language);
   }
+
+  public currentData(): Observable<any> {
+    return this._data.asObservable();
+  }
+
+  public updateData() {
+    const that = this;
+    const data = [];
+    return Promise.all(this.get()).then(rs => {
+      const kinds = new Kind(rs[0]);
+      const products = new Product(rs[1]);
+      const currencys = new Currency(rs[2]);
+      return of([kinds, products, currencys]).toPromise();
+    });
+  }
+
   get() {
     const success = [
       function (data) {
-        data.find = function(id) {
-          const cid = parseInt(id , 10);
-          if (cid > 0) {
-            for (const pn in data) {
-              if (parseInt(data[ pn ].id, 10) === cid) {
-                return data[pn];
-              }
-            }
-          }
-          return null;
-        };
-        data.findByParentId = function(parentid) {
-          for (const pn in data) {
-            if (data[ pn ].parentid === parentid) {
-              return data[pn];
-            }
-          }
-          return null;
-        };
-        data.parentNames = function(parentid) {
-          let name = '根结点';
-          const pid = +parentid;
-          const rec = data.findByParentId(pid);
-          if (rec != null) {
-            name = rec.names;
-          }
-          return name;
-        };
-        data.kindNames = function(parentid) {
-          let pid = +parentid;
-          let rec = null;
-          while (pid > 0) {
-            rec = data.find(pid);
-            pid = rec.parentid;
-          }
-          return rec ? [rec.names[0].replace('Products', ''), rec.names[1].replace('制品', '')] : null;
-        };
-        data.longNames = function(id) {
-          const rec = data.find(id);
-          if (rec != null) {
-            const kind = data.kindNames(rec.parentid);
-            return kind ? [kind[0] + rec.names[0], kind[1] + rec.names[1]] : null;
-          }
-          return null;
-        };
-        data.shortNames = function(id) {
-          const rec = data.find(id);
-          if (rec != null) {
-            return rec.names;
-          }
-          return null;
-        };
         return data;
       },
 
@@ -221,8 +136,8 @@ export class GoodsService {
     ];
 
     const promises = [];
-    for(let i in ps) {
-      for(var k in ps[i]) {
+    for (const i of Object.keys(ps)) {
+      for (const k of Object.keys(ps[i])) {
         promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
       }
     }

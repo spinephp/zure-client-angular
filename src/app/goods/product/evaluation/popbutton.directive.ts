@@ -9,7 +9,7 @@ export class PopbuttonDirective {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private es: EvaluationService
+    // private es: EvaluationService
     ) { }
   @HostListener('mouseenter') onMouseEnter() {
     if ( !PopbuttonDirective.btn) {

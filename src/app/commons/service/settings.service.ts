@@ -68,6 +68,8 @@ export class SettingsService {
     return this._datas[name];
   };
   delete = function(name: string) {
-    delete this._datas[name];
+    if (this._datas[name]) {
+      delete this._datas[name];
+    }
   };
 }

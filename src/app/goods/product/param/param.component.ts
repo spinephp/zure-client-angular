@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductComponent } from '../product.component';
 import { LocalStorage } from '../../../commons/provider/local-storage';
 import { ValuesService } from '../../../commons/service/values.service';
+import { AProduct } from '../../classes/product';
+import { Kind } from '../../classes/kind';
 
 @Component({
   selector: 'app-param',
@@ -9,8 +11,8 @@ import { ValuesService } from '../../../commons/service/values.service';
   styleUrls: ['./param.component.scss']
 })
 export class ParamComponent implements OnInit {
-  private goods;
-  private kind;
+  private goods: AProduct;
+  private kind: Kind[];
   private languageid;
   constructor(
     private _parent: ProductComponent,
@@ -20,7 +22,7 @@ export class ParamComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.get('languageid') as number | 1;
+    this.languageid = +this.ls.get('languageid') | 1;
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });

@@ -5,6 +5,9 @@ import { ValuesService } from '../commons/service/values.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { isNumber } from 'util';
 import { ITreeState } from 'angular-tree-component';
+import { Kind } from './classes/kind';
+import { AProduct, Product } from './classes/product';
+import { Currency } from './classes/currency';
 
 @Component({
   selector: 'app-goods',
@@ -13,14 +16,25 @@ import { ITreeState } from 'angular-tree-component';
   providers: [GoodsService]
 })
 export class GoodsComponent implements OnInit {
-  public languageid: number;
-  public goodsClass = [];
-  public goods = [];
-  private currency = [];
+  private _languageid: number;
+  get languageid(): number { return this._languageid; }
+  set languageid(langid: number) { this._languageid = langid; }
+  private _goodsClass: Kind;
+  get goodsClass(): Kind { return this._goodsClass; }
+  set goodsClass(gclass: Kind) { this._goodsClass = gclass; }
+  private _goods: Product;
+  get goods(): Product { return this._goods; }
+  set goods(goods: Product) { this._goods = goods; }
+  private currency: Currency[] = [];
   private selRow: number;
   public nodes = [{id: 1, name: 'ss'}];
   @ViewChild('tree') tree;
-  state: ITreeState;
+  get state(): ITreeState {
+    return this.ls.get('treeState') && JSON.parse(this.ls.get('treeState'));
+  }
+  set state(state: ITreeState) {
+    this.ls.set('treeState', JSON.stringify(state));
+  }
 
   options = {};
 
@@ -34,7 +48,8 @@ export class GoodsComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.get('languageid') as number | 1;
+    this.languageid = +this.ls.get('languageid') | 1;
+    // this.hs.updateData();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
       that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, value || 1);
@@ -49,7 +64,7 @@ export class GoodsComponent implements OnInit {
     this.router.params.subscribe(params => {
       that.selRow = that.router.snapshot.params['id'];
       if (that.selRow === undefined || params.id === undefined) {
-        that.selRow = params.id || that.goodsClass[0].id;
+        that.selRow = +params.id || +that.goodsClass.data[0]['item']['id'];
         // that.nodechoose(that.selRow);
       }
     });
@@ -71,5 +86,10 @@ export class GoodsComponent implements OnInit {
   };
   nodeActivate(event) {
     this.nodechoose(event.node.id);
+  }
+  activeNode(id) {
+    const node = this.tree.treeModel.getNodeById(id);
+    node.expand();
+    node.setActiveAndVisible();
   }
 }

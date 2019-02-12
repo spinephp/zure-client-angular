@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SettingsService } from '../../../commons/service/settings.service';
 import { IndexService } from '../index//index.service';
 
@@ -7,16 +6,19 @@ import { IndexService } from '../index//index.service';
   providedIn: 'root'
 })
 export class IndexResolveService {
-  private cid;
   constructor(
-    private router: Router,
-    private cv: SettingsService,
-    private is: IndexService
+    public cv: SettingsService,
+    public is: IndexService
     ) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): {} {
+  resolve(): {} {
     const that = this;
     const word: {} = {
-      'News': ['新闻', 'zz']
+      'ITEM': ['项目'],
+      'UNIT': ['单位'],
+      'SPEC': ['指标'],
+      'ENVIRONMENT': ['检测环境'],
+      'Physico index': ['物理指标'],
+      'Chemical index': ['化学指标']
     };
     this.cv.addLanguages(word);
     return Promise.all(that.is.get()).then(rs => {

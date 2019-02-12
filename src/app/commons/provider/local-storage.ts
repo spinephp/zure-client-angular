@@ -12,7 +12,7 @@ export class LocalStorage {
     this.localStorage[key] = value;
   }
 
-  public get(key: string): string | number {
+  public get(key: string): string {
     return this.localStorage[key];
   }
 

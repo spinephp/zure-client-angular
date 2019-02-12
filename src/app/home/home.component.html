@@ -62,8 +62,8 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-			<p class='news-item' *ngFor="let anew of news; let i = index" (click)="newschoose(i)">
-				{{anew.titles | translate:languageid}}
+			<p class='news-item' *ngFor="let anew of news.data; let i = index" (click)="newschoose(i)">
+				{{anew.item.titles | translate:languageid}}
 			</p>
 			</div>
 		</div>
@@ -109,11 +109,11 @@
 				</h3>
 			</div>
 			<div class="products">
-				<div class="goods" *ngFor="let good of goods" (click)="goodschoose(good.id)">
-					<img src="{{rooturl}}images/good/{{good.picture}}" alt="{{goodsClass.longNames(good.classid)[languageid]+'-'+good.size}}" />
-					<p>{{goodsClass.kindNames(good.classid) | translate:languageid }}</p>
-					<p>{{goodsClass.shortNames(good.classid) | translate:languageid }}</p>
-					<p>{{good.size}}</p>
+				<div class="goods" *ngFor="let good of goods.data" (click)="goodschoose(good.item.id)">
+					<img src="{{rooturl}}images/good/{{good.item.picture}}" alt="{{goodsClass.longNames(good.item.classid)[languageid]+'-'+good.item.size}}" />
+					<p>{{goodsClass.names(good.item.classid) | translate:languageid }}</p>
+					<p>{{goodsClass.shortNames(good.item.classid) | translate:languageid }}</p>
+					<p>{{good.item.size}}</p>
 				</div>
 			</div>
 		</div>

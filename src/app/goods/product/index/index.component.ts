@@ -23,19 +23,19 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.get('languageid') as number | 1;
+    this.languageid = +this.ls.get('languageid') | 1;
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
     this.router.data.subscribe((data) => {
-      //data.data.subscribe((rs: {data: any[2]}) => {
+      // data.data.subscribe((rs: {data: any[2]}) => {
         if (data.data[0].length > 0) {
           that.chemicals = data.data[0][0];
           that.physicos = data.data[1];
         } else {
           that.route.navigate([''], {relativeTo: that.router});
         }
-        //});
+        // });
     });
   }
 }

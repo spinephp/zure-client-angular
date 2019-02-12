@@ -18,7 +18,7 @@ export class NewsResolveService implements Resolve<{}> {
       'News': ['新闻', 'zz']
     };
     this.cv.addLanguages(word);
-    return this.ns.get().then(rs => {
+    return this.ns.updateData().then(rs => {
       return rs;
     });
   }

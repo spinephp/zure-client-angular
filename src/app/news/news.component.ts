@@ -4,6 +4,7 @@ import {NewsService} from '../news//news.service';
 import {LocalStorage} from '../commons/provider/local-storage';
 import {ValuesService} from '../commons/service/values.service';
 import {Router, ActivatedRoute} from '@angular/router';
+import { News } from './classes/news';
 
 @Component({
   selector: 'app-news',
@@ -12,8 +13,8 @@ import {Router, ActivatedRoute} from '@angular/router';
   providers: [NewsService ]
 })
 export class NewsComponent implements OnInit {
-  private news = [];
-  private selRow = 0;
+  private news: News;
+  private selRow: Number = 0;
   private languageid;
   constructor(
     private _activeRouter: ActivatedRoute,
@@ -31,10 +32,11 @@ export class NewsComponent implements OnInit {
       that.languageid = value;
     });
     this._activeRouter.data.subscribe((data: {}) => {
-      this.news = data['data'];
+      that.news = data['data'][0];
     });
+    // this._activeRouter.data.subscribe(params => {
     this._activeRouter.queryParams.subscribe(params => {
-      that.selRow = params.id || 0;
+        that.selRow = +params.id || 0;
     });
   }
   newschoose = function(i) {

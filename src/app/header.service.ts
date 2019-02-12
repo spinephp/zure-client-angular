@@ -42,7 +42,7 @@ export class HeaderService {
     const ps = [
       {'?cmd=Qiye':
           {
-            'filter': JSON.stringify(['id', 'names', 'addresses', 'tel', 'fax', 'email', 'domain', 'introductions', 'icp']),
+            'filter': JSON.stringify(['id', 'names', 'addresses', 'tel', 'fax', 'email', 'qq', 'domain', 'introductions', 'icp']),
             'token': token
           }
       },
@@ -61,8 +61,8 @@ export class HeaderService {
     ];
 
     const promises = [];
-    for(let i in ps) {
-      for(var k in ps[i]) {
+    for (const i of Object.keys(ps)) {
+      for (const k of Object.keys(ps[i])) {
         promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
       }
     }

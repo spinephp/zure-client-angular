@@ -1,13 +1,13 @@
 <div class="goods">
   <h3>
-    <h4 style='text-align:center;'>{{preNames | translate:_parent.languageid}}{{' - ' + aGoods.size}}</h4>
+    <h4 style='text-align:center;'>{{preNames | translate:_parent.languageid}}{{' - ' + aGoods.item.size}}</h4>
   </h3>
   <div class="row clearfix">
     <div class="media product-top">
-      <img class="align-self-start" src="http://192.168.1.16/woo/images/good/{{aGoods.picture}}" class="media-object img-rounded" >
+      <img class="align-self-start" src="http://192.168.1.16/woo/images/good/{{aGoods.item.picture}}" class="media-object img-rounded" >
       <div class="media-body ml-3">
-        <p><label>{{'Code' | translate:languageid}}: </label>{{aGoods.id}}</p>
-        <p><label>{{'Price' | translate:languageid}}: </label><b>$</b>{{aGoods.price}}</p>
+        <p><label>{{'Code' | translate:languageid}}: </label>{{aGoods.item.id}}</p>
+        <p><label>{{'Price' | translate:languageid}}: </label><b>$</b>{{aGoods.item.price}}</p>
         <p><label>{{'Evaluation' | translate:languageid}}: </label><span *ngFor="let item of evaluation.stars[0]" class="fa fa-star"></span><span *ngFor="let item of evaluation.stars[1]" class="fa fa-star-half-o"></span><span *ngFor="let item of evaluation.stars[2]" class="fa fa-star-o"></span>({{evaluation.records}} people to participate in the evaluation)</p>
         <p><label>{{'Purchase quantity' | translate:languageid}}: </label><span><input type='number' class="" ngModel="{{buynum|number}}" /></span></p>
         <p><label><button class="btn btn-outline-primary btn-sm mr-3"><span class="fa fa-shopping-cart"></span> {{'Add to cart' | translate:languageid}}</button></label><button class="btn btn-outline-primary btn-sm"><span class="fa fa-plus"></span> {{'With focus on' | translate:languageid}}</button></p>
