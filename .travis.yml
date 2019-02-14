@@ -1,21 +1,22 @@
 sudo: false
+# Use a trusty version of linux
+dist: trusty
+
+# Set language
 language: node_js
+
+# Set version of node
 node_js:
-  - "8"
+  - node
 
-cache:
-  directories:
-  - node_modules
-
-branches:
-  only:
-  - master
-
+# Install Chrome addon
 addons:
-  chrome: stable  
+  - chrome: stable
 
+# Install packages
 install:
-  npm install
-  
+  - npm install
+
+# Run tests in continuous integration mode with headless chrome
 script:
-  npm run test
+  - karma start --single-run  --browsers ChromeHeadless
