@@ -28,4 +28,4 @@ install:
 
 # Run tests in continuous integration mode
 script:
-  - ng test --single-run
+  - ng test
