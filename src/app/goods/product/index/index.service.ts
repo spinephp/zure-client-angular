@@ -29,22 +29,6 @@ export class IndexService {
     this.cv.setLanguage(language);
   }
   get() {
-    const success = [
-      function (data) {
-        return data;
-      },
-
-      function (data) {
-        return data;
-      },
-
-      function (data) {
-        return data;
-      }
-    ];
-    function error(err) {
-      alert('error occured!\n' + err);
-    }
     const token = this.cv.sessionid;
     const cid = this.cv.get('chemicalid');
     const ps = [
