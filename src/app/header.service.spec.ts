@@ -64,8 +64,8 @@ describe('HeaderService', () => {
       expect(sRequest.get).toHaveBeenCalled();
       expect(sRequest.get).toHaveBeenCalledTimes(1);
 
-      expect(res.data[0].token).toBe('');
-      expect(res.data[0].sessionid).toBe('');
+      expect(res['data'][0].token).toBe('');
+      expect(res['data'][0].sessionid).toBe('');
 
       Promise.all(service.get()).then(rs => {
         // console.log(rs);
