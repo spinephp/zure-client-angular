@@ -109,22 +109,6 @@ export class EvaluationService {
     }
     return labelkind;
   }
-  _get(param) {
-    function success(data) {
-      return data;
-    }
-
-    function error(err) {
-      alert('error occured!\n' + err);
-    }
-    const promises = [];
-    for (const i of Object.keys(param)) {
-      for (const k of Object.keys(param[i])) {
-        promises.push(this.requestService.get(this.cv.baseUrl + k, param[i][k]).then(success, error));
-      }
-    }
-    return promises;
-  }
   get(proid): Array<Promise<[]>> {
     const token = this.cv.sessionid;
 
@@ -166,7 +150,7 @@ export class EvaluationService {
           }
       },
     ];
-    return this._get(ps);
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
   getSecond(evals: any[], consults: any[]) {
     const ids = [];
@@ -209,7 +193,7 @@ export class EvaluationService {
           }
       },
     ];
-    return this._get(ps);
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
   getThird(evals: any[], replys: any[]) {
     const ids = [];
@@ -240,7 +224,7 @@ export class EvaluationService {
           }
       }
     ];
-    return this._get(ps);
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
   getForth(users: any[]) {
     const ids = [];
@@ -263,6 +247,6 @@ export class EvaluationService {
           }
       }
     ];
-    return this._get(ps);
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
 }

@@ -21,6 +21,23 @@ export class RequestService {
   }
    */
 
+  _get(param, baseUrl: string) {
+    function success(data) {
+      return data;
+    }
+
+    function error(err) {
+      alert('error occured!\n' + err);
+    }
+    const promises = [];
+    for (const i of Object.keys(param)) {
+      for (const k of Object.keys(param[i])) {
+        promises.push(this.get(baseUrl + k, param[i][k]).then(success, error));
+      }
+    }
+    return promises;
+  }
+
   /**
    * get请求
    * @param url 接口地址

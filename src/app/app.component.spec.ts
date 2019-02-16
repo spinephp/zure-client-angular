@@ -1,5 +1,5 @@
 import { BrowserModule, By } from '@angular/platform-browser';
-import { Directive, ElementRef, HostListener, Input, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,6 +10,8 @@ import { HttpModule } from '@angular/http';
 import { LocalStorage } from './commons/provider/local-storage';
 import { ValuesService } from './commons/service/values.service';
 import { HeaderService } from './header.service';
+import { of } from 'rxjs';
+import { CompanyData } from './classes/company';
 
 @Directive({
   selector: '[routerLink]',
@@ -25,6 +27,50 @@ export class RouterLinkStubDirective {
     this.navigatedTo = this.linkParams;
   }
 }
+  const companydatas: CompanyData[] = [
+  {
+    id: '1',
+    addresses: ['12 Taishan Road,Lianyungang Eco. &amp; Tech. Developme', '江苏连云港经济技术开发区泰山路12号'],
+    domain: 'http://www.yrr8.com',
+    email: 'admin@yrr8.com',
+    fax: '+86 518 82340137',
+    icp: '苏ICP备1201145号',
+    introductions: [
+      'YunRui refractories co., LTD is a manufacturer specialized ',
+      '　　连云港云瑞耐火材料有限公司系生产碳化硅耐火制品的专业厂家，年生产能力2000吨'
+    ],
+    names: ['LIANYUNGANG YUNRUI REFRACTORY CO,.LTD', '连云港云瑞耐火材料有限公司'],
+    qq: '2531841386',
+    tel: '+86 518 82340137'
+  }
+];
+const languagedatas = [
+  {id: '1', name_en: 'english'},
+  {id: '2', name_en: 'chinese'}
+];
+const menudatas = [
+  {id: '6', names: ['News', '企业新闻'], command: 'news'},
+  {id: '7', names: ['Products', '产品中心'], command: 'products'},
+  {id: '8', names: ['Contact Us', '联系我们'], command: 'ShowContactUs'},
+  {id: '9', names: ['My yunrui', '我的云瑞'], command: 'Member'},
+  {id: '10', names: ['Leave word', '在线留言'], command: 'ShowLeaveMessage'}
+];
+
+const logindatas = {ok: true, data: [{
+  login: true,
+  token: '-----BEGIN PUBLIC KEY-----↵123456ANBgkqhkiG9w0BAQE…6aZ5I1SEKppSw1↵3wIDAQAB↵-----END PUBLIC KEY-----↵',
+  sessionid: 'j12345662bv34crvothcb1q0rj'
+}]};
+
+@Injectable()
+export class StubHeaderService {
+  public heart(): Promise<Object> {
+    return of(logindatas).toPromise();
+  }
+  public get() {
+    return [of(companydatas).toPromise(), of(languagedatas).toPromise(), of(menudatas).toPromise()];
+  }
+}
 
 describe('AppComponent', () => {
   let fixture;
@@ -33,7 +79,8 @@ describe('AppComponent', () => {
   let de;
   let translate;
   let vs;
-  let hs;
+  let hs: HeaderService;
+  let ls;
   let router;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,12 +96,15 @@ describe('AppComponent', () => {
       ],
       providers: [
         TranslatePipe,
-        HeaderService,
         ValuesService,
-        LocalStorage
+        LocalStorage,
+        { provide: HeaderService, useClass: StubHeaderService }
       ],
       schemas: [ NO_ERRORS_SCHEMA ] // 路由至新页面时，忽略组件没加载错误
     }).compileComponents().then(() => {
+      // hs = TestBed.get(HeaderService, StubHeaderService);
+      ls = TestBed.get(LocalStorage);
+      spyOn(ls, 'set').and.callThrough();
       fixture = TestBed.createComponent(AppComponent);
       component = fixture.componentInstance;
       element1 = fixture.nativeElement;
@@ -62,12 +112,24 @@ describe('AppComponent', () => {
       const injector = fixture.debugElement.injector;
       translate = injector.get(TranslatePipe);
       vs = injector.get(ValuesService);
+      spyOn(vs, 'setQiye').and.callThrough();
       hs = injector.get(HeaderService);
+      spyOn(hs, 'heart').and.callFake(() => {
+        return of(logindatas).toPromise();
+      });
+      spyOn(hs, 'get').and.callFake(() => {
+        return [of(companydatas).toPromise(), of(languagedatas).toPromise(), of(menudatas).toPromise()];
+      });
+      spyOn(component, 'selectChangeLanguage').and.callThrough();
+      // ls = injector.get(LocalStorage);
       router = injector.get(Router);
       router.initialNavigation();
       fixture.detectChanges();
       });
   }));
+  // beforeEach(inject([HeaderService], s => {
+  //   hs = s;
+  // }));
 
   it('should create the app', () => {
     component.languageid = 0;
@@ -78,10 +140,26 @@ describe('AppComponent', () => {
     // fixture.detectChanges();
     fixture.whenStable().then(() => { // wait for async getQuote
       fixture.detectChanges();        // update view with quote
-      expect(component.qiye).toBeDefined();
-      for (const field of ['id', 'names', 'addresses', 'tel', 'fax', 'email', 'qq', 'domain', 'introductions', 'icp']) {
-        expect(component.qiye[field]).toBeDefined();
-      }
+      expect(hs.heart).toHaveBeenCalled();
+      expect(hs.heart).toHaveBeenCalledTimes(1);
+      expect(hs.get).toHaveBeenCalled();
+      expect(hs.get).toHaveBeenCalledTimes(1);
+
+      expect(ls.set).toHaveBeenCalled();
+      expect(ls.set).toHaveBeenCalledTimes(4);
+      expect(ls.set).toHaveBeenCalledWith('publickey', logindatas.data[0].token);
+      expect(ls.set).toHaveBeenCalledWith('sessionid', logindatas.data[0].sessionid);
+      expect(ls.set).toHaveBeenCalledWith('qq', companydatas[0].qq);
+      expect(ls.set).toHaveBeenCalledWith('languageid', component.languageid);
+
+      expect(vs.setQiye).toHaveBeenCalled();
+      expect(vs.setQiye).toHaveBeenCalledTimes(1);
+      expect(vs.setQiye).toHaveBeenCalledWith(companydatas[0]);
+
+      expect(component.selectChangeLanguage).toHaveBeenCalled();
+      expect(component.selectChangeLanguage).toHaveBeenCalledTimes(1);
+
+      expect(component.qiye).toBe(companydatas[0]);
     });
   }));
 
@@ -93,7 +171,7 @@ describe('AppComponent', () => {
   });
 
   it('should have a language select', async(() => {
-    spyOn(component, 'selectChangeLanguage');
+    // spyOn(component, 'selectChangeLanguage');
     fixture.whenStable().then(() => {
       fixture.detectChanges();        // update view with quote
       const s = element1.querySelectorAll('.selectpicker');
@@ -175,8 +253,21 @@ describe('AppComponent', () => {
   }));
 
   it('can get RouterLinks from template', done => {
+    hs.heart().then(res => {
+      fixture.detectChanges();        // update view with quote
+      expect(res).toBe(logindatas);
+      done();
+    });
+  });
+
+  it('can get RouterLinks from template', done => {
     Promise.all(hs.get()).then((rs) => {
       fixture.detectChanges();        // update view with quote
+      expect(rs.length).toBe(3);
+      expect(rs[0]).toBe(companydatas);
+      expect(rs[1]).toBe(languagedatas);
+      expect(rs[2]).toBe(menudatas);
+
       const allLinks = de.queryAll(By.directive(RouterLinkStubDirective));
       const links = allLinks.map(linkDe => linkDe.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective);
       const navs: Object[] = rs[2] as Object[];
@@ -189,7 +280,7 @@ describe('AppComponent', () => {
     });
   });
 
-  it('should navigate to "home" immediately', async(() => {
+  it('should navigate to home immediately', async(() => {
     router.navigate(['home']).then(() => {
       expect(location.pathname.endsWith('/home')).toBe(true);
     }).catch(e => console.log(e));

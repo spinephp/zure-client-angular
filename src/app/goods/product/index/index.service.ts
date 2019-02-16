@@ -63,13 +63,6 @@ export class IndexService {
           }
       }
     ];
-
-    const promises = [];
-    for (const i of Object.keys(ps)) {
-      for (const k of Object.keys(ps[i])) {
-        promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
-      }
-    }
-    return promises;
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
 }

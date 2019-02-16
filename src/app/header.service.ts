@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from './commons/service/request.service';
 import {SettingsService} from './commons/service/settings.service';
+import { of } from 'rxjs';
+import { Company, ACompany, CompanyData } from './classes/company';
+import { Language, LanguageData } from './classes/language';
+import { Menu, MenuData } from './classes/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +14,7 @@ export class HeaderService {
   constructor(private requestService: RequestService, private cv: SettingsService) {
     cv.setLanguage({});
   }
-  heart() {
+  heart(): Promise<Object> {
     return this.requestService.get(this.cv.baseUrl + '?cmd=IsLogin', undefined)
     .then(res => {
       return res;
@@ -18,25 +22,19 @@ export class HeaderService {
       return res;
     });
   }
-  get() {
-    const success = [
-      function (data) {
-        data[0].introduction = function (languaeid) {
-          const doc = data[0].introductions[this.cv.languageid];
-          return doc.split('^');
-        };
-        return data[0];
-      },
-      function (data) {
-        return data;
-      },
-      function (data) {
-        return data;
-      }
-    ];
-    function error(err) {
-      alert('error occured!\n' + err);
-    }
+
+  public updateData() {
+    const that = this;
+    const data = [];
+    return Promise.all(this.get()).then(rs => {
+      const companys = new Company(<CompanyData[]>rs[0]);
+      const languages = new Language(<LanguageData[]>rs[1]);
+      const menus = new Menu(<MenuData[]>rs[2]);
+      return of([companys, languages, menus]).toPromise();
+    });
+  }
+
+  get(): Promise<Object[]>[] {
     const token = this.cv.sessionid;
 
     const ps = [
@@ -59,13 +57,6 @@ export class HeaderService {
           }
       }
     ];
-
-    const promises = [];
-    for (const i of Object.keys(ps)) {
-      for (const k of Object.keys(ps[i])) {
-        promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
-      }
-    }
-    return promises;
+    return this.requestService._get(ps, this.cv.baseUrl);
   }
 }

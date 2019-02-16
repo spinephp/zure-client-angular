@@ -31,11 +31,11 @@ export class AppComponent implements OnInit {
         that.ls.set('sessionid', res.data[0].sessionid);
         Promise.all(this.headerService.get()).then(rs => {
           // console.log(rs);
-          that.qiye = rs[0];
-          that.vs.setQiye(rs[0]);
+          that.qiye = rs[0][0];
+          that.vs.setQiye(rs[0][0]);
           that.languages = rs[1];
           that.navigations = rs[2];
-          that.ls.set('qq', rs[0].qq);
+          that.ls.set('qq', rs[0][0]['qq']);
           const lid = that.ls.get('languageid') || 1;
           that.selectChangeLanguage(lid);
         });
