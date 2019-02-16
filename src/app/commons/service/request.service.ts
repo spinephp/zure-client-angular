@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Http} from '@angular/http';
+import {SettingsService} from './settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private ss: SettingsService) { }
 
   /**
    * 统一发送请求
@@ -21,7 +22,21 @@ export class RequestService {
   }
    */
 
-  _get(param, baseUrl: string) {
+  getUrl(cmd: string, filter: string[], condition: Object[] = null) {
+    const url = {};
+    const cmdstr = `?cmd=${cmd}`;
+    const data = {'token': this.ss.sessionid};
+    if (filter && filter.length > 0) {
+      data['filter'] = JSON.stringify(filter);
+    }
+    if (condition && condition.length > 0) {
+      data['cond'] = JSON.stringify(condition);
+    }
+    url[cmdstr] = data;
+    return url;
+  }
+
+  _get(param) {
     function success(data) {
       return data;
     }
@@ -32,7 +47,7 @@ export class RequestService {
     const promises = [];
     for (const i of Object.keys(param)) {
       for (const k of Object.keys(param[i])) {
-        promises.push(this.get(baseUrl + k, param[i][k]).then(success, error));
+        promises.push(this.get(this.ss.baseUrl + k, param[i][k]).then(success, error));
       }
     }
     return promises;

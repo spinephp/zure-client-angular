@@ -32,50 +32,21 @@ export class HomeService {
   }
 
   get() {
-    const success = [
-      function (data) {
-        return data;
-      },
-      function (data) {
-        return data;
-      },
-      function (data) {
-        return data;
-      }
-    ];
-    function error(err) {
-      alert('error occured!\n' + err);
-    }
-    const token = this.cv.sessionid;
-
     const ps = [
-      {'? cmd=ProductClass':
-          {
-            'filter': JSON.stringify(['id', 'parentid', 'names', 'introductions']),
-            'token': token
-          }
-      },
-      {'?cmd=Product':
-          {
-            'filter': JSON.stringify(['id', 'classid', 'size', 'picture']),
-            'cond': JSON.stringify([{ 'field': 'homeshow', 'value': 'Y', 'operator': 'eq' }]),
-            'token': token
-          }
-      },
-      {'?cmd=News':
-          {
-            'filter': JSON.stringify(['id', 'titles', 'contents', 'time']),
-            'token': token
-          }
-      }
+      this.requestService.getUrl(
+        'ProductClass',
+        ['id', 'parentid', 'names', 'introductions'],
+      ),
+      this.requestService.getUrl(
+        'Product',
+        ['id', 'classid', 'size', 'picture'],
+        [{ 'field': 'homeshow', 'value': 'Y', 'operator': 'eq' }]
+      ),
+      this.requestService.getUrl(
+        'News',
+        ['id', 'titles', 'contents', 'time'],
+      ),
     ];
-
-    const promises = [];
-    for (const i of Object.keys(ps)) {
-      for (const k of Object.keys(ps[i])) {
-        promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
-      }
-    }
-    return promises;
+    return this.requestService._get(ps);
   }
 }

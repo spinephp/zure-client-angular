@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../../../commons/service/request.service';
-import {SettingsService} from '../../../commons/service/settings.service';
+// import {SettingsService} from '../../../commons/service/settings.service';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
 
@@ -23,7 +23,7 @@ export class EvaluationService {
 
   constructor(
     public requestService: RequestService,
-    public cv: SettingsService,
+    // public cv: SettingsService,
   ) {
   }
 
@@ -110,47 +110,26 @@ export class EvaluationService {
     return labelkind;
   }
   get(proid): Array<Promise<[]>> {
-    const token = this.cv.sessionid;
-
     const ps = [
-      {'?cmd=ProductLabel':
-          {
-            'filter': JSON.stringify(['id', 'names']),
-            'token': token
-          }
-      },
-      {'?cmd=Grade':
-          {
-            'filter': JSON.stringify(['id', 'names', 'image']),
-            'token': token
-          }
-      },
-      {'?cmd=ProductEval':
-          {
-            'filter': JSON.stringify([
-              'id', 'proid', 'userid', 'label', 'useideas', 'star', 'date',
-              'useful', 'status', 'feelid']),
-            'cond': JSON.stringify([{'field': 'proid', value: [proid], 'operator': 'in'}]),
-            'token': token
-          }
-      },
-      {'?cmd=ProductUse':
-          {
-            'filter': JSON.stringify(['id', 'proid', 'userid', 'title', 'content', 'images', 'date', 'status']),
-            'cond': JSON.stringify([{'field': 'proid', value: [proid], 'operator': 'in'}]),
-            'token': token
-          }
-      },
-      {'?cmd=ProductConsult':
-          {
-            'filter': JSON.stringify([
-              'id', 'proid', 'userid', 'type', 'content', 'time', 'reply', 'replytime']),
-            'cond': JSON.stringify([{'field': 'proid', value: [proid], 'operator': 'in'}]),
-            'token': token
-          }
-      },
+      this.requestService.getUrl('ProductLabel', ['id', 'names']),
+      this.requestService.getUrl('Grade', ['id', 'names', 'image']),
+      this.requestService.getUrl(
+        'ProductEval',
+        ['id', 'proid', 'userid', 'label', 'useideas', 'star', 'date', 'useful', 'status', 'feelid'],
+        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+      ),
+      this.requestService.getUrl(
+        'ProductUse',
+        ['id', 'proid', 'userid', 'label', 'useideas', 'star', 'date', 'useful', 'status', 'feelid'],
+        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+      ),
+      this.requestService.getUrl(
+        'ProductConsult',
+        ['id', 'proid', 'userid', 'type', 'content', 'time', 'reply', 'replytime'],
+        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+      ),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
   getSecond(evals: any[], consults: any[]) {
     const ids = [];
@@ -174,26 +153,19 @@ export class EvaluationService {
     if (ids.length === 0) {
       ids.push(-1);
     }
-    const token = this.cv.sessionid;
-    const cond1 = JSON.stringify([{'field': 'evalid', 'value': ids1, 'operator': 'in'}]);
-    const cond2 = JSON.stringify([{'field': 'userid', 'value': ids, 'operator': 'in'}]);
     const ps = [
-      {'? cmd=EvalReply':
-          {
-            'filter': JSON.stringify(['id', 'evalid', 'userid', 'parentid', 'content', 'time']),
-            'cond': cond1,
-            'token': token
-          }
-      },
-      {'?cmd=CustomGrade':
-          {
-            'filter': JSON.stringify(['id', 'userid', 'gradeid']),
-            'cond': cond2,
-            'token': token
-          }
-      },
+      this.requestService.getUrl(
+        'EvalReply',
+        ['id', 'evalid', 'userid', 'parentid', 'content', 'time'],
+        [{'field': 'evalid', 'value': ids1, 'operator': 'in'}]
+      ),
+      this.requestService.getUrl(
+        'CustomGrade',
+        ['id', 'userid', 'gradeid'],
+        [{'field': 'userid', 'value': ids, 'operator': 'in'}]
+      ),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
   getThird(evals: any[], replys: any[]) {
     const ids = [];
@@ -213,18 +185,14 @@ export class EvaluationService {
     if (ids.length === 0) {
       ids.push(-1);
     }
-    const token = this.cv.sessionid;
-    const cond0 = JSON.stringify([{'field': 'id', 'value': ids, 'operator': 'in'}]);
     const ps = [
-      {'? cmd=Person':
-          {
-            'filter': JSON.stringify(['id', 'username', 'picture', 'nick', 'country']),
-            'cond': cond0,
-            'token': token
-          }
-      }
+      this.requestService.getUrl(
+        'Person',
+        ['id', 'username', 'picture', 'nick', 'country'],
+        [{'field': 'id', 'value': ids, 'operator': 'in'}]
+      ),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
   getForth(users: any[]) {
     const ids = [];
@@ -236,17 +204,13 @@ export class EvaluationService {
     if (ids.length === 0) {
       ids.push(-1);
     }
-    const token = this.cv.sessionid;
-    const cond0 = JSON.stringify([{'field': 'id', 'value': ids, 'operator': 'in'}]);
     const ps = [
-      {'? cmd=Country':
-          {
-            'filter': JSON.stringify(['id', 'names', 'code3', 'emoji']),
-            'cond': cond0,
-            'token': token
-          }
-      }
+      this.requestService.getUrl(
+        'Country',
+        ['id', 'names', 'code3', 'emoji'],
+        [{'field': 'id', 'value': ids, 'operator': 'in'}]
+      ),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
 }

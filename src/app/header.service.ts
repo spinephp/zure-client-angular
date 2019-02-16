@@ -38,25 +38,10 @@ export class HeaderService {
     const token = this.cv.sessionid;
 
     const ps = [
-      {'?cmd=Qiye':
-          {
-            'filter': JSON.stringify(['id', 'names', 'addresses', 'tel', 'fax', 'email', 'qq', 'domain', 'introductions', 'icp']),
-            'token': token
-          }
-      },
-      {'?cmd=Language':
-          {
-            'filter': JSON.stringify(['id', 'name_en']),
-            'token': token
-          }
-      },
-      {'?cmd=Navigation':
-          {
-            'filter': JSON.stringify(['id', 'names', 'command']),
-            'token': token
-          }
-      }
+      this.requestService.getUrl('Qiye', ['id', 'names', 'addresses', 'tel', 'fax', 'email', 'qq', 'domain', 'introductions', 'icp']),
+      this.requestService.getUrl('Language', ['id', 'name_en']),
+      this.requestService.getUrl('Navigation', ['id', 'names', 'command']),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
 }

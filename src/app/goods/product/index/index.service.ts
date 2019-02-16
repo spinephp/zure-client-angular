@@ -29,24 +29,18 @@ export class IndexService {
     this.cv.setLanguage(language);
   }
   get() {
-    const token = this.cv.sessionid;
     const cid = this.cv.get('chemicalid');
     const ps = [
-      {'? cmd=Chemicalindex':
-          {
-            'filter': JSON.stringify(['id', 'sic', 'si3n4', 'sio2', 'si', 'fe2o3', 'cao', 'al2o3']),
-            'cond': JSON.stringify([{'field': 'id', 'operator': 'eq', 'value': cid}]),
-            'token': token
-          }
-      },
-      {'?cmd=Physicoindex':
-          {
-            'filter': JSON.stringify(['id', 'names', 'unit', 'operator', 'value', 'environment']),
-            // 'cond': JSON.stringify([{'field': 'id', 'operator': 'eq', 'value': pid}]),
-            'token': token
-          }
-      }
+      this.requestService.getUrl(
+        'Chemicalindex',
+        ['id', 'sic', 'si3n4', 'sio2', 'si', 'fe2o3', 'cao', 'al2o3'],
+        [{'field': 'id', 'operator': 'eq', 'value': cid}]
+      ),
+      this.requestService.getUrl(
+        'Physicoindex',
+        ['id', 'names', 'unit', 'operator', 'value', 'environment'],
+      ),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
 }

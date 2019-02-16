@@ -4,7 +4,7 @@ import {SettingsService} from '../commons/service/settings.service';
 import { findNode } from '@angular/compiler';
 import { isNumber } from 'util';
 import { Kind } from './classes/kind';
-import { Product } from './classes/product';
+import { Product, ProductData } from './classes/product';
 import { Currency } from './classes/currency';
 import { Subject, Observable, of } from 'rxjs';
 
@@ -75,26 +75,17 @@ export class GoodsService {
     });
   }
 
-  getUrl(cmd: string, filter: string[]) {
-    const data = {'filter': JSON.stringify(filter), 'token': this.cv.sessionid};
-    const url = {};
-    const cmdstr = `?cmd=${cmd}`;
-    url[cmdstr] = data;
-    return url;
-  }
-
   get() {
-
     const ps = [
-      this.getUrl('ProductClass', ['id', 'parentid', 'names', 'introductions', 'picture']),
-      this.getUrl('Product', [
+      this.requestService.getUrl('ProductClass', ['id', 'parentid', 'names', 'introductions', 'picture']),
+      this.requestService.getUrl('Product', [
         'id', 'classid', 'size', 'length', 'width', 'think',
         'unitlen', 'unitwid', 'unitthi', 'picture', 'unit',
         'sharp', 'weight', 'price', 'returnnow', 'amount',
         'cansale', 'physicoindex', 'chemicalindex'
       ]),
-      this.getUrl('Currency', ['id', 'names', 'abbreviation', 'symbol', 'exchangerate']),
+      this.requestService.getUrl('Currency', ['id', 'names', 'abbreviation', 'symbol', 'exchangerate']),
     ];
-    return this.requestService._get(ps, this.cv.baseUrl);
+    return this.requestService._get(ps);
   }
 }
