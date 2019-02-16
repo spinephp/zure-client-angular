@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
       that.languageid = value;
     });
     this.headerService.heart().then(res => {
-      if (res.ok === true) {
-        that.ls.set('publickey', res.data[0].token);
-        that.ls.set('sessionid', res.data[0].sessionid);
+      if (res['ok'] === true) {
+        that.ls.set('publickey', res['data'][0].token);
+        that.ls.set('sessionid', res['data'][0].sessionid);
         Promise.all(this.headerService.get()).then(rs => {
           // console.log(rs);
           that.qiye = rs[0][0];
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
           that.selectChangeLanguage(lid);
         });
       } else {
-        console.log(res.error);
+        console.log(res['error']);
       }
     });
   }

@@ -75,73 +75,26 @@ export class GoodsService {
     });
   }
 
+  getUrl(cmd: string, filter: string[]) {
+    const data = {'filter': JSON.stringify(filter), 'token': this.cv.sessionid};
+    const url = {};
+    const cmdstr = `?cmd=${cmd}`;
+    url[cmdstr] = data;
+    return url;
+  }
+
   get() {
-    const success = [
-      function (data) {
-        return data;
-      },
-
-      function (data) {
-        data.find = function(id) {
-          const cid = +id;
-          if (cid > 0) {
-            for (const pn in data) {
-              if (+data[ pn ].id === cid) {
-                return data[pn];
-              }
-            }
-          }
-          return null;
-        };
-        return data;
-      },
-
-      function (data) {
-        data.choose = function(i) {
-          // $location.path('/ShowNews').search({id: i});
-          this.router.navigate(['ShowNews'], { queryParams: { id: 1 } });
-        };
-        return data;
-      }
-    ];
-    function error(err) {
-      alert('error occured!\n' + err);
-    }
-    const token = this.cv.sessionid;
 
     const ps = [
-      {'? cmd=ProductClass':
-          {
-            'filter': JSON.stringify(['id', 'parentid', 'names', 'introductions', 'picture']),
-            'token': token
-          }
-      },
-      {'?cmd=Product':
-          {
-            'filter': JSON.stringify([
-              'id', 'classid', 'size', 'length', 'width', 'think',
-              'unitlen', 'unitwid', 'unitthi', 'picture', 'unit',
-              'sharp', 'weight', 'price', 'returnnow', 'amount',
-              'cansale', 'physicoindex', 'chemicalindex'
-            ]),
-            'token': token
-          }
-      },
-      {'?cmd=Currency':
-          {
-            'filter': JSON.stringify(['id', 'names', 'abbreviation', 'symbol', 'exchangerate']),
-            'token': token
-          }
-      }
+      this.getUrl('ProductClass', ['id', 'parentid', 'names', 'introductions', 'picture']),
+      this.getUrl('Product', [
+        'id', 'classid', 'size', 'length', 'width', 'think',
+        'unitlen', 'unitwid', 'unitthi', 'picture', 'unit',
+        'sharp', 'weight', 'price', 'returnnow', 'amount',
+        'cansale', 'physicoindex', 'chemicalindex'
+      ]),
+      this.getUrl('Currency', ['id', 'names', 'abbreviation', 'symbol', 'exchangerate']),
     ];
     return this.requestService._get(ps, this.cv.baseUrl);
-
-    // const promises = [];
-    // for (const i of Object.keys(ps)) {
-    //   for (const k of Object.keys(ps[i])) {
-    //     promises.push(this.requestService.get(this.cv.baseUrl + k, ps[i][k]).then(success[i], error));
-    //   }
-    // }
-    // return promises;
   }
 }
