@@ -4,10 +4,13 @@ import { RequestService } from './request.service';
 import {Http, HttpModule, XHRBackend, BaseRequestOptions } from '@angular/http';
 import { inject } from '@angular/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { SettingsService } from './settings.service';
+import { LocalStorage } from '../provider/local-storage';
 function makeEnvironment() {
   return TestBed.configureTestingModule({
     providers: [
       MockBackend,
+      LocalStorage,
       BaseRequestOptions,
       {
         provide: Http,
@@ -23,11 +26,13 @@ describe('RequestService', () => {
   let service: RequestService;
   let spy: jasmine.Spy;
   let http: Http; // 还应该是DI系统的
+  let ss;
   beforeEach(() => {
     const testBed = makeEnvironment();
     http = testBed.get(Http);
+    ss = testBed.get(SettingsService);
 
-    service = new RequestService(http); // 这是自己new出来的
+    service = new RequestService(http, ss); // 这是自己new出来的
   });
   it('should be created', () => {
     expect(service).toBeTruthy();
