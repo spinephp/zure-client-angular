@@ -42,7 +42,7 @@ export class AEvaluation extends AItem<EvaluationData> {
 
   addReplys() {
     if (AEvaluation.evalreply.data.length > 0) {
-      const replys1 = AEvaluation.evalreply.findByEvalId(+this.item['id']).reverse();
+      const replys1 = AEvaluation.evalreply.findAllByAttribute('evalid', +this.item['id']).reverse();
       let replyslen =  replys1.length;
       this.item['replyslength'] = replys1.length;
       if (replyslen > 5) {
@@ -156,7 +156,7 @@ export class Evaluation {
   }
   public find(id: number) {
       for (const rec of this._pages[0].data) {
-          if (rec['id'] === id) {
+          if (+rec.item['id'] === id) {
               return rec;
           }
       }

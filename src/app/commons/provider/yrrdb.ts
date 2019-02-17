@@ -55,6 +55,23 @@ export abstract class Yrrdb<T, U> {
         }
         return result;
     }
+
+    public findAllByAttribute(name: string, value: any): T[] {
+        const result: T[] = [];
+        if (name && value && this.data.length > 0) {
+            const keys = Object.keys(this.data[0]['item']);
+            if (keys.indexOf(name) > -1) {
+                const str = value.toString();
+                for (const aitem of this.data) {
+                    if (aitem['item'][name].toString() === str) {
+                        result.push(aitem);
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
 
 function create<T, U>(c: {new(U): T; }, data): T {

@@ -39,14 +39,4 @@ export class EvalReply extends Yrrdb<AEvalReply, EvalReplyData> {
     AEvalReply.user = user;
     super(data, AEvalReply);
   }
-
-    public findByEvalId(evalid: number): AEvalReply[] {
-        const replys = [];
-        for (const rp of this.data) {
-          if (+rp.item.evalid === evalid) {
-            replys.push(rp);
-          }
-        }
-        return replys;
-    }
 }

@@ -1,6 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 import { UserGrade, UserGradeData } from '../classes/user-grade';
-import { Evaluation, EvaluationData } from './evaluation';
+import { Evaluation, EvaluationData, AEvaluation } from './evaluation';
 import { UserData, User } from './user';
 import { GradeData, Grade } from './grade';
 import { Country, CountryData } from './country';
@@ -24,11 +24,11 @@ describe('evaluation', () => {
             {id: '3', username: 'liuxingming', picture: 'u00000003.png', nick: '', country: '48'}
         ];
         gradedata = [
-            {id: '1', names: ['register', '注册'], image: ''},
-            {id: '2', names: ['bronze', '铜牌'], image: ''},
-            {id: '3', names: ['silver', '银牌'], image: ''},
-            {id: '4', names: ['gold', '金牌'], image: ''},
-            {id: '5', names: ['diamond', '钻石'], image: ''},
+            {id: '1', names: ['register', '注册'], image: 'a'},
+            {id: '2', names: ['bronze', '铜牌'], image: 'b'},
+            {id: '3', names: ['silver', '银牌'], image: 'c'},
+            {id: '4', names: ['gold', '金牌'], image: 'd'},
+            {id: '5', names: ['diamond', '钻石'], image: 'e'},
               ];
         evaluationdata = [
             {id: '1', proid: 1, userid: 3, label: 4, useideas: 'fdsafsa', star: 5, date: '2011-10-16', useful: 8, status: 'A', feelid: 0}
@@ -57,12 +57,62 @@ describe('evaluation', () => {
 
     it('should be create', () => {
         expect(evaluation).toBeTruthy();
-        // expect(evaluation.data.length).toBe(consultdata.length);
-        // expect(evaluation.type).toBe(0);
-        // evaluation.type = 1;
-        // expect(evaluation.type).toBe(1);
     });
 
+    it('makeRecord() should called right', () => {
+        spyOn(Evaluation, '_getLabelIds').and.callThrough();
+        spyOn(grade, 'getByUser').and.callThrough();
+        // spyOn(AEvaluation.user, 'find').and.callThrough();
+        spyOn(country, 'find').and.callThrough();
+
+        const aeval = evaluation.find(1);
+        expect(aeval.item['usergradeimage']).not.toBeDefined();
+        expect(aeval.item['usergradenames']).not.toBeDefined();
+        expect(aeval.item['username']).not.toBeDefined();
+        expect(aeval.item['countryimage']).not.toBeDefined();
+        expect(aeval.item['countrynames']).not.toBeDefined();
+
+        aeval.makeRecord();
+
+        expect(Evaluation._getLabelIds).toHaveBeenCalled();
+        expect(Evaluation._getLabelIds).toHaveBeenCalledTimes(1);
+        expect(Evaluation._getLabelIds).toHaveBeenCalledWith(evaluationdata[0].label);
+
+        expect(grade.getByUser).toHaveBeenCalled();
+        expect(grade.getByUser).toHaveBeenCalledTimes(1);
+        expect(grade.getByUser).toHaveBeenCalledWith(evaluationdata[0].userid);
+
+        expect(user.find).toHaveBeenCalled();
+        expect(user.find).toHaveBeenCalledTimes(1);
+        expect(user.find).toHaveBeenCalledWith(evaluationdata[0].userid);
+
+        expect(country.find).toHaveBeenCalled();
+        expect(country.find).toHaveBeenCalledTimes(1);
+        expect(country.find).toHaveBeenCalledWith(+userdata[0].country);
+
+        expect(aeval.item['usergradeimage']).toBe(gradedata[2].image);
+        expect(aeval.item['usergradenames']).toBe(gradedata[2].names);
+        expect(aeval.item['username']).toBe(userdata[0].username);
+        expect(aeval.item['countryimage']).toBe(countrydata[0].emoji);
+        expect(aeval.item['countrynames']).toBe(countrydata[0].names);
+    });
+
+    it('addReplys() should called right', () => {
+        spyOn(evalreply, 'findAllByAttribute').and.callThrough();
+
+        const aeval = evaluation.find(1);
+        expect(aeval.item['replyslength']).not.toBeDefined();
+        expect(aeval.item['replys']).not.toBeDefined();
+
+        aeval.addReplys();
+
+        expect(evalreply.findAllByAttribute).toHaveBeenCalled();
+        expect(evalreply.findAllByAttribute).toHaveBeenCalledTimes(1);
+        expect(evalreply.findAllByAttribute).toHaveBeenCalledWith('evalid', +aeval.item['id']);
+
+        // expect(aeval.item['replyslength']).toBe(evalreply.findByAllAttribute.calls.first().returnValue.length);
+        // expect(aeval.item['replys']).not.toBeDefined();
+    });
     // it('function should have been called', () => {
         // expect(usergrade.findByUserId).toHaveBeenCalled();
         // expect(grade.find).toHaveBeenCalled();

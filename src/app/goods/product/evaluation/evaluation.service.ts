@@ -120,7 +120,7 @@ export class EvaluationService {
       ),
       this.requestService.getUrl(
         'ProductUse',
-        ['id', 'proid', 'userid', 'label', 'useideas', 'star', 'date', 'useful', 'status', 'feelid'],
+        ['id', 'proid', 'userid', 'title', 'content', 'images', 'date', 'status'],
         [{'field': 'proid', value: [proid], 'operator': 'in'}]
       ),
       this.requestService.getUrl(

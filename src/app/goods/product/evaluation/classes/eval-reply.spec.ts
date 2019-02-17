@@ -26,7 +26,7 @@ describe('Grade', () => {
 
     it('function should have been called and return right value', () => {
         spyOn(AEvalReply.user, 'find').and.callThrough();
-      const item = evalreply.findByEvalId(1);
+      const item = evalreply.findAllByAttribute('evalid', 1);
 
       expect(item.length).toBe(1);
       expect(item[0].item).toBe(evalreplydata[0]);
