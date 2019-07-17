@@ -25,7 +25,7 @@ export class AConsult extends AItem<ConsultData> {
   }
 
   extend() {
-    const ausergrade = AConsult.usergrade.findByUserId(this.item.userid);
+    const ausergrade = AConsult.usergrade.findByAttribute('userid', this.item.userid);
     const grade =  AConsult.grade.find(+ausergrade.item.gradeid).item;
     this.item.gradenames = grade.names;
     this.item.username = (AConsult.user.find(this.item.userid) as AUser).getName();

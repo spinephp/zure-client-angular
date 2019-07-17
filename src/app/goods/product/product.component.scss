@@ -1,3 +1,6 @@
+div.row.clearfix{
+    margin-left: 0;
+}
 .product-top{
     img{
         width:227px;
@@ -23,7 +26,6 @@
 .goods-info{
     justify-content: flex-start;
     align-items: flex-start;
-    border:1px solid #eee;
     border-radius: 5px;
     margin: 15px 0px 15px 0;
     padding:5px;

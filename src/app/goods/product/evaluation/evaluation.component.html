@@ -40,12 +40,12 @@
     <div class="tab-content">
       <div class="tab-pane active" id="panel-164505">
         <div *ngFor="let eval of evaluations.getRecords()" class='a-eval'>
-          <ul class="evalperson">
-            <li>{{eval.usergradeimage}}</li>
-            <li>{{eval.username | pinyin:languageid}}</li>
-            <li>{{eval.usergradenames | translate:languageid}}{{languageid === '1'? '':' '}}{{'Number' | translate:languageid}}</li>
-            <li>{{eval.countryimage}}{{eval.countrynames | translate:languageid}}</li>
-          </ul>
+          <div class="evalperson">
+            <p>{{eval.usergradeimage}}</p>
+            <p>{{eval.username | pinyin:languageid}}</p>
+            <p>{{eval.usergradenames | translate:languageid}}{{languageid === '1'? '':' '}}{{'Number' | translate:languageid}}</p>
+            <p>{{eval.countryimage}}{{eval.countrynames | translate:languageid}}</p>
+          </div>
           <article data-id='{{eval.id}}' id="evalcontent">
             <p><span *ngFor="let item of makeArray(eval.star)" class="fa fa-star"></span><span *ngFor="let item of makeArray(5-eval.star)" class="fa fa-star-o"></span> <span>{{eval.date}}</span></p>
             <p><label>{{'Label' | translate:languageid}}:</label>
@@ -65,7 +65,7 @@
             </div>
             <ul>
               <li *ngFor="let reply of eval.replys; let j = index" data-id="{{reply.id}}">
-                <div  appPopbutton>
+                <div data-id="{{reply.item.id}}" appPopbutton>
                   <div>
                     <strong>{{eval.replys.length - j}}</strong>
                     <div>

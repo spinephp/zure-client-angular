@@ -35,7 +35,7 @@ describe('Consult', () => {
         user = new User(userdata);
         usergrade = new UserGrade(usergradedata);
         grade = new Grade(gradedata, usergrade);
-        spyOn(usergrade, 'findByUserId').and.callThrough();
+        spyOn(usergrade, 'findByAttribute').and.callThrough();
         spyOn(grade, 'find').and.callThrough();
         spyOn(user, 'find').and.callThrough();
         // spyOn(usergrade, 'findByUserId').and.callThrough();
@@ -51,13 +51,13 @@ describe('Consult', () => {
     });
 
     it('function should have been called', () => {
-        expect(usergrade.findByUserId).toHaveBeenCalled();
+        expect(usergrade.findByAttribute).toHaveBeenCalled();
         expect(grade.find).toHaveBeenCalled();
         expect(user.find).toHaveBeenCalled();
-        expect(usergrade.findByUserId).toHaveBeenCalledTimes(consultdata.length);
+        expect(usergrade.findByAttribute).toHaveBeenCalledTimes(consultdata.length);
         expect(grade.find).toHaveBeenCalledTimes(consultdata.length);
         expect(user.find).toHaveBeenCalledTimes(consultdata.length);
-        expect(usergrade.findByUserId).toHaveBeenCalledWith(+consultdata[0].userid);
+        expect(usergrade.findByAttribute).toHaveBeenCalledWith('userid', +consultdata[0].userid);
         expect(grade.find).toHaveBeenCalledWith(+usergradedata[0].gradeid);
         expect(user.find).toHaveBeenCalledWith(+consultdata[0].userid);
     });

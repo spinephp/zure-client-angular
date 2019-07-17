@@ -17,15 +17,4 @@ export class UserGrade extends Yrrdb<AUserGrade, UserGradeData> {
     constructor(data: UserGradeData[]) {
         super(data, AUserGrade);
     }
-
-    public findByUserId(userid: number): AUserGrade {
-        let replys = null;
-        for (const rp of this._data) {
-          if (+rp.item.userid === userid) {
-            replys = rp;
-            break;
-          }
-        }
-        return replys;
-    }
 }

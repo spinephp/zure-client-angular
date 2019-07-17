@@ -65,7 +65,6 @@ export abstract class Yrrdb<T, U> {
                 for (const aitem of this.data) {
                     if (aitem['item'][name].toString() === str) {
                         result.push(aitem);
-                        break;
                     }
                 }
             }

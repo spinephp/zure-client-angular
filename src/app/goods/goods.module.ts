@@ -23,6 +23,7 @@ import { IndexService } from './product/index//index.service';
 import { IndexResolveService } from './product/index//index-resolve.service';
 import { EvaluationModule } from './product/evaluation/evaluation.module';
 import { TranslatePipe } from '../translate.pipe';
+import { ItemResizeDirective } from './product/introduction/item-resize.directive';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TranslatePipe } from '../translate.pipe';
     IntroductionComponent,
     ParamComponent,
     IndexComponent,
+    ItemResizeDirective,
   ],
   imports: [
     BsDropdownModule.forRoot(),

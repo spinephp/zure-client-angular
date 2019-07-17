@@ -18,22 +18,25 @@ export class ProductComponent implements OnInit, AfterViewInit {
   private buynum;
   public languageid;
   private evaluation;
+  private rooturl: String;
+
   constructor(
     private _parent: GoodsComponent,
     private router: ActivatedRoute,
     private route: Router,
     private cv: SettingsService,
     private is: IndexService,
-    private es: EvaluationService
+    private es: EvaluationService,
   ) {
     this.buynum = 1;
     this.languageid = this._parent.languageid;
     this.evaluation = {stars: [[], [], new Array(5)], records: 0};
-   }
+    this.rooturl = cv.rootUrl;
+  }
 
   ngOnInit() {
     const that = this;
-    // this.router.queryParams.subscribe(params => {
+// this.router.queryParams.subscribe(params => {
     this.es.currentEvaluation().subscribe((value: any) => {
       that.evaluation = value;
     });

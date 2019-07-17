@@ -26,11 +26,11 @@ describe('Grade', () => {
 
     it('function should have been called and return right value', () => {
       spyOn(grade, 'find').and.callThrough();
-      spyOn(usergrade, 'findByUserId').and.callThrough();
+      spyOn(usergrade, 'findByAttribute').and.callThrough();
 
       const item = grade.getByUser(1);
-      expect(usergrade.findByUserId).toHaveBeenCalled();
-      expect(usergrade.findByUserId).toHaveBeenCalledWith(1);
+      expect(usergrade.findByAttribute).toHaveBeenCalled();
+      expect(usergrade.findByAttribute).toHaveBeenCalledWith('userid', 1);
 
       expect(grade.find).toHaveBeenCalled();
       expect(grade.find).toHaveBeenCalledWith(2);

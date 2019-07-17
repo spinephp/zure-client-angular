@@ -80,11 +80,12 @@ export class EvaluationService {
           });
         });
       } else {
-        // data.push([]); // 评价回复
-        // data.push([]); // 用户级别
-        // data.push([]); // user
-        // data.push([]); // country
-        // that._data.next(data);
+        data.push(null); // 评价回复
+        data.push(null); // 用户级别
+        data.push(null); // user
+        data.push(null); // country
+        data.push(null); // country
+        that._data.next(data);
       }
     });
   }

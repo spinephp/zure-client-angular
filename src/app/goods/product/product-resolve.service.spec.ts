@@ -41,7 +41,11 @@ describe('ProductResolveService', () => {
       'With focus on': ['加关注'],
       'Introduction': ['详情'],
       'Parameters': ['参数'],
-      'Physicochemical index': ['理化指标']
+      'Physicochemical index': ['理化指标'],
+
+      'Over the past 12 years, Yunrui ': ['12 年来，云瑞'],
+      ' has continuously improved its appearance and internal quality by virtue of its core technology and innovative spirit.':
+      ['凭借核心工艺和创新精神，持续改进棚板的外观和内在质量。'],
     };
     spyOn(service.cv, 'addLanguages');
     service.resolve();

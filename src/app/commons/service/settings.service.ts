@@ -14,7 +14,7 @@ export class SettingsService {
   constructor(private ls: LocalStorage) { }
   // rootUrl = 'http://www.yrr8.com/woo/';
   // rootUrl = 'http://127.0.0.1/woo/';
-  rootUrl = 'http://192.168.1.16/woo/';
+  rootUrl = 'http://192.168.1.107/woo/';
   baseUrl = this.rootUrl + 'index.php';
   imgUrl = this.rootUrl + 'images/';
   sessionid = this.ls.get('sessionid') || '';

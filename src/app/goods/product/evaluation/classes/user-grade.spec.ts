@@ -20,9 +20,4 @@ describe('UserGrade', () => {
         const item = usergrade.find(17);
         expect(item.item).toBe(usergradedata[1]);
     });
-
-    it('findByUserId() should return right value', () => {
-        const item = usergrade.findByUserId(46);
-        expect(item.item).toBe(usergradedata[1]);
-    });
 });

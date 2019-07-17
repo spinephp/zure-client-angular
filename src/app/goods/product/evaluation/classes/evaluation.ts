@@ -197,13 +197,11 @@ export class Evaluation {
   }
 
   public rate(index: number) {
-      if (this.types[0].amount === 0) {
-        return null;
-      } else {
-        if (index > 0) {
-          const result = this.types[index].amount / this.types[0].amount;
-          return Math.round(result * 100);
-        }
-      }
+    let result = null;
+    if (this.types[0].amount > 0 && index && index > 0 && index < this.types.length) {
+      const n = this.types[index].amount / this.types[0].amount;
+      result = Math.round(n * 100);
+    }
+    return result;
   }
 }

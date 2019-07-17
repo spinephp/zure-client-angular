@@ -1,0 +1,31 @@
+.top{
+    padding: 20px;
+    p{
+        font-size: smaller;
+    }
+}
+#technology{
+    width: 100%;
+    min-width: 580px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .left{
+        width: 30%;
+        margin: 20px 0;
+        padding-left: 50px; 
+        .title{
+            font-size: 36px;
+        }
+    }
+    .right{
+        width: 25%;
+        margin: 40px 0;
+        padding-right: 60px; 
+        p{
+            width: 100%;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+    }
+}

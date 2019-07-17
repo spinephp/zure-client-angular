@@ -31,16 +31,25 @@ describe('Label', () => {
       expect(label.find(null)).toBeNull();
       expect(label.find(undefined)).toBeNull();
       expect(label.find(0)).toBeNull();
-  });
+    });
 
-  it('findByAttribute() should be return right value', () => {
-    expect(label.findByAttribute).toBeDefined();
-    expect(label.findByAttribute('', 0)).not.toBeDefined();
-    expect(label.findByAttribute(null, null)).not.toBeDefined();
-    expect(label.findByAttribute(undefined, undefined)).not.toBeDefined();
-    expect(label.findByAttribute('name', null)).not.toBeDefined();
-    expect(label.findByAttribute('names', ['Good color', '颜色好']).item).toBe(labeldata[6]);
-});
+    it('findByAttribute() should be return right value', () => {
+      expect(label.findByAttribute).toBeDefined();
+      expect(label.findByAttribute('', 0)).not.toBeDefined();
+      expect(label.findByAttribute(null, null)).not.toBeDefined();
+      expect(label.findByAttribute(undefined, undefined)).not.toBeDefined();
+      expect(label.findByAttribute('name', null)).not.toBeDefined();
+      expect(label.findByAttribute('names', ['Good color', '颜色好']).item).toBe(labeldata[6]);
+    });
+
+    it('findAllByAttribute() should be return right value', () => {
+      expect(label.findAllByAttribute).toBeDefined();
+      expect(label.findAllByAttribute('', 0)).toEqual([]);
+      expect(label.findAllByAttribute(null, null)).toEqual([]);
+      expect(label.findAllByAttribute(undefined, undefined)).toEqual([]);
+      expect(label.findAllByAttribute('name', null)).toEqual([]);
+      expect(label.findAllByAttribute('names', ['Good color', '颜色好'])[0].item).toEqual(labeldata[6]);
+    });
 
     it('function should have been called and return right value', () => {
       const item = label.find(3);

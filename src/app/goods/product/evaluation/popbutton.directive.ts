@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2, HostBinding } from '@angular/core';
 import { EvaluationService } from './evaluation.service';
 @Directive({
   selector: '[appPopbutton]'
@@ -9,11 +9,16 @@ export class PopbuttonDirective {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    // private es: EvaluationService
+    private es: EvaluationService
     ) { }
-  @HostListener('mouseenter') onMouseEnter() {
+
+  @HostBinding('attr.data-id')
+  replyid: number;
+
+  @HostListener('mouseenter', ['$event.target']) onMouseEnter(evt) {
     if ( !PopbuttonDirective.btn) {
       const that = this;
+      const replyid = this.replyid;
       PopbuttonDirective.btn = document.createElement('button');
       PopbuttonDirective.btn.innerText = 'Reply';
       PopbuttonDirective.btn.style.margin = '0 5px 0 0';
@@ -31,11 +36,13 @@ export class PopbuttonDirective {
           input.style.width = '88%';
           label.innerText = 'Reply';
           label.style.display = 'block';
-          btn.innerText = 'Reply';
+          btn.innerText = 'Submit';
           btn.style.margin = '0 0 0 10px';
           btn['div'] = div;
+          btn['replyid'] = evt.id;
           btn.onclick = (eve) => {
-            // that.es.postreply({evalid:parentid: this.parentElement.id})
+            const content = eve.target['div'].getElementsByTagName('input')[0].value; // childNodes[1].value;
+            // that.es.postreply({replyid: eve.target['replyid'], content: content});
             eve.target['div'].remove();
             delete eve.target['div'];
             PopbuttonDirective.btn.remove();

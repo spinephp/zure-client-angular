@@ -48,7 +48,7 @@ describe('evaluation', () => {
         grade = new Grade(gradedata, usergrade);
         country = new Country(countrydata);
         evalreply = new EvalReply(evalreplydata, user);
-        spyOn(usergrade, 'findByUserId').and.callThrough();
+        // spyOn(usergrade, 'findByUserId').and.callThrough();
         spyOn(grade, 'find').and.callThrough();
         spyOn(user, 'find').and.callThrough();
         // spyOn(usergrade, 'findByUserId').and.callThrough();
@@ -99,6 +99,9 @@ describe('evaluation', () => {
 
     it('addReplys() should called right', () => {
         spyOn(evalreply, 'findAllByAttribute').and.callThrough();
+        // spyOn([evalreplydata[0]], 'reverse').and.callThrough();
+        // spyOn([evalreplydata[0]], 'slice').and.callThrough();
+        spyOn(evalreply.data[0], 'extends').and.callThrough();
 
         const aeval = evaluation.find(1);
         expect(aeval.item['replyslength']).not.toBeDefined();
@@ -110,10 +113,61 @@ describe('evaluation', () => {
         expect(evalreply.findAllByAttribute).toHaveBeenCalledTimes(1);
         expect(evalreply.findAllByAttribute).toHaveBeenCalledWith('evalid', +aeval.item['id']);
 
-        // expect(aeval.item['replyslength']).toBe(evalreply.findByAllAttribute.calls.first().returnValue.length);
-        // expect(aeval.item['replys']).not.toBeDefined();
+        expect(evalreply.data[0].extends).toHaveBeenCalled();
+        // expect([evalreplydata[0]].reverse).toHaveBeenCalled();
+        // expect([evalreplydata[0]].reverse).toHaveBeenCalledTimes(1);
+
+        // expect([evalreplydata[0]].slice).toHaveBeenCalled();
+        // expect([evalreplydata[0]].slice).toHaveBeenCalledTimes(1);
+        // expect([evalreplydata[0]].slice).toHaveBeenCalledWith(0, 1);
+
+
+        expect(aeval.item['replyslength']).toBe(1);
+        expect(aeval.item['replys'][0].item).toBe(evalreplydata[0]);
     });
-    // it('function should have been called', () => {
+
+    it('static _getLabelIds() should called right', () => {
+        expect(Evaluation._getLabelIds(0)).toEqual([]);
+        expect(Evaluation._getLabelIds(null)).toEqual([]);
+        expect(Evaluation._getLabelIds(undefined)).toEqual([]);
+        expect(Evaluation._getLabelIds(1)).toEqual([1]);
+        expect(Evaluation._getLabelIds(2)).toEqual([2]);
+        expect(Evaluation._getLabelIds(3)).toEqual([1, 2]);
+        expect(Evaluation._getLabelIds(7)).toEqual([1, 2, 3]);
+        expect(Evaluation._getLabelIds(15)).toEqual([1, 2, 3, 4]);
+        expect(Evaluation._getLabelIds(255)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    });
+
+    it('getRecords() should called right', () => {
+        const aeval = evaluation.find(1);
+        spyOn(aeval, 'addReplys').and.callThrough();
+        spyOn(aeval, 'makeRecord').and.callThrough();
+
+        expect(aeval.item['replyslength']).not.toBeDefined();
+        expect(aeval.item['replys']).not.toBeDefined();
+
+        expect(evaluation.getRecords()).toEqual([evaluationdata[0]]);
+
+        expect(aeval.addReplys).toHaveBeenCalled();
+        expect(aeval.addReplys).toHaveBeenCalledTimes(1);
+
+        expect(aeval.makeRecord).toHaveBeenCalled();
+        expect(aeval.makeRecord).toHaveBeenCalledTimes(1);
+
+
+        expect(aeval.item['replyslength']).toBe(1);
+        expect(aeval.item['replys'][0].item).toBe(evalreplydata[0]);
+    });
+
+    it('find() should be return right value', () => {
+        expect(evaluation.find).toBeDefined();
+        expect(evaluation.find(+'')).toBeNull();
+        expect(evaluation.find(null)).toBeNull();
+        expect(evaluation.find(undefined)).toBeNull();
+        expect(evaluation.find(0)).toBeNull();
+        expect(evaluation.find(1).item).toBe(evaluation.getRecords()[0]);
+      });
+      // it('function should have been called', () => {
         // expect(usergrade.findByUserId).toHaveBeenCalled();
         // expect(grade.find).toHaveBeenCalled();
         // expect(user.find).toHaveBeenCalled();
@@ -125,10 +179,29 @@ describe('evaluation', () => {
         // expect(user.find).toHaveBeenCalledWith(+consultdata[0].userid);
     // });
 
-    // it('find() should return right value', () => {
-    //     const item = evaluation.find(1);
-    //     expect(item.item).toBe(consultdata[0]);
-    // });
+    it('should return right value', () => {
+        const types = [
+            {names: ['All evaluation', '所有评价'], amount: 100},
+            {names: ['Good', '好评'], amount: 0},
+            {names: ['Medium', '中评'], amount: 0},
+            {names: ['Poor', '差评'], amount: 0}
+        ];
+
+        expect(evaluation.datalength()).toBe(1);
+        expect(evaluation.pageCount()).toBe(1);
+        expect(evaluation.getTypes()).toEqual(types);
+        expect(evaluation.setTypes()).toEqual({stars: [[ , , , , , ], [], []], records: 1});
+
+        expect(evaluation.rate(null)).toBe(null);
+        expect(evaluation.rate(undefined)).toBe(null);
+        expect(evaluation.rate(0)).toBe(null);
+        expect(evaluation.rate(1)).toBe(100);
+        expect(evaluation.rate(2)).toBe(0);
+        expect(evaluation.rate(3)).toBe(0);
+        expect(evaluation.rate(4)).toBe(null);
+        expect(evaluation.rate(5)).toBe(null);
+
+    });
 
     // it('getRecords() should return right value', () => {
     //     evaluation.type = 0;
