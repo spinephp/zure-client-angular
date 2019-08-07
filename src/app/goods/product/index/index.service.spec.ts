@@ -52,8 +52,8 @@ describe('IndexService', () => {
       expect(rs[0]).toBe(chemical);
       expect(rs[1]).toBe(phyical);
    });
-   expect(service.cv.get).toHaveBeenCalled();
-   expect(service.cv.get).toHaveBeenCalledWith('chemicalid');
+    expect(service.cv.get).toHaveBeenCalled();
+    expect(service.cv.get).toHaveBeenCalledWith('chemicalid');
    // expect(service.requestService.get).toHaveBeenCalled();
   }));
 });

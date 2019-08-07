@@ -64,7 +64,7 @@ describe('Label', () => {
         expect(kind.parentNames(-1).toString()).toEqual(['Root Node', '根结点'].toString());
       });
 
-      it('names() should have been called and return right value', () => {
+    it('names() should have been called and return right value', () => {
         const names = kind.names(1);
         expect(names.toString()).toBe(['Si3N4 bonded SiC ', '氮化硅结合碳化硅'].toString());
 
@@ -74,7 +74,7 @@ describe('Label', () => {
         expect(kind.names(-1)).toBeNull();
       });
 
-      it('longNames() should have been called and return right value', () => {
+    it('longNames() should have been called and return right value', () => {
         const names = kind.longNames(6);
         expect(names.toString()).toBe(['Si3N4 bonded SiC other', '氮化硅结合碳化硅其它'].toString());
 
@@ -84,7 +84,7 @@ describe('Label', () => {
         expect(kind.longNames(-1)).toBeNull();
       });
 
-      it('shortNames() should have been called and return right value', () => {
+    it('shortNames() should have been called and return right value', () => {
         const names = kind.shortNames(6);
         expect(names.toString()).toBe(['other', '其它'].toString());
 

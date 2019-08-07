@@ -15,19 +15,19 @@ export class ParamComponent implements OnInit {
   private kind: Kind[];
   private languageid;
   constructor(
-    private _parent: ProductComponent,
+    private xparent: ProductComponent,
     private vs: ValuesService,
     private ls: LocalStorage) {
   }
 
   ngOnInit() {
     const that = this;
-    this.languageid = +this.ls.get('languageid') | 1;
+    this.languageid = this.ls.getLanguageId();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
-    this.goods = this._parent.aGoods;
-    this.kind = this._parent.kind;
+    this.goods = this.xparent.aGoods;
+    this.kind = this.xparent.kind;
   }
 
 }

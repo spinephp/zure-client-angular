@@ -39,12 +39,11 @@ export class NewsService {
     function error(err) {
       alert('error occured!\n' + err);
     }
-    const token = this.cv.sessionid;
 
     const url = this.cv.baseUrl + '?cmd=News';
     const param = {
-      'filter': JSON.stringify(['id', 'titles', 'contents', 'time']),
-      'token': token
+      filter: JSON.stringify(['id', 'titles', 'contents', 'time']),
+      token: this.cv.sessionid
     };
 
     return this.requestService.get(url, param).then(success, error);

@@ -61,11 +61,13 @@ describe('HeaderService', () => {
       return of({data: [{token: '', sessionid: ''}]}).toPromise();
     });
     service.heart().then(res => {
+
+      const sdata = 'data';
       expect(sRequest.get).toHaveBeenCalled();
       expect(sRequest.get).toHaveBeenCalledTimes(1);
 
-      expect(res['data'][0].token).toBe('');
-      expect(res['data'][0].sessionid).toBe('');
+      expect(res[sdata][0].token).toBe('');
+      expect(res[sdata][0].sessionid).toBe('');
 
       Promise.all(service.get()).then(rs => {
         // console.log(rs);

@@ -13,10 +13,10 @@ export class IndexResolveService {
   resolve(): {} {
     const that = this;
     const word: {} = {
-      'ITEM': ['项目'],
-      'UNIT': ['单位'],
-      'SPEC': ['指标'],
-      'ENVIRONMENT': ['检测环境'],
+      ITEM: ['项目'],
+      UNIT: ['单位'],
+      SPEC: ['指标'],
+      ENVIRONMENT: ['检测环境'],
       'Physico index': ['物理指标'],
       'Chemical index': ['化学指标']
     };

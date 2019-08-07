@@ -24,12 +24,12 @@ export class EvaluationComponent implements OnInit {
   public languageid;
   constructor(
     private cdr: ChangeDetectorRef,
-    private _parent: ProductComponent,
+    private xparent: ProductComponent,
     private is: EvaluationService,
     private ls: LocalStorage,
     private vs: ValuesService,
   ) {
-    this.languageid = this._parent.languageid;
+    this.languageid = ls.getLanguageId();
    }
 
   ngOnInit() {

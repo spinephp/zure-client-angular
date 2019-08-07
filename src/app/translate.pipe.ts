@@ -7,13 +7,16 @@ import { isArray } from 'util';
   name: 'translate'
 })
 export class TranslatePipe implements PipeTransform {
-  public static data;
   constructor(private cv: SettingsService, private ls: LocalStorage) {
     const that = this;
     this.cv.getLanguages().subscribe((value: {}) => {
       TranslatePipe.data = value;
     });
    }
+  public static data;
+  translate(arg0: string): any {
+    throw new Error('Method not implemented.');
+  }
   transform(value: any, args?: any): any {
     const langid = parseInt(args || this.ls.get('languageid'), 10);
     let result: string;

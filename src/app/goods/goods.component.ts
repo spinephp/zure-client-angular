@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GoodsService } from '../goods//goods.service';
 import { LocalStorage } from '../commons/provider/local-storage';
 import { ValuesService } from '../commons/service/values.service';
@@ -16,19 +16,19 @@ import { Currency } from './classes/currency';
   providers: [GoodsService]
 })
 export class GoodsComponent implements OnInit {
-  private _languageid: number;
-  get languageid(): number { return this._languageid; }
-  set languageid(langid: number) { this._languageid = langid; }
-  private _goodsClass: Kind;
-  get goodsClass(): Kind { return this._goodsClass; }
-  set goodsClass(gclass: Kind) { this._goodsClass = gclass; }
-  private _goods: Product;
-  get goods(): Product { return this._goods; }
-  set goods(goods: Product) { this._goods = goods; }
+  private xlanguageid: number;
+  get languageid(): number { return this.xlanguageid; }
+  set languageid(langid: number) { this.xlanguageid = langid; }
+  private xgoodsClass: Kind;
+  get goodsClass(): Kind { return this.xgoodsClass; }
+  set goodsClass(gclass: Kind) { this.xgoodsClass = gclass; }
+  private xgoods: Product;
+  get goods(): Product { return this.xgoods; }
+  set goods(goods: Product) { this.xgoods = goods; }
   private currency: Currency[] = [];
   private selRow: number;
   public nodes = [{id: 1, name: 'ss'}];
-  @ViewChild('tree') tree;
+  @ViewChild('tree', {static: true}) tree;
   get state(): ITreeState {
     return this.ls.get('treeState') && JSON.parse(this.ls.get('treeState'));
   }
@@ -48,23 +48,24 @@ export class GoodsComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = +this.ls.get('languageid') | 1;
+    this.languageid = +this.ls.get('languageid') || 1;
     // this.hs.updateData();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
       that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, value || 1);
     });
     this.router.data.subscribe((data: {}) => {
-      that.goodsClass = data['data'][0];
-      that.goods = data['data'][1];
-      that.currency = data['data'][2];
+      const sdata = 'data';
+      that.goodsClass = data[sdata][0];
+      that.goods = data[sdata][1];
+      that.currency = data[sdata][2];
       that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, that.languageid || 1);
     });
     // this.router.queryParams.subscribe(params => {
     this.router.params.subscribe(params => {
-      that.selRow = that.router.snapshot.params['id'];
+      that.selRow = that.router.snapshot.params.id;
       if (that.selRow === undefined || params.id === undefined) {
-        that.selRow = +params.id || +that.goodsClass.data[0]['item']['id'];
+        that.selRow = +params.id || +that.goodsClass.data[0].item.id;
         // that.nodechoose(that.selRow);
       }
     });
@@ -73,8 +74,8 @@ export class GoodsComponent implements OnInit {
   // 点击了新闻条目
   nodechoose = function(id) {
     // 路由到 news 页面，显示第 i 条新闻
-    let name: String;
-    let cid: String;
+    let name: string;
+    let cid: string;
     if (id[0] === 'p') {
       name = 'product';
       cid = id.slice(1);

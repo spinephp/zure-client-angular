@@ -15,7 +15,7 @@ export class GoodsResolveService {
     ) { }
   resolve(): {} {
     const word: {} = {
-      'News': ['新闻', 'zz']
+      'Product Category List': ['产品分类列表', 'zz']
     };
     this.cv.addLanguages(word);
     return this.hs.updateData().then(rs => {

@@ -12,11 +12,11 @@ describe('Grade', () => {
             {id: '3', username: 'liuxingming', picture: 'u00000003.png', nick: '', country: '48'},
             {id: '46', username: 'jinlihua', picture: 'u00000013.png', nick: '', country: '48'}
         ];
-      evalreplydata = [
+        evalreplydata = [
         {id: '1', evalid: 1, userid: 46, parentid: 0, content: 'fdasfa fdsaf', time: '2014-09-23 21:37:13'}
     ];
-      user = new User(userdata);
-      evalreply = new EvalReply(evalreplydata, user);
+        user = new User(userdata);
+        evalreply = new EvalReply(evalreplydata, user);
     });
 
     it('should be create', () => {
@@ -26,17 +26,17 @@ describe('Grade', () => {
 
     it('function should have been called and return right value', () => {
         spyOn(AEvalReply.user, 'find').and.callThrough();
-      const item = evalreply.findAllByAttribute('evalid', 1);
+        const item = evalreply.findAllByAttribute('evalid', 1);
 
-      expect(item.length).toBe(1);
-      expect(item[0].item).toBe(evalreplydata[0]);
-      expect(item[0].value('username')).not.toBeDefined();
-      expect(item[0].value('preusername')).not.toBeDefined();
+        expect(item.length).toBe(1);
+        expect(item[0].item).toBe(evalreplydata[0]);
+        expect(item[0].value('username')).not.toBeDefined();
+        expect(item[0].value('preusername')).not.toBeDefined();
 
-      item[0].extends();
-      expect(AEvalReply.user.find).toHaveBeenCalled();
-      expect(AEvalReply.user.find).toHaveBeenCalledTimes(2);
-      expect(item[0].value('username')).toBe(userdata[1].username);
-      expect(item[0].value('preusername')).not.toBeDefined();
+        item[0].extends();
+        expect(AEvalReply.user.find).toHaveBeenCalled();
+        expect(AEvalReply.user.find).toHaveBeenCalledTimes(2);
+        expect(item[0].value('username')).toBe(userdata[1].username);
+        expect(item[0].value('preusername')).not.toBeDefined();
     });
   });

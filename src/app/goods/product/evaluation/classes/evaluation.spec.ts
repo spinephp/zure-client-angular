@@ -66,11 +66,11 @@ describe('evaluation', () => {
         spyOn(country, 'find').and.callThrough();
 
         const aeval = evaluation.find(1);
-        expect(aeval.item['usergradeimage']).not.toBeDefined();
-        expect(aeval.item['usergradenames']).not.toBeDefined();
-        expect(aeval.item['username']).not.toBeDefined();
-        expect(aeval.item['countryimage']).not.toBeDefined();
-        expect(aeval.item['countrynames']).not.toBeDefined();
+        expect(aeval.item.usergradeimage).not.toBeDefined();
+        expect(aeval.item.usergradenames).not.toBeDefined();
+        expect(aeval.item.username).not.toBeDefined();
+        expect(aeval.item.countryimage).not.toBeDefined();
+        expect(aeval.item.countrynames).not.toBeDefined();
 
         aeval.makeRecord();
 
@@ -90,11 +90,11 @@ describe('evaluation', () => {
         expect(country.find).toHaveBeenCalledTimes(1);
         expect(country.find).toHaveBeenCalledWith(+userdata[0].country);
 
-        expect(aeval.item['usergradeimage']).toBe(gradedata[2].image);
-        expect(aeval.item['usergradenames']).toBe(gradedata[2].names);
-        expect(aeval.item['username']).toBe(userdata[0].username);
-        expect(aeval.item['countryimage']).toBe(countrydata[0].emoji);
-        expect(aeval.item['countrynames']).toBe(countrydata[0].names);
+        expect(aeval.item.usergradeimage).toBe(gradedata[2].image);
+        expect(aeval.item.usergradenames).toBe(gradedata[2].names);
+        expect(aeval.item.username).toBe(userdata[0].username);
+        expect(aeval.item.countryimage).toBe(countrydata[0].emoji);
+        expect(aeval.item.countrynames).toBe(countrydata[0].names);
     });
 
     it('addReplys() should called right', () => {
@@ -104,14 +104,14 @@ describe('evaluation', () => {
         spyOn(evalreply.data[0], 'extends').and.callThrough();
 
         const aeval = evaluation.find(1);
-        expect(aeval.item['replyslength']).not.toBeDefined();
-        expect(aeval.item['replys']).not.toBeDefined();
+        expect(aeval.item.replyslength).not.toBeDefined();
+        expect(aeval.item.replys).not.toBeDefined();
 
         aeval.addReplys();
 
         expect(evalreply.findAllByAttribute).toHaveBeenCalled();
         expect(evalreply.findAllByAttribute).toHaveBeenCalledTimes(1);
-        expect(evalreply.findAllByAttribute).toHaveBeenCalledWith('evalid', +aeval.item['id']);
+        expect(evalreply.findAllByAttribute).toHaveBeenCalledWith('evalid', +aeval.item.id);
 
         expect(evalreply.data[0].extends).toHaveBeenCalled();
         // expect([evalreplydata[0]].reverse).toHaveBeenCalled();
@@ -122,8 +122,8 @@ describe('evaluation', () => {
         // expect([evalreplydata[0]].slice).toHaveBeenCalledWith(0, 1);
 
 
-        expect(aeval.item['replyslength']).toBe(1);
-        expect(aeval.item['replys'][0].item).toBe(evalreplydata[0]);
+        expect(aeval.item.replyslength).toBe(1);
+        expect(aeval.item.replys[0].item).toBe(evalreplydata[0]);
     });
 
     it('static _getLabelIds() should called right', () => {
@@ -143,8 +143,8 @@ describe('evaluation', () => {
         spyOn(aeval, 'addReplys').and.callThrough();
         spyOn(aeval, 'makeRecord').and.callThrough();
 
-        expect(aeval.item['replyslength']).not.toBeDefined();
-        expect(aeval.item['replys']).not.toBeDefined();
+        expect(aeval.item.replyslength).not.toBeDefined();
+        expect(aeval.item.replys).not.toBeDefined();
 
         expect(evaluation.getRecords()).toEqual([evaluationdata[0]]);
 
@@ -155,8 +155,8 @@ describe('evaluation', () => {
         expect(aeval.makeRecord).toHaveBeenCalledTimes(1);
 
 
-        expect(aeval.item['replyslength']).toBe(1);
-        expect(aeval.item['replys'][0].item).toBe(evalreplydata[0]);
+        expect(aeval.item.replyslength).toBe(1);
+        expect(aeval.item.replys[0].item).toBe(evalreplydata[0]);
     });
 
     it('find() should be return right value', () => {

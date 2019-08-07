@@ -8,6 +8,8 @@ import { UserGrade } from './classes/user-grade';
 import { Grade, GradeData } from './classes/grade';
 import { of } from 'rxjs';
 import { Evaluation } from './classes/evaluation';
+import { LabelData } from './classes/label';
+import { promise } from 'protractor';
 
 describe('EvaluationService', () => {
   const labeldata = [
@@ -97,7 +99,7 @@ describe('EvaluationService', () => {
     const ps = [
       {'? cmd=Country':
           {
-            'filter': JSON.stringify(['id', 'names', 'code3', 'emoji']),
+            filter: JSON.stringify(['id', 'names', 'code3', 'emoji']),
           }
       }
     ];
@@ -116,7 +118,7 @@ describe('EvaluationService', () => {
   it('get() should return available data', async(() => {
     const sRequest = TestBed.get(RequestService);
     const sSetting = TestBed.get(SettingsService);
-      const datas = [
+    const datas = [
       labeldata,
       gradedata,
       evaluationdata,
@@ -137,13 +139,15 @@ describe('EvaluationService', () => {
 
       expect(rs.length).toEqual(5);
 
-      expect((rs[0] as Object[]).length).toEqual(labeldata.length);
+      expect((rs[0] as object[]).length).toEqual(labeldata.length);
+      const sid = 'id';
+      const snames = 'names';
       for (const i of Object.keys(rs[0])) {
-        expect(rs[0][i]['id']).toBe(labeldata[i].id);
-        expect(rs[0][i]['names']).toBe(labeldata[i].names);
+        expect(rs[0][i][sid]).toBe(labeldata[i].id);
+        expect(rs[0][i][snames]).toBe(labeldata[i].names);
       }
 
-      expect((rs[1] as Object[]).length).toEqual(gradedata.length);
+      expect((rs[1] as object[]).length).toEqual(gradedata.length);
 
       expect(rs.length).toEqual(datas.length);
       for (const k of Object.keys(rs)) {
@@ -233,11 +237,11 @@ describe('EvaluationService', () => {
 
   it('updateData() should return available data', async(() => {
     spyOn(service, 'get').and.returnValue([
-      of(labeldata).toPromise(),
-      of(gradedata).toPromise(),
-      of(evaluationdata).toPromise(),
-      of(notedata).toPromise(),
-      of(consultdata).toPromise()
+      of(labeldata).toPromise() as Promise<[]>,
+      of(gradedata).toPromise() as Promise<[]>,
+      of(evaluationdata).toPromise() as Promise<[]>,
+      of(notedata).toPromise() as Promise<[]>,
+      of(consultdata).toPromise() as Promise<[]>
     ]);
     spyOn(service, 'getSecond').and.returnValue([
       evalreplydata,

@@ -6,6 +6,7 @@ import { LocalStorage } from 'src/app/commons/provider/local-storage';
 import { Observable } from 'rxjs';
 // import 'rxjs/add/observable/fromEvent';
 import { DatePipe } from '@angular/common';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-introduction',
@@ -16,9 +17,9 @@ import { DatePipe } from '@angular/common';
 })
 export class IntroductionComponent implements OnInit {
   private languageid;
-  private company_years;
+  private companyYears;
   constructor(
-    private _parent: ProductComponent,
+    private tparent: ProductComponent,
     private router: ActivatedRoute,
     private route: Router,
     private vs: ValuesService,
@@ -30,8 +31,8 @@ export class IntroductionComponent implements OnInit {
     const that = this;
     const date = new Date();
     const year: string | number = date.getFullYear();
-    this.company_years = +year - 2007;
-    this.languageid = +this.ls.get('languageid') | 1;
+    this.companyYears = +year - 2007;
+    this.languageid = this.ls.getLanguageId();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
@@ -43,11 +44,11 @@ export class IntroductionComponent implements OnInit {
     });
     // this.route.navigate(['introduction']);
     // 页面监听
-　　Observable.fromEvent(window, 'resize')
-  　　.debounceTime(100) // 以免频繁处理
-  　　.subscribe((event) => {
-  　　  console.log('come on ..');
-  　});
+// 　　Observable.fromEvent(window, 'resize')
+//   　　.debounceTime(100) // 以免频繁处理
+//   　　.subscribe((event) => {
+//   　　  console.log('come on ..');
+//   　});
   }
 
 }

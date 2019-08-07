@@ -1,21 +1,21 @@
 
 export class Page<T> {
-    private _data: T[];
-    get data(): T[] { return this._data; }
+    private xdata: T[];
+    get data(): T[] { return this.xdata; }
     private length = 5;
-    private _current = 0;
-    get current(): number { return this._current; }
+    private xcurrent = 0;
+    get current(): number { return this.xcurrent; }
     set current(n: number) {
         if (n >= 0 && n < this.count()) {
-        this._currentData = this.getPage(n);
+        this.xcurrentData = this.getPage(n);
         }
     }
-    private _currentData: T[] = [];
-    get currentData(): T[] { return this._currentData; }
+    private xcurrentData: T[] = [];
+    get currentData(): T[] { return this.xcurrentData; }
 
     constructor(data: T[]) {
-        this._data = data;
-        this._currentData = this.getPage(0);
+        this.xdata = data;
+        this.xcurrentData = this.getPage(0);
     }
 
     public getPage(i: number) {
@@ -26,7 +26,7 @@ export class Page<T> {
             if (end > this.data.length) {
                 end = this.data.length;
             }
-            this._current = i;
+            this.xcurrent = i;
             result = this.data.slice(start, end);
         }
         return result;

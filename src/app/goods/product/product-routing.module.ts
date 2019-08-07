@@ -7,6 +7,7 @@ import {ParamComponent} from './param/param.component';
 import {IndexComponent} from './index/index.component';
 import { IndexResolveService } from './index/index-resolve.service';
 import { ParamResolveService } from './param/param-resolve.service';
+import { IntroductionResolveService } from './introduction/introduction-resolve.service';
 import { ProductResolveService } from './product-resolve.service';
 
 export const productRoutes: Routes = [
@@ -16,7 +17,11 @@ export const productRoutes: Routes = [
     resolve: {data: ProductResolveService},
     children: [
       {path: '', redirectTo: 'introduction', pathMatch: 'full'},
-      {path: 'introduction', component: IntroductionComponent},
+      {
+        path: 'introduction',
+        component: IntroductionComponent,
+        resolve: {data: IntroductionResolveService}
+      },
       {
         path: 'param',
         component: ParamComponent,

@@ -1,9 +1,9 @@
-import { Directive, ElementRef, HostListener, Renderer, Input, HostBinding } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer, Input, HostBinding, AfterViewInit } from '@angular/core';
 
 @Directive({
   selector: '[appItemResize]'
 })
-export class ItemResizeDirective {
+export class ItemResizeDirective implements AfterViewInit {
   private el: HTMLElement;
 
   constructor(el: ElementRef, public renderer: Renderer) {
@@ -31,10 +31,10 @@ export class ItemResizeDirective {
     const p = this.el.getElementsByTagName('p');
     // const p = div.getElementsByTagName('p');
     img.src = elImage[0].src;
-    img.onload = function(e) {
+    img.onload = (e) => {
       const rate: number = that.el.clientWidth / 879;
       that.elHeight = +that.el.clientWidth *  img.height / img.width;
-      p[0].style.fontSize = 36 * rate + 'px';
+      p[0].style.fontSize = 28 * rate + 'px';
       for (let i = 1; i < p.length; i++) {
         p[i].style.fontSize = 16 * rate + 'px';
       }

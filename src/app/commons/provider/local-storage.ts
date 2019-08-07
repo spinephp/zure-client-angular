@@ -1,4 +1,5 @@
 import {Provider} from '@angular/core';
+import { isNumber } from 'util';
 export class LocalStorage {
 
   public localStorage: any;
@@ -26,5 +27,13 @@ export class LocalStorage {
 
   public remove(key: string): any {
     this.localStorage.removeItem(key);
+  }
+
+  public getLanguageId(): number {
+    let result = 1;
+    if (isNumber(+this.get('languageid'))) {
+      result = +this.get('languageid');
+    }
+    return result;
   }
 }

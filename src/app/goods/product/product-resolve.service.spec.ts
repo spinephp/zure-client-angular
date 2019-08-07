@@ -33,14 +33,14 @@ describe('ProductResolveService', () => {
 
   it('should executed', () => {
     const word: {} = {
-      'Code': ['缟号'],
-      'Price': ['价格'],
-      'Evaluation': ['评价'],
+      Code: ['缟号'],
+      Price: ['价格'],
+      Evaluation: ['评价'],
       'Purchase quantity': ['购买数量'],
       'Add to cart': ['加入购物车'],
       'With focus on': ['加关注'],
-      'Introduction': ['详情'],
-      'Parameters': ['参数'],
+      Introduction: ['详情'],
+      Parameters: ['参数'],
       'Physicochemical index': ['理化指标'],
 
       'Over the past 12 years, Yunrui ': ['12 年来，云瑞'],

@@ -17,6 +17,14 @@ export interface EvaluationData {
   status: string;
   feelid: number;
   labelids?: number[];
+  replyslength?: number;
+  replys?: any;
+  usergradeimage?: string;
+  usergradenames?: string[];
+  username?: string;
+  countryimage?: string;
+  countrynames?: string[];
+  userids?: number;
 }
 export class AEvaluation extends AItem<EvaluationData> {
   static grade: Grade;
@@ -29,40 +37,40 @@ export class AEvaluation extends AItem<EvaluationData> {
   }
 
   makeRecord() {
-    this.item.labelids = Evaluation._getLabelIds(this.item['label']);
-    const grade =  AEvaluation.grade.getByUser(this.item['userid']).item;
-    this.item['usergradeimage'] = grade.image;
-    this.item['usergradenames'] = grade.names;
-    const _user = AEvaluation.user.find(this.item['userid']);
-    this.item['username'] = _user.getName();
-    const country = AEvaluation.country.find(+_user.item.country).item;
-    this.item['countryimage'] = country.emoji;
-    this.item['countrynames'] = country.names;
+    this.item.labelids = Evaluation._getLabelIds(this.item.label);
+    const grade =  AEvaluation.grade.getByUser(this.item.userid).item;
+    this.item.usergradeimage = grade.image;
+    this.item.usergradenames = grade.names;
+    const xuser = AEvaluation.user.find(this.item.userid);
+    this.item.username = xuser.getName();
+    const country = AEvaluation.country.find(+xuser.item.country).item;
+    this.item.countryimage = country.emoji;
+    this.item.countrynames = country.names;
   }
 
   addReplys() {
     if (AEvaluation.evalreply.data.length > 0) {
-      const replys1 = AEvaluation.evalreply.findAllByAttribute('evalid', +this.item['id']).reverse();
+      const replys1 = AEvaluation.evalreply.findAllByAttribute('evalid', +this.item.id).reverse();
       let replyslen =  replys1.length;
-      this.item['replyslength'] = replys1.length;
+      this.item.replyslength = replys1.length;
       if (replyslen > 5) {
         replyslen = 5;
       }
-      this.item['replys'] = replys1.slice(0, replyslen);
-      for (const rep of this.item['replys']) {
+      this.item.replys = replys1.slice(0, replyslen);
+      for (const rep of this.item.replys) {
         rep.extends();
       }
     } else {
-      this.item['replys'] = [];
+      this.item.replys = [];
     }
   }
 }
 
 export class Evaluation {
-  private _pages: Page<AEvaluation>[] = [];
-  private _currenttype: number;
-  get currentType(): number { return this._currenttype; }
-  set currentType(type: number) { this._currenttype = type; }
+  private xpages: Page<AEvaluation>[] = [];
+  private xcurrenttype: number;
+  get currentType(): number { return this.xcurrenttype; }
+  set currentType(type: number) { this.xcurrenttype = type; }
   private index = 0;
   private types = [
       {names: ['All evaluation', '所有评价'], amount: 100},
@@ -77,7 +85,7 @@ export class Evaluation {
       let n = 1;
       let i = 1;
       while (n < 1024) {
-        if ((n & label) !== 0) {
+        if ((n & label ) !== 0) {
           result.push(i);
         }
         n <<= 1;
@@ -88,75 +96,75 @@ export class Evaluation {
 
   constructor(
     data: EvaluationData[],
-    _grade: Grade,
-    _usergrade: UserGrade,
-    _user: User,
-    _country: Country,
-    _evalreply: EvalReply) {
-    AEvaluation.grade = _grade;
-    AEvaluation.usergrade = _usergrade;
-    AEvaluation.evalreply = _evalreply;
-    AEvaluation.user = _user;
-    AEvaluation.country = _country;
+    xgrade: Grade,
+    xusergrade: UserGrade,
+    xuser: User,
+    xcountry: Country,
+    xevalreply: EvalReply) {
+    AEvaluation.grade = xgrade;
+    AEvaluation.usergrade = xusergrade;
+    AEvaluation.evalreply = xevalreply;
+    AEvaluation.user = xuser;
+    AEvaluation.country = xcountry;
     const type: [AEvaluation[], AEvaluation[], AEvaluation[], AEvaluation[]] = [[], [], [], []];
     for (const item of data) {
       const rec = new AEvaluation(item);
       type[0].push(rec);
-      switch (item['star']) {
+      switch (item.star) {
         case 5:
         case 4:
             type[1].push(rec);
-          break;
+            break;
         case 3:
         case 2:
             type[2].push(rec);
-          break;
+            break;
         case 1:
         case 0:
             type[3].push(rec);
-          break;
+            break;
       }
     }
 
     for (const i of [0, 1, 2, 3]) {
-      this._pages.push(new Page(type[i]));
+      this.xpages.push(new Page(type[i]));
     }
-    this._currenttype = 0;
+    this.xcurrenttype = 0;
   }
 
   public getRecords(): EvaluationData[] {
-    const result = this._pages[this._currenttype].currentData;
+    const result = this.xpages[this.xcurrenttype].currentData;
     const evaluationdatas: EvaluationData[] = [];
-    for (let i = 0; i < result.length; i++) {
-      result[i].makeRecord();
-      result[i].addReplys();
-      evaluationdatas.push(result[i].item);
+    for (const res of result) {
+      res.makeRecord();
+      res.addReplys();
+      evaluationdatas.push(res.item);
     }
     return evaluationdatas;
   }
 
   public datalength() {
-      return this._pages[0].data.length || 0;
+      return this.xpages[0].data.length || 0;
   }
 
   public pageCount() {
-    return this._pages[this._currenttype].count();
+    return this.xpages[this.xcurrenttype].count();
   }
 
   public currentPage() {
-    return this._pages[this._currenttype].current;
+    return this.xpages[this.xcurrenttype].current;
   }
 
   public currentPageSet(n: number) {
-    let m = this._pages[this._currenttype].current;
+    let m = this.xpages[this.xcurrenttype].current;
     if (n === -1) { m--;  // prev Page
     } else if (n === -2) { m++;  // next Page
     } else { m = n; }
-    this._pages[this._currenttype].current = m;
+    this.xpages[this.xcurrenttype].current = m;
   }
   public find(id: number) {
-      for (const rec of this._pages[0].data) {
-          if (+rec.item['id'] === id) {
+      for (const rec of this.xpages[0].data) {
+          if (+rec.item.id === id) {
               return rec;
           }
       }
@@ -170,10 +178,10 @@ export class Evaluation {
   public setTypes() {
       // 评价类型统计
       let sum = 0;
-      for (const rec of this._pages[0].data) {
+      for (const rec of this.xpages[0].data) {
         const item = rec.item;
-        sum += item['star'];
-        switch (item['star']) {
+        sum += item.star;
+        switch (item.star) {
           case 5: // 好评
           case 4:
             this.types[1].amount++ ;
@@ -181,19 +189,19 @@ export class Evaluation {
           case 3:  // 中评
           case 2:
           this.types[2].amount++ ;
-            break;
+          break;
           case 1:  // 差评
           case 0:
           this.types[3].amount++ ;
-            break;
+          break;
         }
       }
-      this.types[0].amount = this._pages[0].data.length;
-      const s = sum / this._pages[0].data.length;
+      this.types[0].amount = this.xpages[0].data.length;
+      const s = sum / this.xpages[0].data.length;
       const s0 = Math.floor(s);
       const s1 = Math.ceil(s - s0);
       const s2 = 5 - s0 - s1;
-      return {stars: [new Array(s0), new Array(s1), new Array(s2)], records: this._pages[0].data.length};
+      return {stars: [new Array(s0), new Array(s1), new Array(s2)], records: this.xpages[0].data.length};
   }
 
   public rate(index: number) {

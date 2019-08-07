@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class IndexService {
-  private _chemicalId: Subject<number> = new Subject<number>();
+  private xchemicalId: Subject<number> = new Subject<number>();
 
   constructor(
     public requestService: RequestService,
@@ -18,12 +18,12 @@ export class IndexService {
   }
 
   public setChemicalId(selectedPointsIfo: number): void {
-    this._chemicalId.next(selectedPointsIfo);
+    this.xchemicalId.next(selectedPointsIfo);
 
   }
 
   public currentChemicalId(): Observable<number> {
-    return this._chemicalId.asObservable();
+    return this.xchemicalId.asObservable();
   }
   setLanguage(language) {
     this.cv.setLanguage(language);
@@ -34,7 +34,7 @@ export class IndexService {
       this.requestService.getUrl(
         'Chemicalindex',
         ['id', 'sic', 'si3n4', 'sio2', 'si', 'fe2o3', 'cao', 'al2o3'],
-        [{'field': 'id', 'operator': 'eq', 'value': cid}]
+        [{field: 'id', operator: 'eq', value: cid}]
       ),
       this.requestService.getUrl(
         'Physicoindex',

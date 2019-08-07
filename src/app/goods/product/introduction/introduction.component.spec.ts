@@ -31,7 +31,7 @@ describe('IntroductionComponent', () => {
 
   const fakeActivatedRoute = {
     snapshot: {params: {id: 1}},
-    params: of({'id': 1}),
+    params: of({id: 1}),
   };
 
   beforeEach(async(() => {

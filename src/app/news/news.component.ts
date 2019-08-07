@@ -14,10 +14,10 @@ import { News } from './classes/news';
 })
 export class NewsComponent implements OnInit {
   private news: News;
-  private selRow: Number = 0;
+  private selRow = 0;
   private languageid;
   constructor(
-    private _activeRouter: ActivatedRoute,
+    private xactiveRouter: ActivatedRoute,
     private route: Router,
     private ns: NewsService,
     private vs: ValuesService,
@@ -26,16 +26,17 @@ export class NewsComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    const language = {'News': ['新闻']};
+    const language = {News: ['新闻']};
     this.ns.setLanguage(language);
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
-    this._activeRouter.data.subscribe((data: {}) => {
-      that.news = data['data'][0];
+    this.xactiveRouter.data.subscribe((data: {}) => {
+      const sdata = 'data';
+      that.news = data[sdata][0];
     });
     // this._activeRouter.data.subscribe(params => {
-    this._activeRouter.queryParams.subscribe(params => {
+    this.xactiveRouter.queryParams.subscribe(params => {
         that.selRow = +params.id || 0;
     });
   }

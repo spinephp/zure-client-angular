@@ -24,31 +24,31 @@
 		   </div>
 		   <p class="not-registered">Not a registered user yet?<a>Sign up now!</a></p>
 	   </form>-->
-				<form class="form-horizontal login-form" role="form">
+				<form class="form-horizontal login-form" role="form" (ngSubmit)="onSubmit()">
 					<div class="form-group">
 						<div class="col-sm-10 username">
-							<input type="text" class="form-control"  name='username' required placeholder="emma.watson@gmail.com"/>
+							<input type="text" class="form-control" [(ngModel)]="loginModel.username" name='username' required placeholder="emma.watson@gmail.com"/>
 							<span class="user-icon icon">u</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-10 password">
-							<input type="password" class="form-control" name='pwd' required placeholder="*******"/>
+							<input type="password" class="form-control"  [(ngModel)]="loginModel.pwd" name='pwd' required placeholder="*******"/>
 							<span class="password-icon icon">p</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-10 verification">
-							<input type="text" class="form-control" name="code" required placeholder="1234"/>
-							<img src="{{rooturl}}admin/checkNum_session.php" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" />	
+							<input type="text" class="form-control"  [(ngModel)]="loginModel.code" name="code" required placeholder="1234"/>
+							<img src="{{urlValidate}}" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" (click)="resetValidate()"/>	
+							<input type="hidden" [(ngModel)]="loginModel.active" name="action" value="custom_login" />
+							<input type="hidden" [(ngModel)]="loginModel.token" name="token" value={{token}} />
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-10 buttons">
-							<input type="hidden" name="action" value="custom_login" />
-							<input type="hidden" name="token" value={{token}} />
 							<button type="submit" class="btn btn-default">{{"Sign in" | translate:languageid}}</button>
-							<button type="submit" class="btn btn-default">{{"Sign up" | translate:languageid}}</button>
+							<button type="button" class="btn btn-default">{{"Sign up" | translate:languageid}}</button>
 							<a href='fogot_form.php'>{{"Forget Password" | translate:languageid}}</a>
 						</div>
 					</div>
@@ -76,10 +76,10 @@
 			<div class="panel-body contact-items">
 				<p><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={{qiye.qq}}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{{qiye.qq}}:41" title="{{'Click here to send a message to me' | translate:languageid}}"></a></p>
 				<p><label>📞{{"Tel" | translate:languageid}}: </label>{{qiye.tel}}</p>
-				<p><label>📠{{"Fax" | translate:languageid}}: </label>{{_parent.qiye.fax}}</p>
-				<p><label>✉️{{"Email" | translate:languageid}}: </label><a href="mailto:{{qiye.email}}">{{_parent.qiye.email}}</a></p>
-				<p><label>{{"Url" | translate:languageid}}: </label>{{_parent.qiye.domain}}</p>
-				<p>{{_parent.qiye.names |translate:languageid}}</p>
+				<p><label>📠{{"Fax" | translate:languageid}}: </label>{{xparent.qiye.fax}}</p>
+				<p><label>✉️{{"Email" | translate:languageid}}: </label><a href="mailto:{{qiye.email}}">{{xparent.qiye.email}}</a></p>
+				<p><label>{{"Url" | translate:languageid}}: </label>{{xparent.qiye.domain}}</p>
+				<p>{{xparent.qiye.names |translate:languageid}}</p>
 			</div>
 		</div>
 	</div>

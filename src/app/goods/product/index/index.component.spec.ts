@@ -31,7 +31,7 @@ describe('IndexComponent', () => {
 ];
   const fakeActivatedRoute = {
     snapshot: {params: {id: 1}},
-    params: of({'id': 1}),
+    params: of({id: 1}),
     data: of({data: [ chemical, phyical ]})
   };
 

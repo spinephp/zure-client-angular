@@ -25,13 +25,13 @@ describe('PopbuttonDirective', () => {
     declarations: [ ContainerComponent, PopbuttonDirective ],
     schemas:      [ NO_ERRORS_SCHEMA ]  // 用来“浅化”组件测试程序，告诉编译器忽略不认识的元素和属性，这样你不再需要声明无关的组件和指令，
   });
-  fixture = TestBed.createComponent(ContainerComponent);
-  fixture.detectChanges();
-  component = fixture.componentInstance;
+                    fixture = TestBed.createComponent(ContainerComponent);
+                    fixture.detectChanges();
+                    component = fixture.componentInstance;
   // directive = fixture.debugElement.injector.get(PopbuttonDirective);
  /** 查找所有用到该指令的宿主元素 */
- des = fixture.debugElement.queryAll(By.directive(PopbuttonDirective));
- bareH2 = fixture.debugElement.query(By.css('h2:not([appPopbutton])')); // 没有用到该指令的宿主元素});
+                    des = fixture.debugElement.queryAll(By.directive(PopbuttonDirective));
+                    bareH2 = fixture.debugElement.query(By.css('h2:not([appPopbutton])')); // 没有用到该指令的宿主元素});
 });
   it('should create an instance', () => {
     expect(des.length).toBe(1);

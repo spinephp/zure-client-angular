@@ -1,0 +1,84 @@
+<!-- 注册框 -->
+<div class="modal fade" id="logonModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+   
+        <!-- 注册框头部 -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{'Logon' | translate:languageid}}</h4>
+          <button type="button" #logonButton class="close" data-dismiss="modal">&times;</button>
+        </div>
+   
+        <!-- 注册框主体 -->
+        <div class="modal-body">
+          <form id='fmUserRegister' class="login-form" >
+                      <div class="form-group">
+                          <div class="col-sm-10 username">
+                              <input type="text" class="form-control" #formLogon [(ngModel)]="model.username" name='username' required placeholder="emma.watson@gmail.com" (blur)="validateInput(0)" data-toggle="tooltip" data-placement="right" title="{{info[0] | translate:languageid}}"/>
+                <span class="user-icon icon" [style.color]="color[0]">u</span>
+                <!-- <span class="check-icon icon">c</span><span id='p_pwd_err_info'></span> -->
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 password">
+                              <input type="password" class="form-control"  #formLogon [(ngModel)]="model.pwd" name='pwd' required placeholder="*******" (blur)="validateInput(1)" data-toggle="tooltip" data-placement="right" title="{{info[1] | translate:languageid}}"/>
+                              <span class="password-icon icon" [style.color]="color[1]">p</span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 password-strength">
+                              <span></span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 password">
+                              <input type="password" class="form-control" #formLogon [(ngModel)]="model.repwd" name='repwd' required placeholder="*******" (blur)="validateInput(2)" data-toggle="tooltip" data-placement="right" title="{{info[2] | translate:languageid}}"/>
+                              <span class="password-icon icon" [style.color]="color[2]">p</span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 email">
+                              <input type="email" class="form-control" #formLogon [(ngModel)]="model.email" name='email' required placeholder="xyz@163.com" (blur)="validateInput(3)" data-toggle="tooltip" data-placement="right" title="{{info[3] | translate:languageid}}"/>
+                              <span class="email-icon" [style.color]="color[3]">✉️</span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 verification">
+                              <input type="text" class="form-control" #formLogon [(ngModel)]="model.code" name="code" required placeholder="1234" (blur)="validateInput(4)" data-toggle="tooltip" data-placement="right" title="{{info[4] | translate:languageid}}"/>
+                              <img src="{{urlValidate}}" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" (click)="resetValidate()"/>	
+                          </div>
+                      </div>
+            
+            <!-- <dl>
+            <dt><label for='UserName'>{{'Name' | translate:languageid}}:</label></dt><dd>
+              <div  class="username">
+              <input name='P_username' type='text' [(ngModel)]="model.username" required placeholder="6~18 {{'Char' | translate:languageid}}(a-zA-Z0-9.-_@)" (blur)="validateUserName(this)"/>
+              <span class="user-icon icon">u</span>
+              </div>
+            </dd><dd><span>*</span> <span id='p_username_err_info' [style.color]="usernameinfocolor">{{usernameinfo | translate:languageid}}</span></dd>
+            <dt><label for='Password'>{{'PWD' | translate:languageid}}:</label></dt><dd><input name='P_pwd' type='password' required placeholder="6-16 {{'Char' | translate:languageid}}(a-zA-Z0-9.!@#$%^&*?_~)"/></dd><dd><span>*</span><span id='p_pwd_err_info'></span></dd>
+            <dt><label >{{'Strength' | translate:languageid}}:</label></dt><dd id='password_label' style='width:245px;border:1px solid #ccc;margin-top:3px;'><span style='width:150px;height:20px;display:block;border:1px solid #F0F0F0'> </span></dd>
+            <dt><label for='PasswordAgain'>{{'RE-PWD' | translate:languageid}}:</label></dt><dd><input name='PasswordAgain' type='password' required placeholder="{{'Ditto' | translate:languageid}}"/></dd><dd><span>*</span><span id='passwordagain_err_info'></span></dd>
+            <dt><label for='Email'>{{'Email' | translate:languageid}}:</label></dt><dd><input name='P_email' type='email' required placeholder="{{'e.g.' | translate:languageid}}:abc@example.com"/></dd><dd><span>*</span><span id='p_email_err_info'></span></dd>
+            <dt><label for='Mobile'>{{'Mobile' | translate:languageid}}:</label></dt><dd><input name='P_mobile' type='text' placeholder="{{'e.g.' | translate:languageid}}:18961376627" /></dd><dd><span>*</span><span id='p_mobile_err_info'></span></dd>
+            <dt><label for='Tel'>{{'Tel' | translate:languageid}}:</label></dt><dd><input name='P_tel' type='tel' required placeholder="{{'e.g.' | translate:languageid}}:+86 518 82340137"/></dd><dd><span>*</span><span id='p_tel_err_info'></span></dd>
+            <dt><label for='Validate'>{{'PIN' | translate:languageid}}:</label></dt><dd><input name='code' type='text' required placeholder="{{'Enter char in box' | translate:languageid}}" /></dd><dd><span>* </span><img id='validate' src="{{urlValidate}}" style='border:#CCCCCC 1px solid; cursor:pointer;' alt="{{'Click get another pin' | translate:languageid}}" width=50 height=20 (click)="resetValidate()" /></dd>
+            </dl>
+            <input type='hidden' name='action' value='custom_create' />
+            <input type='hidden' name='P_lasttime' value='' />
+            <input type='hidden' name='P_times' value='0' />
+            <input type='hidden' name='C_type' value='P' />
+            <input type='hidden' name='token' value=" + $.fn.cookie('PHPSESSIS') + " /> -->
+          </form>
+        </div>
+   
+        <!-- 注册框底部 -->
+        <div class="modal-footer">
+              <button type="submit" #logonButton class="btn btn-primary" (click)="logon()">{{"Logon" | translate:languageid}}</button>
+              <button type="button" #logonButton class="btn btn-secondary" data-dismiss="modal">{{"Cancel" | translate:languageid}}</button>
+        </div>
+   
+      </div>
+    </div>
+  </div>
+  

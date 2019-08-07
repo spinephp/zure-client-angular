@@ -12,7 +12,7 @@ import { Subject, Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class GoodsService {
-  private _data: Subject<any> = new Subject<any>();
+  private xdata: Subject<any> = new Subject<any>();
 
   constructor(
     private requestService: RequestService,
@@ -61,7 +61,7 @@ export class GoodsService {
   }
 
   public currentData(): Observable<any> {
-    return this._data.asObservable();
+    return this.xdata.asObservable();
   }
 
   public updateData() {

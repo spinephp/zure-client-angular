@@ -18,8 +18,8 @@ import { User } from './classes/user';
   providedIn: 'root'
 })
 export class EvaluationService {
-  private _evaluation: Subject<any> = new Subject<any>();
-  private _data: Subject<any> = new Subject<any>();
+  private xevaluation: Subject<any> = new Subject<any>();
+  private xdata: Subject<any> = new Subject<any>();
 
   constructor(
     public requestService: RequestService,
@@ -28,15 +28,15 @@ export class EvaluationService {
   }
 
   public setData(datas: any[]): void {
-    this._data.next(datas);
+    this.xdata.next(datas);
   }
 
   public setEvaluation(selectedPointsIfo: any): void {
-    this._evaluation.next(selectedPointsIfo);
+    this.xevaluation.next(selectedPointsIfo);
   }
 
   public currentEvaluation(): Observable<any> {
-    return this._evaluation.asObservable();
+    return this.xevaluation.asObservable();
   }
 
   public updateData(proid: any): void {
@@ -75,7 +75,7 @@ export class EvaluationService {
               data.push(notes);
               data.push(consults);
               data.push(labelkinds);
-              that._data.next(data);
+              that.xdata.next(data);
             });
           });
         });
@@ -85,13 +85,13 @@ export class EvaluationService {
         data.push(null); // user
         data.push(null); // country
         data.push(null); // country
-        that._data.next(data);
+        that.xdata.next(data);
       }
     });
   }
 
   public currentData(): Observable<any> {
-      return this._data.asObservable();
+      return this.xdata.asObservable();
   }
   // 统计指定评价的产品中，各种标签出现的数量
   getLabelKinds(evals, goodslabel) {
@@ -100,9 +100,11 @@ export class EvaluationService {
       labelkind[label.id] = 0;
     }
     for (const aeval of evals) {
-      if (aeval.label > -1) {
+      const alabel: number = aeval.label;
+      if (alabel > -1) {
         for (const label of goodslabel) {
-          if ((aeval.label & (1 << (label.id - 1))) !== 0) {
+          // tslint:disable-next-line:no-bitwise
+          if ((alabel & (1 << (+label.id - 1))) !== 0) {
             labelkind[label.id]++;
           }
         }
@@ -117,17 +119,17 @@ export class EvaluationService {
       this.requestService.getUrl(
         'ProductEval',
         ['id', 'proid', 'userid', 'label', 'useideas', 'star', 'date', 'useful', 'status', 'feelid'],
-        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+        [{field: 'proid', value: [proid], operator: 'in'}]
       ),
       this.requestService.getUrl(
         'ProductUse',
         ['id', 'proid', 'userid', 'title', 'content', 'images', 'date', 'status'],
-        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+        [{field: 'proid', value: [proid], operator: 'in'}]
       ),
       this.requestService.getUrl(
         'ProductConsult',
         ['id', 'proid', 'userid', 'type', 'content', 'time', 'reply', 'replytime'],
-        [{'field': 'proid', value: [proid], 'operator': 'in'}]
+        [{field: 'proid', value: [proid], operator: 'in'}]
       ),
     ];
     return this.requestService._get(ps);
@@ -158,12 +160,12 @@ export class EvaluationService {
       this.requestService.getUrl(
         'EvalReply',
         ['id', 'evalid', 'userid', 'parentid', 'content', 'time'],
-        [{'field': 'evalid', 'value': ids1, 'operator': 'in'}]
+        [{field: 'evalid', value: ids1, operator: 'in'}]
       ),
       this.requestService.getUrl(
         'CustomGrade',
         ['id', 'userid', 'gradeid'],
-        [{'field': 'userid', 'value': ids, 'operator': 'in'}]
+        [{field: 'userid', value: ids, operator: 'in'}]
       ),
     ];
     return this.requestService._get(ps);
@@ -190,7 +192,7 @@ export class EvaluationService {
       this.requestService.getUrl(
         'Person',
         ['id', 'username', 'picture', 'nick', 'country'],
-        [{'field': 'id', 'value': ids, 'operator': 'in'}]
+        [{field: 'id', value: ids, operator: 'in'}]
       ),
     ];
     return this.requestService._get(ps);
@@ -209,7 +211,7 @@ export class EvaluationService {
       this.requestService.getUrl(
         'Country',
         ['id', 'names', 'code3', 'emoji'],
-        [{'field': 'id', 'value': ids, 'operator': 'in'}]
+        [{field: 'id', value: ids, operator: 'in'}]
       ),
     ];
     return this.requestService._get(ps);

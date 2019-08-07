@@ -1,16 +1,16 @@
 
 export class AItem<T> {
-    private _item: T;
-    get item(): T { return this._item; }
+    private xitem: T;
+    get item(): T { return this.xitem; }
     constructor(data: T) {
-        this._item = data;
+        this.xitem = data;
     }
     public attribute() {
-        return Object.keys(this._item as Object);
+        return Object.keys(this.xitem as unknown as object);
     }
 
     value(name: string) {
-        let result;
+        let result: any;
         if (this.attribute().indexOf(name) > -1) {
             result =  this.item[name];
         }
@@ -19,20 +19,22 @@ export class AItem<T> {
 }
 
 export abstract class Yrrdb<T, U> {
-    protected _data: T[];
-    get data(): T[] { return this._data; }
-    protected _current: Object;
-    constructor(data: U[], aClass) {
-        this._data = [];
+    protected xdata: T[];
+    get data(): T[] { return this.xdata; }
+    protected xcurrent: object;
+    private sitem: string;
+    constructor(data: U[], aClass: new (U: any) => T) {
+        this.xdata = [];
         for (const rec of data) {
-            this._data.push(create<T, U>(aClass, rec));
+            this.xdata.push(create<T, U>(aClass, rec));
         }
+        this.sitem = 'item';
     }
 
     public find(id: number): T {
         const cid = +id;
-        for (const rec of this._data) {
-            if (+rec['item']['id'] === cid) {
+        for (const rec of this.xdata) {
+            if (+rec[this.sitem].id === cid) {
             return rec;
             }
         }
@@ -40,13 +42,13 @@ export abstract class Yrrdb<T, U> {
     }
 
     public findByAttribute(name: string, value: any): T {
-        let result;
+        let result: T;
         if (name && value && this.data.length > 0) {
-            const keys = Object.keys(this.data[0]['item']);
+            const keys = Object.keys(this.data[0][this.sitem]);
             if (keys.indexOf(name) > -1) {
                 const str = value.toString();
                 for (const aitem of this.data) {
-                    if (aitem['item'][name].toString() === str) {
+                    if (aitem[this.sitem][name].toString() === str) {
                         result = aitem;
                         break;
                     }
@@ -59,11 +61,11 @@ export abstract class Yrrdb<T, U> {
     public findAllByAttribute(name: string, value: any): T[] {
         const result: T[] = [];
         if (name && value && this.data.length > 0) {
-            const keys = Object.keys(this.data[0]['item']);
+            const keys = Object.keys(this.data[0][this.sitem]);
             if (keys.indexOf(name) > -1) {
                 const str = value.toString();
                 for (const aitem of this.data) {
-                    if (aitem['item'][name].toString() === str) {
+                    if (aitem[this.sitem][name].toString() === str) {
                         result.push(aitem);
                     }
                 }
@@ -73,11 +75,11 @@ export abstract class Yrrdb<T, U> {
     }
 }
 
-function create<T, U>(c: {new(U): T; }, data): T {
+function create<T, U>(c: new(U: any) => T, data: U): T {
     return new c(data);
 }
 
-function create1<T>(c: {new(): T; }): T {
+function create1<T>(c: new() => T): T {
     return new c();
 }
 

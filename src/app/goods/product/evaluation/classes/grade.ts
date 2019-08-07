@@ -21,6 +21,6 @@ export class Grade extends Yrrdb<AGrade, GradeData> {
 
     public getByUser = (userid: number) => {
         const item = this.usergrade.findByAttribute('userid', userid).item;
-        return this.find(+item['gradeid']);
+        return this.find(+item.gradeid);
     }
 }

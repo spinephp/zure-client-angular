@@ -16,11 +16,11 @@ export interface NoteData {
 }
 
 export class ANote extends AItem<NoteData> {
-    static _user: User;
-    static _country: Country;
+    static xuser: User;
+    static xcountry: Country;
     static getCountry(userid: number) {
-        const item = ANote._user.find(userid).item;
-        return ANote._country.find(+item.country).item;
+        const item = ANote.xuser.find(userid).item;
+        return ANote.xcountry.find(+item.country).item;
     }
 
     constructor(data: NoteData) {
@@ -32,9 +32,9 @@ export class ANote extends AItem<NoteData> {
 }
 export class Note extends Yrrdb<ANote, NoteData> {
 
-    constructor(data: NoteData[], _user: User, _country: Country) {
-        ANote._user = _user;
-        ANote._country = _country;
+    constructor(data: NoteData[], xuser: User, xcountry: Country) {
+        ANote.xuser = xuser;
+        ANote.xcountry = xcountry;
         super(data, ANote);
     }
 

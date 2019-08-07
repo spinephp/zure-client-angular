@@ -3,6 +3,7 @@ import { GoodsComponent } from '../goods.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GoodsService } from '../../goods//goods.service';
 import { AKind } from '../classes/kind';
+import { SettingsService } from 'src/app/commons/service/settings.service';
 
 @Component({
   selector: 'app-kinds',
@@ -12,23 +13,25 @@ import { AKind } from '../classes/kind';
 export class KindsComponent implements OnInit, AfterViewInit {
   private selId: number;
   private aGoodsClass;
-  private preNames: String;
-
+  private preNames: string;
+  private rooturl: string;
   constructor(
-    private _parent: GoodsComponent,
+    private xparent: GoodsComponent,
     private router: ActivatedRoute,
     private hs: GoodsService,
-
-  ) { }
+    private cv: SettingsService,
+  ) {
+    this.rooturl = cv.rootUrl;
+  }
 
   ngOnInit() {
     const that = this;
     // this.router.queryParams.subscribe(params => {
     this.router.params.subscribe(params => {
-      const id = params.id || that._parent.goodsClass.data[0]['item']['id'];
-      that.aGoodsClass = that._parent.goodsClass.find(id);
-      that.preNames = that._parent.goodsClass.longNames(id)[that._parent.languageid];
-      that._parent.activeNode(id);
+      const id = params.id || that.xparent.goodsClass.data[0].item.id;
+      that.aGoodsClass = that.xparent.goodsClass.find(id);
+      that.preNames = that.xparent.goodsClass.longNames(id)[that.xparent.languageid];
+      that.xparent.activeNode(id);
       });
   }
   ngAfterViewInit() {
@@ -36,7 +39,7 @@ export class KindsComponent implements OnInit, AfterViewInit {
   introduction(): string[] {
     let result = [];
     if (this.aGoodsClass) {
-      const s = this.aGoodsClass.item.introductions[this._parent.languageid];
+      const s = this.aGoodsClass.item.introductions[this.xparent.languageid];
       if (s) {
         result = s.split('^');
       }

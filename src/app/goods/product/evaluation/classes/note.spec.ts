@@ -37,15 +37,15 @@ describe('UserGrade', () => {
     });
 
     it('getCountry() should be called and return right value', () => {
-        spyOn(ANote._user, 'find').and.callThrough();
-        spyOn(ANote._country, 'find').and.callThrough();
+        spyOn(ANote.xuser, 'find').and.callThrough();
+        spyOn(ANote.xcountry, 'find').and.callThrough();
 
         const item = ANote.getCountry(3);
 
-        expect(ANote._user.find).toHaveBeenCalled();
-        expect(ANote._country.find).toHaveBeenCalled();
-        expect(ANote._user.find).toHaveBeenCalledWith(3);
-        expect(ANote._country.find).toHaveBeenCalledWith(+userdata[0].country);
+        expect(ANote.xuser.find).toHaveBeenCalled();
+        expect(ANote.xcountry.find).toHaveBeenCalled();
+        expect(ANote.xuser.find).toHaveBeenCalledWith(3);
+        expect(ANote.xcountry.find).toHaveBeenCalledWith(+userdata[0].country);
 
         expect(item).toBe(countrydata[0]);
     });

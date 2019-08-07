@@ -19,7 +19,7 @@ describe('TranslatePipe', () => {
     expect(pipe.transform('')).toEqual('');
   });
   it('should work with real string', () => {
-    setTimeout(function() {
+    setTimeout(() => {
       expect(pipe.transform('YunRui')).toEqual('云瑞');
     }, 200);
   });

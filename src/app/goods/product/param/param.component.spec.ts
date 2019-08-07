@@ -39,25 +39,25 @@ const kinddata = [
 
 const productdatas: ProductData[]  = [
   {
-    'id': '1',
-    'classid': 1,
-    'size': '12"x24"x10mm',
-    'length': 24,
-    'width': 12,
-    'think': 10,
-    'unitlen': '"',
-    'unitwid': '"',
-    'unitthi': 'mm',
-    'picture': '12_24_10.png',
-    'unit': 'PCS',
-    'sharp': '1',
-    'weight': 5.6,
-    'price': 16,
-    'returnnow': 6,
-    'amount': 100,
-    'cansale': true,
-    'physicoindex': 1,
-    'chemicalindex': 1
+    id: '1',
+    classid: 1,
+    size: '12"x24"x10mm',
+    length: 24,
+    width: 12,
+    think: 10,
+    unitlen: '"',
+    unitwid: '"',
+    unitthi: 'mm',
+    picture: '12_24_10.png',
+    unit: 'PCS',
+    sharp: '1',
+    weight: 5.6,
+    price: 16,
+    returnnow: 6,
+    amount: 100,
+    cansale: true,
+    physicoindex: 1,
+    chemicalindex: 1
   }
 ];
 
@@ -103,7 +103,7 @@ describe('ParamComponent', () => {
     const injector = fixture.debugElement.injector;
     translate = injector.get(TranslatePipe);
     unit = injector.get(UnitPipe);
-  fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

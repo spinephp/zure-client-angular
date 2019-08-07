@@ -8,7 +8,19 @@
                <option *ngFor="let item of languages; let i = index" [value]="i">{{item.name_en}}</option>
             </select>
           </li>
-          <li><span class="user-icon icon">👤</span></li>
+          <li>
+            <div class="dropdown">
+              <div class="user-icon icon" data-toggle="dropdown" (click)="userclicked()"><div [hidden]="logined">👤</div><div [hidden]="!logined"><img  src="{{rooturl}}images/user/u00000046.jpg" width="45" height="45"/></div></div>
+              <div class="dropdown-menu dropdown-menu-right" style="display:none;flex-direction: column;left: -100px;" (blur)="close()">
+                      <a class="dropdown-item" tabindex="-1" href="#">Java</a>
+                      <a class="dropdown-item" tabindex="-1" href="#">数据挖掘</a>
+                      <a class="dropdown-item" tabindex="-1" href="#">数据通信/网络</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#logonModal">{{'Logon' | translate:languageid}}</a>
+                      <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#loginModal">{{'Login' | translate:languageid}}</a>
+                      <a class="dropdown-item" tabindex="-1"  [hidden]="!logined"(click)="logout()">{{logtext | translate:languageid}}</a>
+              </div>
+            </div></li>
         </ul>
   </div>
   <nav class="navbar navbar-expand-sm bg-light" role="navigation">
@@ -58,3 +70,55 @@
     </span>{{"ICP" | translate:languageid}}: {{ qiye.icp}}
   </p>
 </div>
+ 
+<!-- 登录框 -->
+<div class="modal fade" id="loginModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+ 
+      <!-- 登录框头部 -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{'Login' | translate:languageid}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+ 
+      <!-- 登录框主体 -->
+      <div class="modal-body">
+				<form class="form-horizontal login-form" role="form" (ngSubmit)="onSubmit()">
+					<div class="form-group">
+						<div class="col-sm-10 username">
+							<input type="text" class="form-control" [(ngModel)]="aLoginer.name" name='username' required placeholder="emma.watson@gmail.com"/>
+							<span class="user-icon icon">u</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 password">
+							<input type="password" class="form-control"  [(ngModel)]="aLoginer.pwd" name='pwd' required placeholder="*******"/>
+							<span class="password-icon icon">p</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 verification">
+							<input type="text" class="form-control"  [(ngModel)]="aLoginer.code" name="code" required placeholder="1234"/>
+							<img src="{{urlValidate}}" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" (click)="resetValidate()"/>	
+						</div>
+          </div>
+        </form>
+      </div>
+ 
+      <!-- 登录框底部 -->
+      <div class="modal-footer">
+        <div class="form-group">
+          <div class="col-sm-10 buttons">
+            <button type="submit" class="btn btn-default">{{"Login" | translate:languageid}}</button>
+            <button type="button" class="btn btn-default">{{"Logon" | translate:languageid}}</button>
+            <a href='fogot_form.php'>{{"Forget Password" | translate:languageid}}</a>
+          </div>
+        </div>
+    </div>
+ 
+    </div>
+  </div>
+</div>
+ 
+<app-register></app-register>

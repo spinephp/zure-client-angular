@@ -160,8 +160,8 @@ describe('EvaluationComponent', () => {
       data.push(labelkinds);
       evalService.setData(data);
     });
-    spyOn(evalService, 'getLabelKinds').and.returnValue([undefined, 0, 0, 1, 0, 0, 0, 0, 0]);
-    evalService.currentData().subscribe((rs) => {
+      spyOn(evalService, 'getLabelKinds').and.returnValue([undefined, 0, 0, 1, 0, 0, 0, 0, 0]);
+      evalService.currentData().subscribe((rs) => {
       expect(rs.length).toEqual(5);
       // Evaluation
       expect(rs[0].types.length).toBe(4);

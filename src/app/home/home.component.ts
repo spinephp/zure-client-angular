@@ -7,6 +7,8 @@ import { SettingsService } from '../commons/service/settings.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Kind } from '../goods/classes/kind';
 import { Product } from '../goods/classes/product';
+import { Userlogin } from './classes/userlogin';
+import { ALoginer, LoginerData } from '../classes/loginer';
 
 @Component({
   selector: 'app-home',
@@ -15,31 +17,45 @@ import { Product } from '../goods/classes/product';
   providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
-  private qiye;
-  private _languageid: number;
-  get languageid(): number { return this._languageid; }
-  set languageid(langid: number) { this._languageid = langid; }
-  private _goodsClass: Kind;
-  get goodsClass(): Kind { return this._goodsClass; }
-  set goodsClass(gclass: Kind) { this._goodsClass = gclass; }
-  private _goods: Product;
-  get goods(): Product { return this._goods; }
-  set goods(goods: Product) { this._goods = goods; }
-  private _news: Product;
-  get news(): Product { return this._news; }
-  set news(news: Product) { this._news = news; }
-  private introduct;
-  private rooturl: String;
+  get languageid(): number { return this.xlanguageid; }
+  set languageid(langid: number) { this.xlanguageid = langid; }
+  get goodsClass(): Kind { return this.xgoodsClass; }
+  set goodsClass(gclass: Kind) { this.xgoodsClass = gclass; }
+  get goods(): Product { return this.xgoods; }
+  set goods(goods: Product) { this.xgoods = goods; }
+  get news(): Product { return this.xnews; }
+  set news(news: Product) { this.xnews = news; }
   constructor(
-    private _parent: AppComponent,
+    private xparent: AppComponent,
     private hs: HomeService,
     private vs: ValuesService,
     private ss: SettingsService,
     private router: ActivatedRoute,
     private route: Router,
     private ls: LocalStorage) {
-      this.qiye = _parent.qiye;
+      this.qiye = xparent.qiye;
       this.rooturl = ss.rootUrl;
+  }
+  private qiye;
+  private xlanguageid: number;
+  private xgoodsClass: Kind;
+  private xgoods: Product;
+  private xnews: Product;
+  private introduct;
+  private rooturl: string;
+  token = this.ls.get('sessionid');
+  loginModel = new Userlogin(null, null, null, null, null);
+  loginFormSubmitted = false;
+  urlValidate = '/woo/admin/checkNum_session.php';
+  onSubmit() {
+    this.loginFormSubmitted = true;
+    this.loginModel.action = 'custom_login';
+    this.loginModel.token = this.token;
+    const param = JSON.stringify(this.loginModel);
+    const that = this;
+    this.hs.login(this.loginModel).then((rs: LoginerData) => {
+      that.vs.setLoginer(rs);
+    });
   }
 
   ngOnInit() {
@@ -52,9 +68,10 @@ export class HomeComponent implements OnInit {
       that.qiye = value;
     });
     this.router.data.subscribe((data: {}) => {
-      that.goodsClass = data['data'][0];
-      that.goods = data['data'][1];
-      that.news = data['data'][2];
+      const sdata = 'data';
+      that.goodsClass = data[sdata][0];
+      that.goods = data[sdata][1];
+      that.news = data[sdata][2];
     });
     }
 
@@ -68,4 +85,9 @@ export class HomeComponent implements OnInit {
     // this.route.navigate(['products/product'], { queryParams: { id: id } });
     // this.route.navigate(['products'], { queryParams: { id: 'p' + id } });
   };
+  resetValidate = () => {
+    this.urlValidate = '/woo/admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000);
+    this.loginModel.code = null;
+  }
+
 }

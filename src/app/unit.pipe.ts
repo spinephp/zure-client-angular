@@ -8,7 +8,7 @@ export class UnitPipe implements PipeTransform {
   transform(value: string, args?: any): any {
     const units = [
       {'"': ['inch', '英寸']},
-      {'mm': ['millimeter', '毫米']}
+      {mm: ['millimeter', '毫米']}
     ];
     for (const item of units) {
       if (item[value]) {

@@ -72,9 +72,9 @@ describe('KindsComponent', () => {
   //   goodsClass['find'] = function(id) { return goodsClass[0]; };
   //   goodsClass['longNames'] = function(id) { return goodsClass[0].names; };
 
-    const fakeActivatedRoute = {
+  const fakeActivatedRoute = {
       snapshot: {params: {id: 1}},
-      params: of({'id': 1}),
+      params: of({id: 1}),
     };
 
   beforeEach(async(() => {

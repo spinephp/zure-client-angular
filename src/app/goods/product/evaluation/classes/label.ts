@@ -1,5 +1,5 @@
 import { Yrrdb, AItem } from '../../../../commons/provider/yrrdb';
-import { _getViewData } from '@angular/core/src/render3/instructions';
+// import { _getViewData } from '@angular/core/src/render3/instructions';
 
 export interface LabelData {
     id: string;

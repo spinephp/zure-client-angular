@@ -15,16 +15,22 @@ import { NewsComponent } from './news/news.component';
 import { HomeResolveService } from './home/home-resolve.service';
 import { NewsResolveService } from './news//news-resolve.service';
 import { GoodsModule } from './goods/goods.module';
-//import { PinyinPipe } from './pinyin.pipe';
+// import { TranslatePipe } from './translate.pipe';
+import { RegisterComponent } from './register/register.component';
+import 'jquery';
+import 'bootstrap';
+import { from } from 'rxjs';
+import { TranslatePipe } from './translate.pipe';
+// import { PinyinPipe } from './pinyin.pipe';
 // import { UnitPipe } from './unit.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // TranslatePipe,
     HomeComponent,
     NewsComponent,
-    //PinyinPipe,
+    RegisterComponent
+    // PinyinPipe,
     // UnitPipe,
   ],
   imports: [
@@ -42,9 +48,13 @@ import { GoodsModule } from './goods/goods.module';
     SettingsService,
     HomeResolveService,
     NewsResolveService,
-    ValuesService],
+    ValuesService,
+    TranslatePipe
+  ],
   bootstrap: [AppComponent],
-  exports: []
+  exports: [
+
+  ]
 })
 export class AppModule {
 }

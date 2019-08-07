@@ -28,6 +28,8 @@ export class PopbuttonDirective {
           const label = document.createElement('label');
           const input = document.createElement('input');
           const btn = document.createElement('button');
+          const sdiv = 'div';
+          const sreplyid = 'replayid';
           div.style.width = '90%';
           div.style.border = '1px solid #ddd';
           div.style.margin = '5px';
@@ -38,13 +40,13 @@ export class PopbuttonDirective {
           label.style.display = 'block';
           btn.innerText = 'Submit';
           btn.style.margin = '0 0 0 10px';
-          btn['div'] = div;
-          btn['replyid'] = evt.id;
+          btn[sdiv] = div;
+          btn[sreplyid] = evt.id;
           btn.onclick = (eve) => {
-            const content = eve.target['div'].getElementsByTagName('input')[0].value; // childNodes[1].value;
+            const content = eve.target[sdiv].getElementsByTagName('input')[0].value; // childNodes[1].value;
             // that.es.postreply({replyid: eve.target['replyid'], content: content});
-            eve.target['div'].remove();
-            delete eve.target['div'];
+            eve.target[sdiv].remove();
+            delete eve.target[sdiv];
             PopbuttonDirective.btn.remove();
             PopbuttonDirective.btn = null;
           };

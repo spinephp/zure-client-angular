@@ -33,24 +33,24 @@ export class AConsult extends AItem<ConsultData> {
 }
 
 export class Consult extends Yrrdb<AConsult, ConsultData> {
-  private _type: number;
-  get type(): number { return this._type; }
+  private xtype: number;
+  get type(): number { return this.xtype; }
   set type(i: number) {
-    this._type = i;
+    this.xtype = i;
   }
-  private _types: Object[];
+  private xtypes: object[];
   constructor(
     data: ConsultData[],
-    _grade: Grade,
-    _usergrade: UserGrade,
-    _user: User
+    xgrade: Grade,
+    xusergrade: UserGrade,
+    xuser: User
     ) {
-      AConsult.grade = _grade;
-      AConsult.user = _user;
-      AConsult.usergrade = _usergrade;
+      AConsult.grade = xgrade;
+      AConsult.user = xuser;
+      AConsult.usergrade = xusergrade;
       super(data, AConsult);
-      this._type = 0;
-      this._types = this.getTypes();
+      this.xtype = 0;
+      this.xtypes = this.getTypes();
   }
 
   // 返回当前咨询内容记录数组
@@ -90,11 +90,12 @@ export class Consult extends Yrrdb<AConsult, ConsultData> {
 
   // 取当前咨询类型记录数
   public typeLength() {
-    return this._types[this._type]['amount'];
+    const samount = 'amount';
+    return this.xtypes[this.xtype][samount];
   }
 
   // 咨询 tabs 点击事件处理
   public tabsClick(type: number) {
-    this._type = type;
+    this.xtype = type;
   }
 }
