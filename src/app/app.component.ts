@@ -55,11 +55,11 @@ export class AppComponent implements OnInit {
     this.vs.currentLoginer().subscribe((value: LoginerData) => {
       if (value === undefined) {
         that.logined = false;
-        that.logtext = 'Login';
+        that.logtext = 'Sign in';
         that.aLoginer = new ALoginer(null);
       } else {
         that.logined = true;
-        that.logtext = 'Logout';
+        that.logtext = 'Sign out';
         that.aLoginer = new ALoginer(value);
       }
     });
@@ -121,64 +121,4 @@ export class AppComponent implements OnInit {
       // 未登录
     }
   }
-
-  // 注册
-  // logon() {
-  //   if (this.model.pwd !== this.model.repwd) {
-  //     alert(this.tr.transform('The two passwords you typed are not consistent. \n please re-enter.'));
-  //     this.model.pwd = null;
-  //     this.model.repwd = null;
-  //   } else {
-  //     // this.logonFormSubmitted = true;
-  //     const params = {
-  //       custom: { type: 'P'},
-  //       person: {
-  //         username: this.model.username,
-  //         pwd: this.model.pwd,
-  //         email: this.model.email,
-  //         times: '0'
-  //       },
-  //       code: this.model.code,
-  //       action: 'custom_create',
-  //       language: 1,
-  //       token: this.ls.get('sessionid')
-  //     };
-  //     const that = this;
-  //     this.headerService.logon(params).then((rs: any) => {
-  //       if (rs.id > -1) {
-  //         that.aPerson = new APerson(rs.person);
-  //         that.aCustom = new ACustom(rs.custom);
-  //         alert(that.tr.transform('Congratulations,') + rs.register + '\n' + rs.email);
-  //         that.logonButtons.last.nativeElement.click(); // 关闭注册框
-  //       } else {
-  //         switch (rs.error) {
-  //           case 'Access Denied':
-  //             window.location.reload();
-  //             break;
-  //           case 'Validate Code Error!':
-  //             alert(that.tr.transform('Verify code error, please fill in.'));
-  //             that.resetValidate();
-  //             // that.logonInputs.nativeElement.
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
-  // // 重获验证码
-  // resetValidate() {
-  //   this.urlValidate = '/woo/admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000);
-  //   this.logonInputs.last.nativeElement.select(); // 全选验证码文本
-  // }
-  // validateUserName(ev) {
-  //   if (/^[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}$/.test(this.model.username)) {
-  //     // 用户名不能以数字开头
-  //     this.usernameinfo = 'Pass';
-  //     return 1;
-  //   } else {
-  //     // ev.target.focus();
-  //     this.usernameinfo = 'Invalid user name';
-  //     return 0;
-  //   }
-  // }
 }

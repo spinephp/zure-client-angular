@@ -51,9 +51,9 @@ export class HomeService {
     return this.requestService._get(ps);
   }
 
-  login(param: Userlogin) {
-    return this.requestService.post('/woo/index.php?cmd=CheckLogin', JSON.stringify(param)).then(rs => {
-      return rs;
-    });
-  }
+  // login(param: Userlogin) {
+  //   return this.requestService.post('/woo/index.php?cmd=CheckLogin', JSON.stringify(param)).then(rs => {
+  //     return rs;
+  //   });
+  // }
 }

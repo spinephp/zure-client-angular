@@ -9,6 +9,7 @@ import { Kind } from '../goods/classes/kind';
 import { Product } from '../goods/classes/product';
 import { Userlogin } from './classes/userlogin';
 import { ALoginer, LoginerData } from '../classes/loginer';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private xparent: AppComponent,
     private hs: HomeService,
+    private loginservice: LoginService,
     private vs: ValuesService,
     private ss: SettingsService,
     private router: ActivatedRoute,
@@ -50,10 +52,10 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.loginFormSubmitted = true;
     this.loginModel.action = 'custom_login';
-    this.loginModel.token = this.token;
+    // this.loginModel.token = this.token;
     const param = JSON.stringify(this.loginModel);
     const that = this;
-    this.hs.login(this.loginModel).then((rs: LoginerData) => {
+    this.loginservice.login(this.loginModel).then((rs: LoginerData) => {
       that.vs.setLoginer(rs);
     });
   }

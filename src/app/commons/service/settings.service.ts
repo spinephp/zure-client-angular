@@ -14,8 +14,8 @@ export class SettingsService {
   constructor(private ls: LocalStorage) { }
   // rootUrl = 'http://www.yrr8.com/woo/';
   // rootUrl = 'http://127.0.0.1/woo/';
-  // rootUrl = 'http://192.168.1.107/woo/'; // 服务器无线
-  rootUrl = 'http://192.168.1.22/woo/';  // 服务器有线
+  rootUrl = 'http://192.168.1.107/woo/'; // 服务器无线
+  // rootUrl = 'http://192.168.1.22/woo/';  // 服务器有线
   baseUrl = this.rootUrl + 'index.php';
   imgUrl = this.rootUrl + 'images/';
   sessionid = this.ls.get('sessionid') || '';
@@ -24,9 +24,9 @@ export class SettingsService {
     Yunrui: ['云瑞'],
     'My YunRui': ['我的云瑞'],
     'Hello, please': ['您好，请'],
-    Login: ['登录'],
-    Logout: ['退出登录'],
-    Logon: ['注册'],
+    'Sign in': ['登录'],
+    'Sign out': ['退出登录'],
+    'Sign up': ['注册'],
     'Go my YunRui': ['去我的云瑞首页'],
     'The latest order status': ['最新订单状态'],
     'Check all order': ['查看所有订单'],
@@ -68,7 +68,8 @@ export class SettingsService {
     'The two passwords you typed are not consistent. \n please re-enter.': ['分别键入的两个密码不一致!\n请重新输入。'],
     'Error form submission, please try again later': ['表单提交出错，请稍候再试'],
     'Congratulations,': ['恭喜您，'],
-    'Verify code error, please fill in.': ['验证码错误，请重新填写。']
+    'Verify code error, please fill in.': ['验证码错误，请重新填写。'],
+    Pass: ['通过']
     };
   public addLanguages(langs: {}): void {
     this.languages = Object.assign(langs, this.languages);

@@ -21,6 +21,7 @@ import 'jquery';
 import 'bootstrap';
 import { from } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
+import { LoginComponent } from './login/login.component';
 // import { PinyinPipe } from './pinyin.pipe';
 // import { UnitPipe } from './unit.pipe';
 
@@ -29,7 +30,8 @@ import { TranslatePipe } from './translate.pipe';
     AppComponent,
     HomeComponent,
     NewsComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
     // PinyinPipe,
     // UnitPipe,
   ],

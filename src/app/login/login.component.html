@@ -1,0 +1,47 @@
+ 
+<!-- 登录框 -->
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+   
+        <!-- 登录框头部 -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{'Sign in' | translate:languageid}}</h4>
+          <button type="button" #loginButton class="close" data-dismiss="modal">&times;</button>
+        </div>
+   
+        <!-- 登录框主体 -->
+        <div class="modal-body">
+                  <form class="form-horizontal login-form" (ngSubmit)="login()">
+                      <div class="form-group">
+                          <div class="col-sm-10 username">
+                              <input type="text" class="form-control" #formLogin [(ngModel)]="aLoginer.username" name='username' required placeholder="emma.watson@gmail.com"/>
+                              <span class="user-icon icon">u</span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 password">
+                              <input type="password" class="form-control" #formLogin [(ngModel)]="aLoginer.pwd" name='pwd' required placeholder="*******"/>
+                              <span class="password-icon icon">p</span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10 verification">
+                              <input type="text" class="form-control" #formLogin [(ngModel)]="aLoginer.code" name="code" required placeholder="1234"/>
+                              <img src="{{urlValidate}}" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='{{"Click get another pin" | translate:languageid}}' width="50" height="20" (click)="resetValidate()"/>	
+                          </div>
+            </div>
+          </form>
+        </div>
+   
+        <!-- 登录框底部 -->
+        <div class="modal-footer">
+              <button type="submit" #loginButton class="btn btn-primary">{{"Sign in" | translate:languageid}}</button>
+              <button type="button" #loginButton class="btn btn-secondary" data-toggle="modal" data-target="#logonModal" (click)="logon()">{{"Sign up" | translate:languageid}}</button>
+              <a href='fogot_form.php'>{{"Forget Password" | translate:languageid}}</a>
+      </div>
+   
+      </div>
+    </div>
+  </div>
+  
