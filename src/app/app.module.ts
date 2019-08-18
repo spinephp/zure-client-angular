@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
+// import { BsDropdownModule, ButtonsModule} from 'ngx-bootstrap';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {ValuesService} from './commons/service/values.service';
 import {HeaderService} from './header.service';
@@ -22,6 +22,7 @@ import 'bootstrap';
 import { from } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
 import { LoginComponent } from './login/login.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 // import { PinyinPipe } from './pinyin.pipe';
 // import { UnitPipe } from './unit.pipe';
 
@@ -31,13 +32,14 @@ import { LoginComponent } from './login/login.component';
     HomeComponent,
     NewsComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
     // PinyinPipe,
     // UnitPipe,
   ],
   imports: [
-    BsDropdownModule.forRoot(),
-    ButtonsModule.forRoot(),
+    // BsDropdownModule.forRoot(),
+    // ButtonsModule.forRoot(),
     HttpModule,
     JsonpModule,
     BrowserModule,

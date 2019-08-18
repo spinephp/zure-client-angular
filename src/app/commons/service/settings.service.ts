@@ -14,19 +14,21 @@ export class SettingsService {
   constructor(private ls: LocalStorage) { }
   // rootUrl = 'http://www.yrr8.com/woo/';
   // rootUrl = 'http://127.0.0.1/woo/';
-  rootUrl = 'http://192.168.1.107/woo/'; // 服务器无线
-  // rootUrl = 'http://192.168.1.22/woo/';  // 服务器有线
+  // rootUrl = 'http://192.168.1.107/woo/'; // 服务器无线
+  rootUrl = 'http://192.168.1.22/woo/';  // 服务器有线
   baseUrl = this.rootUrl + 'index.php';
   imgUrl = this.rootUrl + 'images/';
   sessionid = this.ls.get('sessionid') || '';
   language0: {} = {// 页眉
     YunRui: ['云瑞'],
     Yunrui: ['云瑞'],
+    Language: ['语言'],
     'My YunRui': ['我的云瑞'],
     'Hello, please': ['您好，请'],
     'Sign in': ['登录'],
     'Sign out': ['退出登录'],
     'Sign up': ['注册'],
+    Submit: ['提交'],
     'Go my YunRui': ['去我的云瑞首页'],
     'The latest order status': ['最新订单状态'],
     'Check all order': ['查看所有订单'],

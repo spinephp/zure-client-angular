@@ -48,6 +48,7 @@
           </div>
           <article data-id='{{eval.id}}' id="evalcontent">
             <p><span *ngFor="let item of makeArray(eval.star)" class="fa fa-star"></span><span *ngFor="let item of makeArray(5-eval.star)" class="fa fa-star-o"></span> <span>{{eval.date}}</span></p>
+            <span></span>
             <p><label>{{'Label' | translate:languageid}}:</label>
               <b *ngFor="let id of eval.labelids" class="badge badge-secondary">{{labels.find(id).item.names | translate:languageid}}</b>
             </p>

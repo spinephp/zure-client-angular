@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { RequestService } from '../commons/service/request.service';
 import { LocalStorage } from '../commons/provider/local-storage';
 import { TranslatePipe } from '../translate.pipe';
@@ -10,115 +10,97 @@ import { preserveWhitespacesDefault } from '@angular/compiler';
   providedIn: 'root'
 })
 export class RegisterService {
-
+  public model: Model;
+  public enregister: boolean;
+  public pwdInfo: string;
+  public pwdColor: string;
+  public pwdWidth: string;
+  public urlValidate: string;
   constructor(
     private requestService: RequestService,
     private ls: LocalStorage,
     private tr: TranslatePipe
-  ) { }
-  model = [null, null, null, null, null];
-  regex = [
-    /^[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}$/,
-    /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/,
-    /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/,
-    /^\w+((-\w+)|(\.\w+))*\@\w+((\.|-)\w+)*\.\w+$/,
-    /^[a-zA-Z0-9]{4}$/
-  ];
-  info = ['Enter user name', 'Enter password', 'Re-enter password', 'Enter email', 'Enter code'];
-  errinfo = ['Invalid user name', 'Invalid password', 'Invalid password', 'Invalid email', 'Invalid code'];
-  color = ['#999', '#999', '#999', '#999', '#999'];
-  fun = [this.checkUserName, undefined, this.check2password];
-  enregister = false;
-  pwdInfo = '';
-  pwdColor = 'white';
-  pwdWidth = '0';
-  // AJAX 检查用户名是否存在，如用户名存在，用绿色在 username_err_info 指定处显示"通过"，
-  // 否则用红色在 username_err_info 指定处显示"用户名已存在"或其它错误信息。
-  // @param string value - 包含用户名的字符串
-  checkUserName(that): boolean {
-    // const that = this;
-    const param = {
-      filter: ['id', 'username'],
-      cond: [{ field: 'username', value: that.model[0], operator: 'eq' }],
-      token: that.ls.get('sessionid')
-    };
-    const url = '/woo/index.php? cmd=Person&' + jQuery.param(param);
-    that.requestService.get(url, null).then(rs => { // 从远程服务器取用户名
-      if (rs.length !== 0) {
-        that.info[0] = 'User name already exists';
-        that.color[0] = 'red';
-      } else {
-        that.info[0] = 'Pass';
-        that.color[0] = 'green';
-      }
-    });
-    return true;
+  ) {
+    this.model = new Model();
+    this.init();
   }
-  check2password(that): boolean {
+
+  init() {
+    this.model.init();
+    this.enregister = false;
+    this.pwdInfo = '';
+    this.pwdColor = 'white';
+    this.pwdWidth = '0';
+    this.urlValidate = '/woo/admin/checkNum_session.php';
+  }
+  validateAll(eref: any) {
     let result = true;
-    if (that.model[1] === that.model[2]) {
-      that.info[2]  = 'Pass';
-      that.color[2] = 'green';
-    } else {
-      if ( +that.model[2].length > 0) {
-        that.info[2]  = 'Two passwords are different';
-        that.color[2] = 'red';
-        that.logonInputs._results[2].nativeElement.select();
-      } else {
-        that.info[2]  = 'Re-enter password';
-        that.color[2] = '#999';
-      }
+    const i = this.model.validateAll(this) ;
+    if (i >= 0) {
+      eref._results[i].nativeElement.select();
       result = false;
     }
     return result;
   }
 
-  logon(model) {
+  // 重获验证码
+  resetValidate(codeInput) {
+    this.urlValidate = '/woo/admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000);
+    // this.loginInputs.last.nativeElement.select(); // 全选验证码文本
+    codeInput.select();
+  }
+
+  logon() {
     const params = {
       custom: { type: 'P'},
       person: {
-        username: model.username,
-        pwd: model.pwd,
-        email: model.email,
+        username: this.model.data[0],
+        pwd: this.model.data[1],
+        email: this.model.data[3],
         times: '0'
       },
-      code: model.code,
+      code: this.model.data[4],
       action: 'custom_create',
-      language: this.ls.getLanguageId() - 1,
+      language: this.ls.getLanguageId(),
       token: this.ls.get('sessionid')
     };
     return this.requestService.post('/woo/index.php?cmd=Custom', JSON.stringify(params)).then(rs => {
       return rs;
     });
   }
-  canRegister(): boolean {
-    let result = true;
-    for (const item of this.info) {
-      if (item !== 'Pass') {
-        result = false;
-        break;
-      }
-    }
-    return result;
+
+  login() {
+    const params = {
+      username: this.model.data[0],
+      pwd: this.model.data[1],
+      code: this.model.data[4],
+      action: 'custom_login',
+      token: this.ls.get('sessionid')
+    };
+    return this.requestService.post('/woo/index.php?cmd=CheckLogin', JSON.stringify(params)).then(rs => {
+      return rs;
+    });
+  }
+
+  resetpwd() {
+    const params = {
+      username: this.model.data[0],
+      email: this.model.data[3],
+      code: this.model.data[4],
+      type: 'ResetPassword',
+      action: 'custom_resetPassword',
+      language: this.ls.getLanguageId(),
+      token: this.ls.get('sessionid')
+    };
+    return this.requestService.post('/woo/index.php?cmd=ResetPassword', JSON.stringify(params)).then(rs => {
+      return rs;
+    });
   }
   // 校验 input 输入框的值
   // @param index : integer, 指定要校验的 input 输入框
   validateInput(index) {
-    let result = true;
-    if (this.regex[index].test(this.model[index])) {
-      if (isDefined(this.fun[index])) {
-        result = this.fun[index](this);
-      } else {
-        this.info[index]  = 'Pass';
-        this.color[index] = 'green';
-      }
-    } else {
-      // ev.target.focus();
-      this.info[index]  = this.errinfo[index];
-      this.color[index] = 'red';
-      result = false;
-    }
-    if (this.enregister !== this.canRegister()) {
+    const result = this.model.validateInput(index, this);
+    if (this.enregister !== this.model.canSubmit()) {
       this.enregister = !this.enregister;
     }
     return result;
@@ -186,8 +168,8 @@ export class RegisterService {
   }
 
   checkpass() {
-    const user = this.model[0] || 'usrname';
-    const score = this.testpass(this.model[1], user);
+    const user = this.model.data[0] || 'usrname';
+    const score = this.testpass(this.model.data[1], user);
     if (score === -4) {
       this.pwdInfo = 'Short';
     } else if (score === -2) {

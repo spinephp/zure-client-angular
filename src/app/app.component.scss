@@ -1,4 +1,5 @@
 @import "./commons/scss/login.scss";
+@import "./commons/scss/submenu.scss";
 
 @mixin flex2($direction: row){
     display:flex;
@@ -110,3 +111,16 @@ ul.dropdown-menu{
 	color: white;
 	margin-right:20px;
 }
+
+.fa {
+    display:inline-block;
+    // font-family: 'loginform-icon';
+    font-size:15px;
+    text-align:center;
+    line-height:28px;
+    color:rgb(153,153,153);
+    border:none;
+    width:20px;
+    height:20px;
+}
+        

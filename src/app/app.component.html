@@ -1,27 +1,35 @@
 <div id='top'>
   <div id="topheader">
     <div id="title"><p>{{qiye.names | translate:languageid}}</p></div>
-        <!--向右对齐-->
-        <ul>
-          <li>
-            <select class="selectpicker" [(ngModel)]="languageid" (change)="selectChangeLanguage($event.target.value)">
-               <option *ngFor="let item of languages; let i = index" [value]="i">{{item.name_en}}</option>
-            </select>
-          </li>
-          <li>
-            <div class="dropdown">
-              <div class="user-icon icon" data-toggle="dropdown" (click)="userclicked()"><div [hidden]="logined">👤</div><div [hidden]="!logined"><img  src="{{rooturl}}images/user/u00000046.jpg" width="45" height="45"/></div></div>
-              <div class="dropdown-menu dropdown-menu-right" style="display:none;flex-direction: column;left: -100px;" (blur)="close()">
-                      <a class="dropdown-item" tabindex="-1" href="#">Java</a>
-                      <a class="dropdown-item" tabindex="-1" href="#">数据挖掘</a>
-                      <a class="dropdown-item" tabindex="-1" href="#">数据通信/网络</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#logonModal">{{'Sign up' | translate:languageid}}</a>
-                      <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#loginModal">{{'Sign in' | translate:languageid}}</a>
-                      <a class="dropdown-item" tabindex="-1"  [hidden]="!logined"(click)="logout()">{{logtext | translate:languageid}}</a>
+      <!--向右对齐-->
+      <ul>
+        <li>
+          <div class="dropdown">
+            <div class="user-icon icon" data-toggle="dropdown">
+              <div [hidden]="logined">👤</div>
+              <div [hidden]="!logined">
+                <img  src="{{rooturl}}images/user/u00000046.jpg" width="45" height="45"/>
               </div>
-            </div></li>
-        </ul>
+            </div>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-submenu pull-left">
+                <a class="dropdown-item" tabindex="-1" href="#"><span class="fa fa-language"></span>{{'Language' | translate:languageid}}</a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-item" tabindex="-1" *ngFor="let item of languages; let i = index" (click)="selectChangeLanguage(i)">
+                    <!-- <span class="language-icon">{{ i==languageid? 'c':' '}}</span> -->
+                    <span class="fa {{ i==languageid? 'fa-check-square':'fa-square-o'}}"></span>
+                    {{item.names[i]}}
+                    </div>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#logonModal">{{'Sign up' | translate:languageid}}</a>
+              <a class="dropdown-item" tabindex="-1" [hidden]="logined" data-toggle="modal" data-target="#loginModal">{{'Sign in' | translate:languageid}}</a>
+              <a class="dropdown-item" tabindex="-1"  [hidden]="!logined"(click)="logout()">{{logtext | translate:languageid}}</a>
+            </div>
+          </div>
+        </li>
+      </ul>
   </div>
   <nav class="navbar navbar-expand-sm bg-light" role="navigation">
     <div class="container-fluid">
@@ -73,3 +81,4 @@
  
 <app-login></app-login>
 <app-register></app-register>
+<app-reset-password></app-reset-password>

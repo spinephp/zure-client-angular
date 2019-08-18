@@ -10,8 +10,6 @@ import { TranslatePipe } from './translate.pipe';
 import { APerson } from './classes/person';
 import { ACustom } from './classes/custom';
 
-declare var $: any;
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -92,16 +90,16 @@ export class AppComponent implements OnInit {
     this.ls.set('languageid', id); // 把新语言保存在 local storage
     this.vs.setLanguageId(id); // 设置当前系统语言
   }
-  userclicked() {
-    // $('.dropdown-toggle').dropdown();
-    let disp = $('.dropdown-menu').css('display');
-    if (disp === 'none') {
-      disp = 'flex';
-    } else {
-      disp = 'none';
-    }
-    $('.dropdown-menu').css('display', disp);
-  }
+  // userclicked() {
+  //   // $('.dropdown-toggle').dropdown();
+  //   let disp = $('.dropdown-menu').css('display');
+  //   if (disp === 'none') {
+  //     disp = 'flex';
+  //   } else {
+  //     disp = 'none';
+  //   }
+  //   $('.dropdown-menu').css('display', disp);
+  // }
 
   logout() {
     const that = this;

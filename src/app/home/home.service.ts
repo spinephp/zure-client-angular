@@ -5,7 +5,7 @@ import { Kind } from '../goods/classes/kind';
 import { Product } from '../goods/classes/product';
 import { of } from 'rxjs';
 import { News } from '../news/classes/news';
-import { Userlogin } from './classes/userlogin';
+// import { Userlogin } from './classes/userlogin';
 
 @Injectable({
   providedIn: 'root'

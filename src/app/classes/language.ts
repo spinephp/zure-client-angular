@@ -2,7 +2,7 @@ import { Yrrdb, AItem } from 'src/app/commons/provider/yrrdb';
 
 export interface LanguageData {
     id: string;
-    name_en: string;
+    names: string[];
 }
 
 export class ALanguage extends AItem<LanguageData> {

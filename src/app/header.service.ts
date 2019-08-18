@@ -40,7 +40,7 @@ export class HeaderService {
 
     const ps = [
       this.requestService.getUrl('Qiye', ['id', 'names', 'addresses', 'tel', 'fax', 'email', 'qq', 'domain', 'introductions', 'icp']),
-      this.requestService.getUrl('Language', ['id', 'name_en']),
+      this.requestService.getUrl('Language', ['id', 'names']),
       this.requestService.getUrl('Navigation', ['id', 'names', 'command']),
     ];
     return this.requestService._get(ps);
