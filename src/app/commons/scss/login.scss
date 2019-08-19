@@ -25,14 +25,15 @@
 // .login-form .password-icon {
 .login-form input+span {
     display:inline-block;
-    font-family: 'loginform-icon';
+    font-family: FontAwesome;
+    // font-family: 'loginform-icon';
     font-size:15px;
     text-align:center;
     line-height:28px;
     color:rgb(153,153,153);
     position:absolute;
     left:16px;
-    top:3px;
+    top:5px;
     background-color:rgb(255,255,255);
     border:none;
     border-right:1px solid rgb(229,229,232);
@@ -69,21 +70,33 @@
 }
 
 // .login-form .icon:before, .login-form .icon:after {
-.login-form input+span:before, .login-form input+span:after {
-    content:"";
+// .fa:before, .fa:after {
+//     // content:"";
+//     // font-family: FontAwesome;
+//     position:absolute;
+//     top:10px;
+//     left:30px;
+//     width:0;
+//     height:0;
+//     border:4px solid transparent;
+//     border-left-color:rgb(255,255,255);
+// }
+.login-form .fa{
+    font-family: FontAwesome;
     position:absolute;
-    top:10px;
-    left:30px;
+    top:-40px;
+    left:0px;
     width:0;
     height:0;
     border:4px solid transparent;
     border-left-color:rgb(255,255,255);
 }
-.login-form input+span:before {
-    top:9px;
-    border:5px solid transparent;
-    border-left-color:rgb(229,229,232);
-}
+
+// .fa:before {
+//     top:9px;
+//     border:5px solid transparent;
+//     border-left-color:rgb(229,229,232);
+// }
 .login-form .username input:focus,
 .login-form .email input:focus,
 .login-form .password input:focus {

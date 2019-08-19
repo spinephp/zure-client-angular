@@ -112,7 +112,7 @@ ul.dropdown-menu{
 	margin-right:20px;
 }
 
-.fa {
+#topheader span.fa {
     display:inline-block;
     // font-family: 'loginform-icon';
     font-size:15px;
@@ -121,6 +121,7 @@ ul.dropdown-menu{
     color:rgb(153,153,153);
     border:none;
     width:20px;
-    height:20px;
+	height:20px;
+	margin-right: 3px;
 }
         

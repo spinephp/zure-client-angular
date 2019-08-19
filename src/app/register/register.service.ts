@@ -51,20 +51,24 @@ export class RegisterService {
   }
 
   logon() {
-    const params = {
-      custom: { type: 'P'},
-      person: {
-        username: this.model.data[0],
-        pwd: this.model.data[1],
-        email: this.model.data[3],
-        times: '0'
-      },
-      code: this.model.data[4],
-      action: 'custom_create',
-      language: this.ls.getLanguageId(),
-      token: this.ls.get('sessionid')
-    };
-    return this.requestService.post('/woo/index.php?cmd=Custom', JSON.stringify(params)).then(rs => {
+    const type = 'type';
+    const param = 'param';
+    const lang = 'language';
+    const token = 'token';
+
+    const obj = this.model.getRequestParam();
+    const cmd = ['Custom', 'CheckLogin', 'ResetPassword'][obj[type]];
+    const params = obj[param];
+    switch (obj[type]) {
+      case 0:
+      case 2:
+        params[lang] = this.ls.getLanguageId();
+        break;
+    }
+    params[token] = this.ls.get('sessionid');
+
+    return this.requestService.post(`/woo/index.php?cmd=${cmd}`, JSON.stringify(params)).then(rs => {
+      rs[type] = obj[type];
       return rs;
     });
   }

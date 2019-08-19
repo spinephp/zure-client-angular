@@ -9,6 +9,7 @@ import { Userlogin } from './home/classes/userlogin';
 import { TranslatePipe } from './translate.pipe';
 import { APerson } from './classes/person';
 import { ACustom } from './classes/custom';
+import { Observable, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -33,17 +34,19 @@ export class AppComponent implements OnInit {
       this.rooturl = ss.rootUrl;
       this.aLoginer = new ALoginer(null);
     }
-  aPerson = new APerson({id: undefined, username: undefined, picture: undefined, nick: undefined});
+
+    aPerson = new APerson({id: undefined, username: undefined, picture: undefined, nick: undefined});
   aCustom = new ACustom({id: null, userid: null});
 
   logined = false;
   logtext = 'Login';
-  urlValidate = '/woo/admin/checkNum_session.php';
+  // urlValidate = '/woo/admin/checkNum_session.php';
   // usernameinfo = 'Enter user name';
   // usernameinfocolor = '#999';
   // model = new Userlogin(null, null, null, null, null);
   // @ViewChildren('formLogon') logonInputs; // : ElementRef[];
   // @ViewChildren('logonButton') logonButtons;
+  @ViewChildren('signops') signButtons: any;
   ngOnInit() {
     const that = this;
     // $('[data-toggle="tooltip"]').tooltip();
@@ -83,6 +86,8 @@ export class AppComponent implements OnInit {
         console.log(res[serror]);
       }
     });
+    const singclick = fromEvent(this.signButtons.first.nativeElement, 'click')
+    .forEach(val => console.log('btnClickStream val', val));
   }
 
   // 选择了新的语言

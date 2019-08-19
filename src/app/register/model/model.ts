@@ -1,14 +1,17 @@
 export class Model {
-  private type: number;
+  public type: number;
     private active: number[];
     private fun: any[];
     public data: string[];
     public info: string[];
     public errinfo: string[];
     public color: string[];
+    public title: string;
 constructor(
     ) {
-      this.type = -1;
+      this.type = 0;
+      this.active = [0, 1, 2, 3, 4];
+      this.fun = [this.checkUserName, undefined, this.check2password, undefined, undefined];
       this.init();
     }
     regex = [
@@ -23,6 +26,7 @@ constructor(
       this.info = ['Enter user name', 'Enter password', 'Re-enter password', 'Enter email', 'Enter code'];
       this.errinfo = ['Invalid user name', 'Invalid password', 'Invalid password', 'Invalid email', 'Invalid code'];
       this.color = ['#999', '#999', '#999', '#999', '#999'];
+      this.title = ['Sign up', 'Sign in', 'Reset password'][this.type];
     }
     get(index: number): string {
         return this.data[index];
@@ -32,6 +36,7 @@ constructor(
     }
     setActive(type: number) {
       if (type !== this.type) {
+        this.type = type;
         switch (type) {
           case 0: // 注册
             this.active = [0, 1, 2, 3, 4];
@@ -47,12 +52,47 @@ constructor(
             break;
         }
         this.init();
-        this.type = type;
       }
     }
     setInfo(index: number, value: string, color: string) {
       this.info[index] = value;
       this.color[index] = color;
+    }
+    getRequestParam(): object {
+      let params: object;
+      switch (this.type) {
+        case 0:
+          params = {
+            custom: { type: 'P'},
+            person: {
+              username: this.data[0],
+              pwd: this.data[1],
+              email: this.data[3],
+              times: '0'
+            },
+            code: this.data[4],
+            action: 'custom_create',
+          };
+          break;
+        case 1:
+          params = {
+            username: this.data[0],
+            pwd: this.data[1],
+            code: this.data[4],
+            action: 'custom_login',
+          };
+          break;
+        case 2:
+          params = {
+            username: this.data[0],
+            email: this.data[3],
+            code: this.data[4],
+            type: 'ResetPassword',
+            action: 'custom_resetPassword',
+          };
+          break;
+      }
+      return { type: this.type, param: params};
     }
     validateInput(index, that) {
       let result = true;
@@ -74,14 +114,21 @@ constructor(
     }
 
     validateAll(that) {
-        for (const i in this.data) {
-            if (this.data[i] !== null) {
-                if (!this.validateInput(i, that)) {
-                    return i;
-                }
-            }
+      let result = -1;
+      for (const i in this.data) {
+        if (this.data[i] !== null) {
+          if (!this.validateInput(i, that)) {
+            result = +i;
+            break;
+          }
         }
-        return -1;
+      }
+      if (result === -1 && this.active[1] !== -1 && this.active[2] !== -1) {
+        if (this.data[1] !== this.data[2]) {
+          result = 2;
+        }
+      }
+      return result;
     }
     equal2password() {
       return this.data[1] === this.data[2];

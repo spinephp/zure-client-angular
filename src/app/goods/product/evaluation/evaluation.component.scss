@@ -111,6 +111,8 @@
                     float: right;
                 }
             }
+
+            // 在评价框左边加一个 < 箭头
             &:first-child + span{
                 display:inline-block;
                 font-size:15px;
@@ -142,6 +144,7 @@
                 border:10px solid transparent;
                 border-right-color:rgb(229,229,232);
             }
+            
             label{
                 width: 80px;
                 text-align: right;

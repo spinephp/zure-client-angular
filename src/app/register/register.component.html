@@ -5,7 +5,7 @@
    
         <!-- 注册框头部 -->
         <div class="modal-header">
-          <h4 class="modal-title">{{'Sign up' | translate:languageid}}</h4>
+          <h4 class="modal-title">{{rs.model.title | translate:languageid}}</h4>
           <button type="button" #logonButton class="close" data-dismiss="modal">&times;</button>
         </div>
    
@@ -14,35 +14,35 @@
           <form id='fmUserRegister' class="login-form" >
                       <div class="form-group">
                           <div class="col-sm-10 username">
-                              <input type="text" class="form-control" #formLogon [(ngModel)]="rs.model.data[0]" name='username' required placeholder="emma.watson@gmail.com" (blur)="rs.validateInput(0)" (focus)="rs.model.setActive(0)" data-toggle="tooltip" data-placement="right" title="{{rs.model.info[0] | translate:languageid}}"/>
-                <span class="user-icon icon" [style.color]="rs.model.color[0]">u</span>
-                <!-- <span class="check-icon icon">c</span><span id='p_pwd_err_info'></span> -->
+                              <input type="text" class="form-control" #formLogon [(ngModel)]="rs.model.data[0]" name='username' required placeholder="emma.watson@gmail.com" (blur)="rs.validateInput(0)" data-toggle="tooltip" data-placement="right" title="{{rs.model.info[0] | translate:languageid}}"/>
+                <!-- <span class="user-icon icon" [style.color]="rs.model.color[0]">u</span> -->
+                <span class="fa fa-user" [style.color]="rs.model.color[0]"></span>
                           </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="rs.model.active[1]>=0">
                           <div class="col-sm-10 password">
                               <input type="password" class="form-control"  #formLogon [(ngModel)]="rs.model.data[1]" name='pwd' required placeholder="*******" (ngModelChange)="rs.checkpass()" (blur)="rs.validateInput(1)" data-toggle="tooltip" data-placement="right" title="{{rs.model.info[1] | translate:languageid}}"/>
-                              <span class="password-icon icon" [style.color]="rs.model.color[1]">p</span>
+                              <span class="fa fa-key" [style.color]="rs.model.color[1]"></span>
                           </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="rs.model.active[2]>=0">
                           <div class="col-sm-10 password">
                             <div class="password-strength">
                               <span [style.background-color]="rs.pwdColor" [style.width]="rs.pwdWidth">{{rs.pwdInfo}}</span>
                             </div>
                           </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="rs.model.active[2]>=0">
                           <div class="col-sm-10 password">
                               <input type="password" class="form-control" #formLogon [(ngModel)]="rs.model.data[2]" name='repwd' required placeholder="*******" (blur)="rs.validateInput(2)" data-toggle="tooltip" data-placement="right" title="{{rs.model.info[2] | translate:languageid}}"/>
-                              <span class="password-icon icon" [style.color]="rs.model.color[2]">p</span>
+                              <span class="fa fa-key" [style.color]="rs.model.color[2]"></span>
                           </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="rs.model.active[3]>=0">
                           <div class="col-sm-10 email">
                               <input type="email" class="form-control" #formLogon [(ngModel)]="rs.model.data[3]" name='email' required placeholder="xyz@163.com" (blur)="rs.validateInput(3)" data-toggle="tooltip" data-placement="right" title="{{rs.model.info[3] | translate:languageid}}"/>
                               <!-- <span class="fa fa-envelope-o" [style.color]="rs.model.color[3]"></span> -->
-                              <span class="email-icon" [style.color]="rs.model.color[3]">✉️</span>
+                              <span class="fa fa-envelope" [style.color]="rs.model.color[3]"></span>
                           </div>
                       </div>
                       <div class="form-group">
@@ -79,7 +79,8 @@
         <div class="modal-footer">
               <button type="submit" #logonButton class="btn btn-primary" [disabled]="!rs.enregister" (click)="logon()">{{"Submit" | translate:languageid}}</button>
               <button type="button" #logonButton class="btn btn-secondary" data-dismiss="modal">{{"Cancel" | translate:languageid}}</button>
-        </div>
+              <button type="button" class="btn btn-link" *ngIf="rs.model.type===1" (click)="hide()">{{"Forget Password" | translate:languageid}}</button>
+            </div>
    
       </div>
     </div>
