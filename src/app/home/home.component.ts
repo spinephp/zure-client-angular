@@ -9,6 +9,7 @@ import { Kind } from '../goods/classes/kind';
 import { Product } from '../goods/classes/product';
 import { Userlogin } from './classes/userlogin';
 import { ALoginer, LoginerData } from '../classes/loginer';
+import { isArray } from 'util';
 // import { LoginService } from '../login/login.service';
 
 @Component({
@@ -59,7 +60,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = +this.ls.get('languageid');
+    // this.languageid = +this.ls.get('languageid');
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
@@ -74,6 +75,16 @@ export class HomeComponent implements OnInit {
     });
     }
 
+  getIntroduction() {
+    let result = [];
+    if (this.qiye !== null && isArray(this.qiye.introductions)) {
+      const s: string = this.qiye.introductions[this.languageid];
+      if (s !== null && s !== undefined) {
+        result = s.split('^');
+      }
+    }
+    return result;
+  }
   // 点击了新闻条目
   newschoose = function(i) {
     // 路由到 news 页面，显示第 i 条新闻

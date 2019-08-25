@@ -6,7 +6,7 @@ import { Directive, ElementRef, HostListener, Renderer, Input, HostBinding, Afte
 export class ItemResizeDirective implements AfterViewInit {
   private el: HTMLElement;
 
-  constructor(el: ElementRef, public renderer: Renderer) {
+  constructor(el: ElementRef) {
     this.el = el.nativeElement;
   }
 

@@ -59,6 +59,7 @@ export class RegisterComponent implements OnInit {
     alert(that.tr.transform('Congratulations,') + rs.register + '\n' + rs.email);
   }
   successLogin(rs, that) {
+    delete rs.type;
     that.vs.setLoginer(rs);
   }
   successResetPassword(rs, that) {

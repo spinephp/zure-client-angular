@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { LoginerData } from 'src/app/classes/loginer';
+import { isDefined } from '@angular/compiler/src/util';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +11,25 @@ export class ValuesService {
   private xlanguageId: Subject<number> = new Subject<number>();
   private xqiye: Subject<any> = new Subject<any>();
   private xLoginer: Subject<LoginerData> = new Subject<LoginerData>();
+  private currentLanguageIdData: number;
+  private currentLoginerData: LoginerData;
+  constructor() {
+    this.setLoginer(undefined);
+  }
 
-  constructor() { }
-
-    public setLanguageId(selectedPointsIfo: number): void {
+  public setLanguageId(selectedPointsIfo: number): void {
     this.xlanguageId.next(selectedPointsIfo);
-
+    this.currentLanguageIdData = selectedPointsIfo;
   }
 
   public currentLanguageId(): Observable<number> {
-      return this.xlanguageId.asObservable();
+    if (isDefined(this.currentLanguageIdData)) {
+      setTimeout(() => {
+        this.xlanguageId.next();
+      }
+      , 30);
+    }
+    return this.xlanguageId.asObservable();
   }
 
   public setQiye(selectedPointsIfo: any): void {
@@ -33,11 +43,14 @@ export class ValuesService {
 
   public setLoginer(selectedPointsIfo: LoginerData): void {
     this.xLoginer.next(selectedPointsIfo);
-
+    this.currentLoginerData = selectedPointsIfo;
   }
 
   public currentLoginer(): Observable<LoginerData> {
-      return this.xLoginer.asObservable();
+    setTimeout(() => {
+      this.xLoginer.next(this.currentLoginerData); }
+    , 30);
+    return this.xLoginer.asObservable();
   }
 
 }

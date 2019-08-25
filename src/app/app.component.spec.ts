@@ -27,7 +27,7 @@ export class RouterLinkStubDirective {
     this.navigatedTo = this.linkParams;
   }
 }
-  const companydatas: CompanyData[] = [
+const companydatas: CompanyData[] = [
   {
     id: '1',
     addresses: ['12 Taishan Road,Lianyungang Eco. &amp; Tech. Developme', '江苏连云港经济技术开发区泰山路12号'],
@@ -64,7 +64,7 @@ const logindatas = {ok: true, data: [{
 
 @Injectable()
 export class StubHeaderService {
-  public heart(): Promise<Object> {
+  public heart(): Promise<object> {
     return of(logindatas).toPromise();
   }
   public get() {
@@ -166,8 +166,8 @@ describe('AppComponent', () => {
   it(`should have as company title`, () => {
     fixture.detectChanges();        // update view with quote
     const title = element1.querySelector('#title p');
-    expect(title.textContent).toEqual(translate.transform(component.qiye['names']));
-    expect(title.textContent).toEqual(component.qiye['names'][component.languageid]);
+    expect(title.textContent).toEqual(translate.transform(component.qiye.names));
+    expect(title.textContent).toEqual(component.qiye.names[component.languageid]);
   });
 
   it('should have a language select', async(() => {
@@ -182,7 +182,7 @@ describe('AppComponent', () => {
         expect(s[0][i]).toBeDefined();
         expect(s[0][i].localName).toBe('option');
         expect(s[0][i].value).toBe(i + '');
-        expect(s[0][i].textContent).toBe(component.languages[i]['name_en']);
+        expect(s[0][i].textContent).toBe(component.languages[i].name_en);
       }
     });
   }));
@@ -192,18 +192,18 @@ describe('AppComponent', () => {
     spyOn(vs, 'setLanguageId');
     fixture.detectChanges();        // update view with quote
     // for (i = 0; i < 2; i++) {
-      component.selectChangeLanguage(i);
-      expect(vs.setLanguageId).toHaveBeenCalled();
-      expect(vs.setLanguageId).toHaveBeenCalledWith(i);
-      setTimeout(() => {
+    component.selectChangeLanguage(i);
+    expect(vs.setLanguageId).toHaveBeenCalled();
+    expect(vs.setLanguageId).toHaveBeenCalledWith(i);
+    setTimeout(() => {
         expect(+component.languageid).toEqual(i);
       }, 200);
 
-      i = 1;
-      component.selectChangeLanguage(i);
-      expect(vs.setLanguageId).toHaveBeenCalled();
-      expect(vs.setLanguageId).toHaveBeenCalledWith(i);
-      setTimeout(() => {
+    i = 1;
+    component.selectChangeLanguage(i);
+    expect(vs.setLanguageId).toHaveBeenCalled();
+    expect(vs.setLanguageId).toHaveBeenCalledWith(i);
+    setTimeout(() => {
         expect(+component.languageid).toEqual(i);
       }, 400);
   }));
@@ -232,7 +232,7 @@ describe('AppComponent', () => {
       for (let i = 2; i < s[0].childNodes.length; i++) {
         expect(s[0].childNodes[i].localName).toBe('li');
         expect(s[0].childNodes[i].childNodes[0].localName).toBe('a');
-        expect(s[0].childNodes[i].textContent).toBe(translate.transform(component.navigations[i - 2]['names']));
+        expect(s[0].childNodes[i].textContent).toBe(translate.transform(component.navigations[i - 2].names));
       }
     });
   }));
@@ -270,11 +270,11 @@ describe('AppComponent', () => {
 
       const allLinks = de.queryAll(By.directive(RouterLinkStubDirective));
       const links = allLinks.map(linkDe => linkDe.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective);
-      const navs: Object[] = rs[2] as Object[];
+      const navs: object[] = rs[2] as object[];
       expect(links.length).toBe(navs.length + 1);
       expect(links[0].linkParams.toString()).toBe('/home');
       for (let i = 1; i < links.length; i++) {
-        expect(links[i].linkParams.toString()).toBe('/' + rs[2][i - 1]['command']);
+        expect(links[i].linkParams.toString()).toBe('/' + rs[2][i - 1].command);
       }
       done();
     });

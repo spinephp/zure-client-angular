@@ -13,30 +13,42 @@ import { Country } from './classes/country';
 import { Label, ALabel } from './classes/label';
 import { Note } from './classes/note';
 import { User } from './classes/user';
+import { ValuesService } from 'src/app/commons/service/values.service';
+import { LocalStorage } from 'src/app/commons/provider/local-storage';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluationService {
-  private xevaluation: Subject<any> = new Subject<any>();
+  private xevalreply: Subject<any> = new Subject<any>();
+  private xevaluations: Subject<any> = new Subject<any>();
   private xdata: Subject<any> = new Subject<any>();
-
   constructor(
     public requestService: RequestService,
-    // public cv: SettingsService,
+    public vs: ValuesService,
+    public ls: LocalStorage
   ) {
-  }
+}
 
   public setData(datas: any[]): void {
     this.xdata.next(datas);
   }
 
   public setEvaluation(selectedPointsIfo: any): void {
-    this.xevaluation.next(selectedPointsIfo);
+    this.xevaluations.next(selectedPointsIfo);
   }
 
   public currentEvaluation(): Observable<any> {
-    return this.xevaluation.asObservable();
+    return this.xevaluations.asObservable();
+  }
+
+  public setEvalReply(selectedPointsIfo: any): void {
+    this.xevalreply.next(selectedPointsIfo);
+  }
+
+  public currentEvalReply(): Observable<any> {
+    return this.xevalreply.asObservable();
   }
 
   public updateData(proid: any): void {
@@ -215,5 +227,21 @@ export class EvaluationService {
       ),
     ];
     return this.requestService._get(ps);
+  }
+
+  postEvalReply(evalid, pid, content) {
+    const params = {
+      item: {
+      evalid,
+      userid: '?userid',
+      parentid: pid,
+      content,
+      time: '?time'
+      },
+      token: this.ls.get('sessionid')
+    };
+    return this.requestService.post('/woo/index.php?cmd=EvalReply', JSON.stringify(params)).then(rs => {
+      return rs;
+    });
   }
 }

@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProductComponent } from '../product.component';
 import { ValuesService } from 'src/app/commons/service/values.service';
 import { LocalStorage } from 'src/app/commons/provider/local-storage';
-import { Observable } from 'rxjs';
-// import 'rxjs/add/observable/fromEvent';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { isNumber } from 'util';
 
@@ -32,7 +32,7 @@ export class IntroductionComponent implements OnInit {
     const date = new Date();
     const year: string | number = date.getFullYear();
     this.companyYears = +year - 2007;
-    this.languageid = this.ls.getLanguageId();
+    // this.languageid = this.ls.getLanguageId();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
@@ -44,11 +44,11 @@ export class IntroductionComponent implements OnInit {
     });
     // this.route.navigate(['introduction']);
     // 页面监听
-// 　　Observable.fromEvent(window, 'resize')
-//   　　.debounceTime(100) // 以免频繁处理
-//   　　.subscribe((event) => {
-//   　　  console.log('come on ..');
-//   　});
+　　  fromEvent(window, 'resize')
+  　　.pipe(debounceTime(100)) // 以免频繁处理
+  　　.subscribe((event) => {
+  　　  console.log('come on ..');
+  　});
   }
 
 }

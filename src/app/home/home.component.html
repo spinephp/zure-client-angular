@@ -76,7 +76,7 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-				<p *ngFor="let doc of qiye.introductions[languageid].split('^')">
+				<p *ngFor="let doc of getIntroduction()">
 					 {{doc}}
 				</p>
 			</div>

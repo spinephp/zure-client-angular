@@ -1,5 +1,6 @@
 import { Yrrdb, AItem } from '../../../../commons/provider/yrrdb';
-import { User, UserData } from './user';
+import { User, UserData, AUser } from './user';
+import { ItemResizeDirective } from '../../introduction/item-resize.directive';
 
 export interface EvalReplyData {
     id: string;
@@ -38,5 +39,12 @@ export class EvalReply extends Yrrdb<AEvalReply, EvalReplyData> {
   constructor(data: EvalReplyData[], user: User) {
     AEvalReply.user = user;
     super(data, AEvalReply);
+  }
+
+  add(item: EvalReplyData, user: AUser) {
+    if (AEvalReply.user.find(user.value('id')) !== null) {
+      AEvalReply.user.data.push(user);
+    }
+    this.append(item, AEvalReply);
   }
 }

@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const that = this;
 // this.router.queryParams.subscribe(params => {
-    this.languageid = this.ls.getLanguageId();
+    // this.languageid = this.ls.getLanguageId();
     this.vs.currentLanguageId().subscribe((value: any) => {
     this.languageid = +value;
   });

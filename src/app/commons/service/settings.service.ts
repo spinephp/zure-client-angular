@@ -28,6 +28,7 @@ export class SettingsService {
     'Sign in': ['登录'],
     'Sign out': ['退出登录'],
     'Sign up': ['注册'],
+    'Reset password': ['重置密码'],
     Submit: ['提交'],
     'Go my YunRui': ['去我的云瑞首页'],
     'The latest order status': ['最新订单状态'],
@@ -71,7 +72,8 @@ export class SettingsService {
     'Error form submission, please try again later': ['表单提交出错，请稍候再试'],
     'Congratulations,': ['恭喜您，'],
     'Verify code error, please fill in.': ['验证码错误，请重新填写。'],
-    Pass: ['通过']
+    Pass: ['通过'],
+    Reply: ['回复']
     };
   public addLanguages(langs: {}): void {
     this.languages = Object.assign(langs, this.languages);

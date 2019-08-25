@@ -13,7 +13,7 @@
             </div>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-submenu pull-left">
-                <a class="dropdown-item" tabindex="-1"  #signops href="#"><span class="fa fa-language"></span>{{'Language' | translate:languageid}}</a>
+                <a class="dropdown-item" tabindex="-1" #signops href="#"><span class="fa fa-language"></span>{{'Language' | translate:languageid}}</a>
                 <div class="dropdown-menu">
                   <div class="dropdown-item" tabindex="-1" *ngFor="let item of languages; let i = index" (click)="selectChangeLanguage(i)">
                     <!-- <span class="language-icon">{{ i==languageid? 'c':' '}}</span> -->

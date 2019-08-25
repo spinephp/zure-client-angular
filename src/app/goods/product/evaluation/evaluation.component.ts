@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, ViewChildren } from '@angular/core';
 import { ProductComponent } from '../product.component';
 import { EvaluationService } from './evaluation.service';
 import { isNgTemplate } from '@angular/compiler';
@@ -6,8 +6,14 @@ import {LocalStorage} from '../../../commons/provider/local-storage';
 import { ValuesService } from '../../../commons/service/values.service';
 import { Label } from './classes/label';
 import { Note } from './classes/note';
-import { Evaluation } from './classes/evaluation';
+import { Evaluation, AEvaluation, EvaluationData } from './classes/evaluation';
 import { Consult } from './classes/consult';
+import { LoginerData, ALoginer } from 'src/app/classes/loginer';
+import { AEvalReply, EvalReplyData } from './classes/eval-reply';
+import { isDefined } from '@angular/compiler/src/util';
+import { isNull } from '@angular/compiler/src/output/output_ast';
+import { map } from 'rxjs/operators';
+import { AUser, UserData } from './classes/user';
 
 @Component({
   selector: 'app-evaluation',
@@ -22,6 +28,8 @@ export class EvaluationComponent implements OnInit {
   private notes: Note;
   private labelkinds = [];
   public languageid;
+  public loginer: LoginerData;
+  public loginerid = '';
   constructor(
     private cdr: ChangeDetectorRef,
     private xparent: ProductComponent,
@@ -29,15 +37,38 @@ export class EvaluationComponent implements OnInit {
     private ls: LocalStorage,
     private vs: ValuesService,
   ) {
-    this.languageid = ls.getLanguageId();
+    // this.languageid = ls.getLanguageId();
+    // this.loginerid = ''; // new ALoginer(null);
    }
 
+   @ViewChildren('replyin') replyin;
   ngOnInit() {
     const that = this;
     this.qq = this.ls.get('qq');
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });
+
+    this.vs.currentLoginer()
+    // .pipe( map(item => (
+    //   item !== undefined ) ? item.id : ''))
+    .subscribe(( rs: any) => {
+       that.loginer = rs;
+       that.loginerid = rs === undefined ? '' : rs.id;
+    });
+
+    this.is.currentEvalReply().subscribe((rs: EvalReplyData) => {
+      const data: UserData = {
+        id: that.loginer.id,
+        username: that.loginer.name,
+        picture: that.loginer.picture,
+        nick: null,
+        country: null
+      };
+      const auser = new AUser(data);
+      this.evaluations.addEvalReply(rs, auser);
+    });
+
     this.is.currentData().subscribe((rs: any) => {
       // console.log(rs);
       that.evaluations = rs[0];
@@ -57,4 +88,48 @@ export class EvaluationComponent implements OnInit {
     this.evaluations.currentPageSet(n);
     this.cdr.detectChanges();
   }
+
+  // 取给定评价回复数组中有共同父节点的评价回复
+  public replyNodes(parentid: number, replys: AEvalReply[]) {
+    const result = [];
+    for (const areply of replys) {
+      if (+areply.value('parentid') === parentid) {
+        result.push(areply);
+      }
+    }
+    return result;
+  }
+
+  ckReply(event, parentbtn, evalid: string) {
+    const content = event.currentTarget.previousSibling.value;
+    this.is.postEvalReply(evalid, 0, content).then(rs => {
+      if (rs.id === -1) {
+        alert(rs.error);
+      } else {
+        alert('Reply success!');
+        this.is.setEvalReply(rs);
+        parentbtn.click(); // 关闭输入框
+      }
+    });
+  }
+
+  evaluseful(aeval: EvaluationData) {
+    if (aeval.userid !== +this.loginerid) {
+      aeval.useful++;
+      const params = {
+        cond: [
+          {
+            field: 'id',
+            value: aeval.id,
+            operator: 'eq'
+          }
+        ],
+        fields: {useful: aeval.useful}
+      };
+      // this.is.put('Eval', params).then(rs => {
+      //   alert('');
+      // });
+  }
+  }
 }
+

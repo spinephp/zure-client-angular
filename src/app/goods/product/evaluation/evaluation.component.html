@@ -39,7 +39,7 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="panel-164505">
-        <div *ngFor="let eval of evaluations.getRecords()" class='a-eval'>
+        <div *ngFor="let eval of evaluations.getRecords(); let eval-i = index" class='a-eval'>
           <div class="evalperson">
             <p>{{eval.usergradeimage}}</p>
             <p>{{eval.username | pinyin:languageid}}</p>
@@ -60,15 +60,15 @@
                 <a href='#'>{{'View the single' | translate:languageid}}</a></p>
             </div>
             <p><label>{{'Buy date' | translate:languageid}}:</label>{{eval.date}}</p>
-            <p class='btnuseful'><span><button name='useful'>{{'Useful' | translate:languageid}}({{eval.useful}})</button> <button name='reply' data-toggle="collapse" attr.data-target="#replyto{{eval.id}}">{{'Reply' | translate:languageid}}({{eval.replyslength}})</button></span></p>
+            <p class='btnuseful'><span><button name='useful' (click)="evaluseful(eval)">{{'Useful' | translate:languageid}}({{eval.useful}})</button> <button name='reply' #replymainbtn [disabled]="loginerid===''" data-toggle="collapse" attr.data-target="#replyto{{eval.id}}">{{'Reply' | translate:languageid}}({{eval.replyslength}})</button></span></p>
             <div id="replyto{{eval.id}}" class="collapse">
-              <label>{{'Reply' | translate:languageid}} {{eval.username | pinyin}}: </label><input type='text' name='reply' /><input type='submit' value="{{'Reply'}}" />
+              <label>{{'Reply' | translate:languageid}} {{eval.username | pinyin}}: </label><input type='text' #replyin name='reply' /><input type='button' value="{{'Submit' | translate:languageid}}" (click)="ckReply($event,replymainbtn,eval.id)" />
             </div>
             <ul>
-              <li *ngFor="let reply of eval.replys; let j = index" data-id="{{reply.id}}">
-                <div data-id="{{reply.item.id}}" appPopbutton>
+              <li *ngFor="let reply of replyNodes(0,eval.replys); let j = index" data-id="{{reply.id}}">
+                <div data-id="{{eval.id}},{{reply.item.id}}" appPopbutton>
                   <div>
-                    <strong>{{eval.replys.length - j}}</strong>
+                    <strong>{{replyNodes(0,eval.replys).length - j}}</strong>
                     <div>
                       <p>
                         <a href='#'>{{reply.item.username | pinyin:languageid}}</a>
@@ -77,9 +77,15 @@
                         </span>: {{reply.item.content}}
                       </p>
                       <p>{{reply.item.time}}</p>
-                    </div>
+                      <div *ngFor="let replyafter of replyNodes(+reply.item.id,eval.replys)">
+                        <p>
+                          <a href='#'>{{replyafter.item.username | pinyin:languageid}}</a>:
+                          {{replyafter.item.content}}
+                        </p>
+                      </div>
+                        </div>
                   </div>
-                </div>
+              </div>
               </li>
               <li *ngIf="eval.replyslength > 5"><span class='text-info'>{{'See the reply all' | translate:languageid}} >></span></li>
             </ul>

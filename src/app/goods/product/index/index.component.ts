@@ -23,7 +23,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = this.ls.getLanguageId();
+    // this.languageid = this.ls.getLanguageId();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
     });

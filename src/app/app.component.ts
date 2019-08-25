@@ -40,21 +40,17 @@ export class AppComponent implements OnInit {
 
   logined = false;
   logtext = 'Login';
-  // urlValidate = '/woo/admin/checkNum_session.php';
-  // usernameinfo = 'Enter user name';
-  // usernameinfocolor = '#999';
-  // model = new Userlogin(null, null, null, null, null);
-  // @ViewChildren('formLogon') logonInputs; // : ElementRef[];
-  // @ViewChildren('logonButton') logonButtons;
   @ViewChildren('signops') signButtons: any;
+
   ngOnInit() {
     const that = this;
     // $('[data-toggle="tooltip"]').tooltip();
+    this.vs.setLanguageId(+this.ls.get('languageid'));
     this.vs.currentLanguageId().subscribe((value: number) => {
       that.languageid = value;
     });
     this.vs.currentLoginer().subscribe((value: LoginerData) => {
-      if (value === undefined) {
+      if (value === undefined || value === null) {
         that.logined = false;
         that.logtext = 'Sign in';
         that.aLoginer = new ALoginer(null);
@@ -86,8 +82,7 @@ export class AppComponent implements OnInit {
         console.log(res[serror]);
       }
     });
-    const singclick = fromEvent(this.signButtons.first.nativeElement, 'click')
-    .forEach(val => console.log('btnClickStream val', val));
+
   }
 
   // 选择了新的语言
@@ -95,16 +90,6 @@ export class AppComponent implements OnInit {
     this.ls.set('languageid', id); // 把新语言保存在 local storage
     this.vs.setLanguageId(id); // 设置当前系统语言
   }
-  // userclicked() {
-  //   // $('.dropdown-toggle').dropdown();
-  //   let disp = $('.dropdown-menu').css('display');
-  //   if (disp === 'none') {
-  //     disp = 'flex';
-  //   } else {
-  //     disp = 'none';
-  //   }
-  //   $('.dropdown-menu').css('display', disp);
-  // }
 
   logout() {
     const that = this;
@@ -123,5 +108,9 @@ export class AppComponent implements OnInit {
     } else {
       // 未登录
     }
+  }
+
+  ngDestroy() {
+    this.ls.set('languageid', this.languageid);
   }
 }

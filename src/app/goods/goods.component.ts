@@ -48,11 +48,11 @@ export class GoodsComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
-    this.languageid = +this.ls.get('languageid') || 1;
+    // this.languageid = +this.ls.get('languageid') || 1;
     // this.hs.updateData();
     this.vs.currentLanguageId().subscribe((value: any) => {
       that.languageid = value;
-      that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, value || 1);
+      that.nodes = that.hs.makeTreeNodes([], that.goodsClass, that.goods, value);
     });
     this.router.data.subscribe((data: {}) => {
       const sdata = 'data';

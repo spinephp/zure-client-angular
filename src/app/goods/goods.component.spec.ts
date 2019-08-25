@@ -47,25 +47,25 @@ describe('GoodsComponent', () => {
 
   const productdatas: ProductData[]  = [
     {
-      'id': '1',
-      'classid': 1,
-      'size': '12"x24"x10mm',
-      'length': 24,
-      'width': 12,
-      'think': 10,
-      'unitlen': '"',
-      'unitwid': '"',
-      'unitthi': 'mm',
-      'picture': '12_24_10.png',
-      'unit': 'PCS',
-      'sharp': '1',
-      'weight': 5.6,
-      'price': 16,
-      'returnnow': 6,
-      'amount': 100,
-      'cansale': true,
-      'physicoindex': 1,
-      'chemicalindex': 1
+      id: '1',
+      classid: 1,
+      size: '12"x24"x10mm',
+      length: 24,
+      width: 12,
+      think: 10,
+      unitlen: '"',
+      unitwid: '"',
+      unitthi: 'mm',
+      picture: '12_24_10.png',
+      unit: 'PCS',
+      sharp: '1',
+      weight: 5.6,
+      price: 16,
+      returnnow: 6,
+      amount: 100,
+      cansale: true,
+      physicoindex: 1,
+      chemicalindex: 1
     }
   ];
 
@@ -75,7 +75,7 @@ describe('GoodsComponent', () => {
 
   const fakeActivatedRoute = {
     snapshot: {params: {id: 1}},
-    params: of({'id': 1}),
+    params: of({id: 1}),
     data: of({data: [new Kind(kinddatas), new Product(productdatas), new Currency(currencydatas)]})
   };
 
@@ -144,10 +144,11 @@ describe('GoodsComponent', () => {
   it('should show quote after getQuote promise (async)', async(() => {
     // fixture.detectChanges();
     fixture.whenStable().then(() => { // wait for async getQuote
+      const data = 'data';
       fixture.detectChanges();        // update view with quote
       expect(component.goodsClass).toBeDefined();
       for (const field of ['id', 'parentid', 'names', 'introductions', 'picture']) {
-        const akind: AKind = component.goodsClass['data'][0];
+        const akind: AKind = component.goodsClass[data][0];
         expect(akind.item[field]).toBeDefined();
       }
       expect(component.goods).toBeDefined();
@@ -155,7 +156,7 @@ describe('GoodsComponent', () => {
       'unitlen', 'unitwid', 'unitthi', 'picture', 'unit',
       'sharp', 'weight', 'price', 'returnnow', 'amount',
       'cansale', 'physicoindex', 'chemicalindex']) {
-        const aproduct: AProduct = component.goods['data'][0];
+        const aproduct: AProduct = component.goods[data][0];
         expect(aproduct.item[field]).toBeDefined();
       }
     });

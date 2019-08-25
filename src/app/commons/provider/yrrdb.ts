@@ -10,8 +10,8 @@ export class AItem<T> {
     }
 
     value(name: string) {
-        let result: any;
-        if (this.attribute().indexOf(name) > -1) {
+        let result: any = null;
+        if (this.item !== null && this.attribute().indexOf(name) > -1) {
             result =  this.item[name];
         }
         return result;
@@ -72,6 +72,10 @@ export abstract class Yrrdb<T, U> {
             }
         }
         return result;
+    }
+
+    public append(item: U, aClass: new (U: any) => T) {
+        this.xdata.push(create<T, U>(aClass, item));
     }
 }
 

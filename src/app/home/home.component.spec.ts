@@ -27,7 +27,7 @@ const qiyedata = {
   tel: '+86 518 82340137',
   };
 
-  const kinddatas = [
+const kinddatas = [
     {id: '1',
     parentid: 0, names: ['Si3N4 bonded SiC Products', '氮化硅结合碳化硅制品'], introductions: ['SiC Castables', '碳化硅浇注料'], picture: '1_4.png'},
     {id: '2',
@@ -55,31 +55,31 @@ const qiyedata = {
     {id: '6', parentid: 1, names: ['other', '其它'], introductions: ['other', '包括氮化硅结合碳化硅'], picture: '1_4.png'},
   ];
 
-  const productdatas: ProductData[]  = [
+const productdatas: ProductData[]  = [
     {
-      'id': '1',
-      'classid': 1,
-      'size': '12"x24"x10mm',
-      'length': 24,
-      'width': 12,
-      'think': 10,
-      'unitlen': '"',
-      'unitwid': '"',
-      'unitthi': 'mm',
-      'picture': '12_24_10.png',
-      'unit': 'PCS',
-      'sharp': '1',
-      'weight': 5.6,
-      'price': 16,
-      'returnnow': 6,
-      'amount': 100,
-      'cansale': true,
-      'physicoindex': 1,
-      'chemicalindex': 1
+      id: '1',
+      classid: 1,
+      size: '12"x24"x10mm',
+      length: 24,
+      width: 12,
+      think: 10,
+      unitlen: '"',
+      unitwid: '"',
+      unitthi: 'mm',
+      picture: '12_24_10.png',
+      unit: 'PCS',
+      sharp: '1',
+      weight: 5.6,
+      price: 16,
+      returnnow: 6,
+      amount: 100,
+      cansale: true,
+      physicoindex: 1,
+      chemicalindex: 1
     }
   ];
 
-  const newsdatas: NewsData[] = [
+const newsdatas: NewsData[] = [
     {
       id: '65',
       titles: ['The new website is formal open-minded', '改制后的新网站正式开通了'],
@@ -88,9 +88,9 @@ const qiyedata = {
     }
   ];
 
-  const fakeActivatedRoute = {
+const fakeActivatedRoute = {
     snapshot: {params: {id: 1}},
-    params: of({'id': 1}),
+    params: of({id: 1}),
     data: of({data: [new Kind(kinddatas), new Product(productdatas), new News(newsdatas)]})
   };
 
@@ -101,7 +101,7 @@ const qiyedata = {
 </div>`
 })
 class SpyAppComponent {
-  public qiye: Object;
+  public qiye: object;
   constructor() {
     this.qiye = qiyedata;
  }

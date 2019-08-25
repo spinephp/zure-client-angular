@@ -3,7 +3,7 @@ import { Grade, GradeData } from './grade';
 import { UserGrade } from './user-grade';
 import { User, AUser } from './user';
 import { Country } from './country';
-import { EvalReply } from './eval-reply';
+import { EvalReply, EvalReplyData } from './eval-reply';
 import { AItem } from 'src/app/commons/provider/yrrdb';
 export interface EvaluationData {
   id: string;
@@ -51,11 +51,11 @@ export class AEvaluation extends AItem<EvaluationData> {
   addReplys() {
     if (AEvaluation.evalreply.data.length > 0) {
       const replys1 = AEvaluation.evalreply.findAllByAttribute('evalid', +this.item.id).reverse();
-      let replyslen =  replys1.length;
+      const replyslen =  replys1.length;
       this.item.replyslength = replys1.length;
-      if (replyslen > 5) {
-        replyslen = 5;
-      }
+      // if (replyslen > 5) {
+      //   replyslen = 5;
+      // }
       this.item.replys = replys1.slice(0, replyslen);
       for (const rep of this.item.replys) {
         rep.extends();
@@ -63,6 +63,16 @@ export class AEvaluation extends AItem<EvaluationData> {
     } else {
       this.item.replys = [];
     }
+  }
+
+  public replyNodes(parentid: number) {
+    const result = [];
+    for (const item of this.item.replys) {
+      if (item.value('parentid') === parentid) {
+        result.push(item);
+      }
+    }
+    return result;
   }
 }
 
@@ -211,5 +221,9 @@ export class Evaluation {
       result = Math.round(n * 100);
     }
     return result;
+  }
+
+  addEvalReply(item: EvalReplyData, user: AUser) {
+    AEvaluation.evalreply.add(item, user);
   }
 }
