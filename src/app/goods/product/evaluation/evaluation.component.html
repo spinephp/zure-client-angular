@@ -60,7 +60,7 @@
                 <a href='#'>{{'View the single' | translate:languageid}}</a></p>
             </div>
             <p><label>{{'Buy date' | translate:languageid}}:</label>{{eval.date}}</p>
-            <p class='btnuseful'><span><button name='useful' (click)="evaluseful(eval)">{{'Useful' | translate:languageid}}({{eval.useful}})</button> <button name='reply' #replymainbtn [disabled]="loginerid===''" data-toggle="collapse" attr.data-target="#replyto{{eval.id}}">{{'Reply' | translate:languageid}}({{eval.replyslength}})</button></span></p>
+            <p class='btnuseful'><span><button name='useful' [disabled]="loginerid==='' || +loginerid===eval.userid" (click)="evaluseful(eval)">{{'Useful' | translate:languageid}}({{eval.useful}})</button> <button name='reply' #replymainbtn [disabled]="loginerid==='' || +loginerid===eval.userid" data-toggle="collapse" attr.data-target="#replyto{{eval.id}}">{{'Reply' | translate:languageid}}({{eval.replyslength}})</button></span></p>
             <div id="replyto{{eval.id}}" class="collapse">
               <label>{{'Reply' | translate:languageid}} {{eval.username | pinyin}}: </label><input type='text' #replyin name='reply' /><input type='button' value="{{'Submit' | translate:languageid}}" (click)="ckReply($event,replymainbtn,eval.id)" />
             </div>

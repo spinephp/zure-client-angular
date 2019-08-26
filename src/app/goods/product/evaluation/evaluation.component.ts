@@ -115,20 +115,15 @@ export class EvaluationComponent implements OnInit {
 
   evaluseful(aeval: EvaluationData) {
     if (aeval.userid !== +this.loginerid) {
-      aeval.useful++;
-      const params = {
-        cond: [
-          {
-            field: 'id',
-            value: aeval.id,
-            operator: 'eq'
-          }
-        ],
-        fields: {useful: aeval.useful}
-      };
-      // this.is.put('Eval', params).then(rs => {
-      //   alert('');
-      // });
+      const that = this;
+      this.is.putEvalUseful(aeval).then(rs => {
+        console.log(rs);
+        aeval.useful = rs.useful;
+        // const rec: AEvaluation = that.evaluations.find(+aeval.id);
+        // if (rec) {
+        //   rec.item.useful = rs.useful;
+        // }
+      });
   }
   }
 }

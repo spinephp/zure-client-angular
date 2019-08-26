@@ -86,6 +86,19 @@ export class RequestService {
   }
 
   /**
+   * post请求
+   * @param url 接口地址
+   * @param params 参数
+   * @returns Promise<R>|Promise<U> 返回数据
+   */
+  public put(url: string, params: any) {
+    return this.http.post(url, params, this.options)
+      .toPromise()
+      .then(res => this.handleSuccess(res.json()))
+      .catch(res => this.handleError(res));
+  }
+
+  /**
    * 处理请求成功
    * @param res  参数
    * @returns data:(string|null|((node:any)=>any) 返回数据

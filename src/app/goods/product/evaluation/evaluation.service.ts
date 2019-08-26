@@ -244,4 +244,18 @@ export class EvaluationService {
       return rs;
     });
   }
+
+  putEvalUseful(aeval) {
+    const params = {
+      item: {
+        // id: aeval.id,
+        useful: aeval.useful + 1
+      },
+      token: this.ls.get('sessionid'),
+      _method: 'PUT'
+    };
+    return this.requestService.put(`/woo/index.php?cmd=ProductEval/${aeval.id}`, JSON.stringify(params)).then(rs => {
+      return rs;
+    });
+  }
 }
